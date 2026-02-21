@@ -1,0 +1,34 @@
+{
+  "name": "flame",
+  "version": "1.0.0",
+  "description": "flame-design-system",
+  "homepage": "https://github.com/rlatlswo135/flame#readme",
+  "bugs": {
+    "url": "https://github.com/rlatlswo135/flame/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rlatlswo135/flame.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "commit": "cz",
+    "@ui": "pnpm --filter @flame/ui",
+    "@table": "pnpm --filter @flame/table",
+    "@docs": "pnpm --filter @flame/docs",
+    "build": "pnpm @ui build && pnpm @table build && pnpm @docs build",
+    "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @table clear && pnpm @docs clear && pnpm store prune"
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

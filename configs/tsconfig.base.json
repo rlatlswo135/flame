@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "types": [],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 전역적으로 ts에서 어떤 .d.ts를 주잆히킬건지
+    "target": "esnext", // 컴파일 타겟
+    "sourceMap": true, // .ts .js 매핑할 소스맵 생성
+    // "incremental": true, // 이미 컴파일된 파일을 재사용할 수 있게 해줌
+    // module
+    "module": "esnext", // 모듈 시스템
+    "moduleResolution": "bundler", // 모듈 에서 타입 찾는 방법
+    "esModuleInterop": true, // ESM이 아닌걸 ESM처럼 사용하게 할수 있게 해줌
+    "isolatedModules": true, // 각 파일은 독립적으로 컴파일될수 있어야함 -> ex) 다른 번들러는 각각 컴파일
+    "verbatimModuleSyntax": true, // import type, import 엄격하게 구분
+    "moduleDetection": "force", // 모듈 감지 강제
+    // style
+    "strict": true, // 엄격한 타입 검사
+    "noUnusedLocals": true, // 사용되지 않는 로컬 변수 검사
+    "noUnusedParameters": true, // 사용되지 않는 매개변수 검사
+    "noFallthroughCasesInSwitch": true, // switch 문에서 누락된 break 검사
+    "noUncheckedSideEffectImports": true, // 암시적 any 타입 검사
+    "exactOptionalPropertyTypes": true, // 선택적 속성 타입 엄격성 활성화
+    "skipLibCheck": true, // 라이브러리 타입 검사 건너뛰기
+    "jsx": "react-jsx" // JSX 문법 사용
+  },
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,15 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "configs"
+
+catalog:
+  react: ^19.2.3
+  react-dom: ^19.2.3
+  typescript: ^5
+  "@types/react": ^19.2.0
+  "@types/react-dom": ^19.2.0
+  "@biomejs/biome": ^2.4.4
+  tsup: ^8.5.0
+  peer-react: ^19.0.0
+  peer-react-dom: ^19.0.0
