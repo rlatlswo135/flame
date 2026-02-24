@@ -1,10 +1,10 @@
-import { Select } from "@flame/ui";
+"use client";
+import { Modal } from "@flame/ui";
 
 export default function Home() {
   return (
     <div>
-      test
-      <Select />
+      <Modal />
     </div>
   );
 }

@@ -20,9 +20,10 @@
   ],
   "scripts": {
     "build": "tsup",
+    "dev": "tsup --watch",
+    "clear": "rm -rf node_modules",
     "lint": "echo \"Error: no test specified\" && exit 1",
-    "format": "echo \"Error: no test specified\" && exit 1",
-    "clear": "rm -rf node_modules"
+    "format": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
     "react": "catalog:peer-react",
