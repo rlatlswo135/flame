@@ -19,6 +19,7 @@
     "@ui": "pnpm --filter @flame/ui",
     "@table": "pnpm --filter @flame/table",
     "@docs": "pnpm --filter @flame/docs",
+    "dev": "pnpm --parallel -r run dev",
     "build": "pnpm @ui build && pnpm @table build && pnpm @docs build",
     "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @table clear && pnpm @docs clear && pnpm store prune"
   },
