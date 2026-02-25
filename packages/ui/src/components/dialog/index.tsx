@@ -5,17 +5,16 @@ import {
   type DialogHTMLAttributes,
   type PropsWithChildren,
 } from "react";
-import { DialogContext, type DialogContextType } from "./context";
+import { DialogContext, type DialogContextValue } from "./context";
 import type { ClickableElement, RenderChildrenProps } from "@/src/types";
 import { useCtx } from "@/src/hooks/use-ctx";
 
-const Dialog = ({
-  children,
-  closeOutside = false,
-}: PropsWithChildren<{ closeOutside?: boolean }>) => {
+type DialogProps = PropsWithChildren<{ closeOutside?: boolean }>;
+
+const Dialog = ({ children, closeOutside = false }: DialogProps) => {
   const ref = useRef<HTMLDialogElement>(null);
 
-  const contextValue: DialogContextType = useMemo(
+  const contextValue: DialogContextValue = useMemo(
     () => ({
       dialog: ref,
       open: () => ref.current?.showModal(),
@@ -61,4 +60,4 @@ Dialog.Trigger = Trigger;
 Dialog.Content = Content;
 Dialog.Closer = Closer;
 
-export { Dialog };
+export { Dialog, type DialogProps };

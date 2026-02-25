@@ -1,19 +1,37 @@
 "use client";
-import { Dialog } from "@flame/ui";
+
+import { Dialog, Funnel } from "@flame/ui";
 
 export default function Home() {
   return (
     <div className="w-full h-full">
-      모달 테스트
-      <Dialog>
+      <Dialog closeOutside>
         <Dialog.Trigger>
-          <div>custom trigger</div>
+          <span>open dialog</span>
         </Dialog.Trigger>
-        <Dialog.Content>
-          <div>안녕하세요 저는 content입니다</div>
-          <Dialog.Closer>
-            <span>close2</span>
-          </Dialog.Closer>
+        <Dialog.Content style={{ width: "300px", height: "300px" }}>
+          <Funnel>
+            <Funnel.Step>
+              <h1>step1</h1>
+              <Funnel.Next>
+                <span>next</span>
+              </Funnel.Next>
+            </Funnel.Step>
+
+            <Funnel.Step>
+              <h1>step2</h1>
+              <Funnel.Next>
+                <span>next</span>
+              </Funnel.Next>
+            </Funnel.Step>
+
+            <Funnel.Step>
+              <h1>step3</h1>
+              <Funnel.Prev>
+                <span>prev</span>
+              </Funnel.Prev>
+            </Funnel.Step>
+          </Funnel>
         </Dialog.Content>
       </Dialog>
     </div>
