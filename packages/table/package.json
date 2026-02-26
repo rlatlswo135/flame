@@ -1,44 +1,44 @@
 {
-  "name": "@flame/table",
-  "version": "1.0.0",
-  "description": "flame-design-system",
-  "homepage": "https://github.com/rlatlswo135/flame#readme",
-  "bugs": {
-    "url": "https://github.com/rlatlswo135/flame/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rlatlswo135/flame.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "echo \"Error: no test specified\" && exit 1",
-    "lint": "echo \"Error: no test specified\" && exit 1",
-    "format": "echo \"Error: no test specified\" && exit 1",
-    "clear": "rm -rf node_modules"
-  },
-  "peerDependencies": {
-    "react": "catalog:peer-react",
-    "react-dom": "catalog:peer-react-dom"
-  },
-  "dependencies": {
-    "@tanstack/react-table": "^8.21.3"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "tsup": "catalog:",
-    "typescript": "catalog:",
-    "@flame/configs": "workspace:*"
-  }
+	"name": "@flame/table",
+	"version": "1.0.0",
+	"description": "flame-design-system",
+	"homepage": "https://github.com/rlatlswo135/flame#readme",
+	"bugs": {
+		"url": "https://github.com/rlatlswo135/flame/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rlatlswo135/flame.git"
+	},
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "echo \"Error: no test specified\" && exit 1",
+		"lint": "echo \"Error: no test specified\" && exit 1",
+		"format": "echo \"Error: no test specified\" && exit 1",
+		"clear": "rm -rf node_modules"
+	},
+	"peerDependencies": {
+		"react": "catalog:peer-react",
+		"react-dom": "catalog:peer-react-dom"
+	},
+	"dependencies": {
+		"@tanstack/react-table": "^8.21.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"tsup": "catalog:",
+		"typescript": "catalog:",
+		"@flame/configs": "workspace:*"
+	}
 }

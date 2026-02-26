@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "flame-configs",
   "type": "module",
-  "main": "tsup.config.ts",
+  "main": "./tsup/tsup.config.ts",
   "devDependencies": {
     "tsup": "catalog:",
     "typescript": "catalog:",

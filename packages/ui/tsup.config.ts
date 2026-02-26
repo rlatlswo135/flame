@@ -1,7 +1,7 @@
-import { defineConfig } from "tsup";
 import { packageBundleConfig } from "@flame/configs";
+import { defineConfig } from "tsup";
 
 export default defineConfig({
-  ...packageBundleConfig(),
-  entry: ["src/index.ts"],
+	...packageBundleConfig(),
+	entry: ["src/index.ts"],
 });

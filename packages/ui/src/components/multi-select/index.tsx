@@ -1,7 +1,7 @@
 export type MultiSelectProps = {
-  foo?: boolean;
+	foo?: boolean;
 };
 
 export const MultiSelect = () => {
-  return <div>multi-select</div>;
+	return <div>multi-select</div>;
 };
