@@ -1,7 +1,7 @@
 export type SelectProps = {
-  foo?: boolean;
+	foo?: boolean;
 };
 
 export const Select = () => {
-  return <div>select</div>;
+	return <div>select</div>;
 };

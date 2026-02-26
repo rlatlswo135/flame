@@ -1,0 +1,14 @@
+{
+  "root": false,
+  "extends": ["../../configs/biome/biome.base.json"],
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "linter": {
+    "domains": {
+      "next": "recommended"
+    }
+  }
+}

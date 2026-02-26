@@ -1,89 +1,91 @@
-import type {
-  ClickableElement,
-  ElementFnChildren,
-  FnChildren,
-} from "@/src/types";
 import {
-  Children,
-  cloneElement,
-  isValidElement,
-  useEffect,
-  useState,
-  type PropsWithChildren,
+	Children,
+	cloneElement,
+	isValidElement,
+	type PropsWithChildren,
+	useEffect,
+	useState,
 } from "react";
-import { FunnelContext } from "./context";
 import { useCtx } from "@/src/hooks/use-ctx";
+import type {
+	ClickableElement,
+	ElementFnChildren,
+	FnChildren,
+} from "@/src/types";
+import { FunnelContext } from "./context";
 
 type FunnelProps = PropsWithChildren;
 
 const Funnel = ({ children }: FunnelProps) => {
-  const [step, setStep] = useState(0);
+	const [step, setStep] = useState(0);
 
-  const childrenArray = Children.toArray(children);
+	const childrenArray = Children.toArray(children);
 
-  const total = childrenArray.length;
+	const total = childrenArray.length;
 
-  const next = () => {
-    if (step === childrenArray.length - 1) return;
-    setStep(step + 1);
-  };
+	const next = () => {
+		if (step === childrenArray.length - 1) return;
+		setStep(step + 1);
+	};
 
-  const prev = () => {
-    if (step === 0) return;
-    setStep(step - 1);
-  };
+	const prev = () => {
+		if (step === 0) return;
+		setStep(step - 1);
+	};
 
-  const jump = (jumpTo: number) => {
-    if (jumpTo < 0 || jumpTo >= total) return;
-    setStep(jumpTo);
-  };
+	const jump = (jumpTo: number) => {
+		if (jumpTo < 0 || jumpTo >= total) return;
+		setStep(jumpTo);
+	};
 
-  useEffect(() => {
-    // @ts-ignore
-    if (process.env.NODE_ENV === "development") {
-      childrenArray.forEach((children) => {
-        if (!isValidElement(children) || children.type !== Step) {
-          console.warn(
-            "⚠️ <Funnel /> expects only Step components as children",
-          );
-        }
-      });
-    }
+	useEffect(() => {
+		// @ts-expect-error
+		if (process.env.NODE_ENV === "development") {
+			childrenArray.forEach((children) => {
+				if (!isValidElement(children) || children.type !== Step) {
+					console.warn("⚠️ <Funnel /> expects only Step components as children");
+				}
+			});
+		}
 
-    return () => {
-      setStep(0);
-    };
-  }, []);
+		return () => {
+			setStep(0);
+		};
+	}, []);
 
-  return (
-    <FunnelContext value={{ step, total, prev, next, jump }}>
-      {childrenArray[step]}
-    </FunnelContext>
-  );
+	useEffect(() => {
+		console.log("step changed", step);
+	}, []);
+
+	return (
+		<FunnelContext value={{ step, total, prev, next, jump }}>
+			{childrenArray[step]}
+		</FunnelContext>
+	);
 };
 
 const Step = (props: FnChildren<{ jump: (step: number) => void }>) => {
-  const { jump } = useCtx(FunnelContext);
+	const { jump } = useCtx(FunnelContext);
 
-  if (typeof props.children === "function") return props.children({ jump });
+	if (typeof props.children === "function") return props.children({ jump });
 
-  return props.children;
+	return props.children;
 };
 
 const Next = ({ children }: ElementFnChildren<{ next: () => void }>) => {
-  const { next } = useCtx(FunnelContext);
+	const { next } = useCtx(FunnelContext);
 
-  if (typeof children === "function") return children({ next });
+	if (typeof children === "function") return children({ next });
 
-  return cloneElement(children as ClickableElement, { onClick: next });
+	return cloneElement(children as ClickableElement, { onClick: next });
 };
 
 const Prev = ({ children }: ElementFnChildren<{ prev: () => void }>) => {
-  const { prev } = useCtx(FunnelContext);
+	const { prev } = useCtx(FunnelContext);
 
-  if (typeof children === "function") return children({ prev });
+	if (typeof children === "function") return children({ prev });
 
-  return cloneElement(children as ClickableElement, { onClick: prev });
+	return cloneElement(children as ClickableElement, { onClick: prev });
 };
 
 Funnel.Step = Step;

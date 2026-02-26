@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Dialog, Funnel } from "@flame/ui";
+import { Dialog, Funnel } from '@flame/ui';
 
 export default function Home() {
   return (
@@ -9,7 +9,12 @@ export default function Home() {
         <Dialog.Trigger>
           <span>open dialog</span>
         </Dialog.Trigger>
-        <Dialog.Content style={{ width: "300px", height: "300px" }}>
+        <Dialog.Content
+          style={{
+            width: '300px',
+            height: '300px',
+          }}
+        >
           <Funnel>
             <Funnel.Step>
               <h1>step1</h1>
