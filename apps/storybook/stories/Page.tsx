@@ -1,23 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './page.css';
-import { Header } from './header';
 
 type User = {
   name: string;
 };
 
 export const Page: React.FC = () => {
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user,setUser] = useState<any>(null)
 
   return (
     <article>
-      <Header
-        user={user}
-        onLogin={() => setUser({ name: 'Jane Doe' })}
-        onLogout={() => setUser(null)}
-        onCreateAccount={() => setUser({ name: 'Jane Doe' })}
-      />
-
+      {user ? <button onClick={() => setUser(null)}>Log out</button> : <button onClick={() => setUser({ name: 'Jane Doe' })}>Log in</button>}
       <section className="storybook-page">
         <h2>Pages in Storybook</h2>
         <p>
