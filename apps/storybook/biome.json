@@ -1,7 +1,4 @@
 {
 	"root": false,
-	"extends": ["../../configs/biome/biome.react.json"],
-	"files": {
-		"includes": []
-	}
+	"extends": ["../../configs/biome/biome.react.json"]
 }
