@@ -1,26 +1,12 @@
 import { Dialog } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { KeepMountedExample } from "./dialog.examples";
+
+type Story = StoryObj<typeof meta>;
 
 const meta = {
 	title: "UI/Dialog",
 	component: Dialog,
-	render: () => (
-		<Dialog>
-			<Dialog.Trigger>
-				<button type="button">open dialog</button>
-			</Dialog.Trigger>
-			<Dialog.Content>
-				<h1>Dialog Content</h1>
-				<p>
-					<em>This is the dialog content</em>
-				</p>
-				<Dialog.Closer>
-					<button type="button">close dialog</button>
-				</Dialog.Closer>
-			</Dialog.Content>
-		</Dialog>
-	),
-	tags: ["autodocs"],
 	argTypes: {
 		keepMounted: {
 			control: "boolean",
@@ -41,8 +27,27 @@ const meta = {
 	},
 } satisfies Meta<typeof Dialog>;
 
+export const KeepMounted: Story = {
+	args: {
+		keepMounted: true,
+		children: <KeepMountedExample />,
+	},
+};
+
+export const CloseOutside: Story = {
+	args: {
+		closeOutside: true,
+	},
+	render: (props) => (
+		<Dialog {...props}>
+			<Dialog.Trigger>
+				<button type="button">open dialog</button>
+			</Dialog.Trigger>
+			<Dialog.Content>
+				<h3>Close Outside</h3>
+			</Dialog.Content>
+		</Dialog>
+	),
+};
+
 export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const KeepMounted: Story = {};
