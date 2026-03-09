@@ -5,8 +5,16 @@ import { KeepMountedExample } from "./dialog.examples";
 type Story = StoryObj<typeof meta>;
 
 const meta = {
-	title: "UI/Dialog",
+	title: "ui/Dialog",
 	component: Dialog,
+	parameters: {
+		docs: {
+			description: {
+				component:
+					"A wrapper around the HTML dialog element. `Dialog.Content` accepts `DialogHTMLAttributes<HTMLDialogElement>`.",
+			},
+		},
+	},
 	argTypes: {
 		keepMounted: {
 			control: "boolean",
@@ -42,14 +50,6 @@ const meta = {
 			</Dialog.Content>
 		</Dialog>
 	),
-	parameters: {
-		docs: {
-			description: {
-				component:
-					"A wrapper around the HTML dialog element. `Dialog.Content` accepts `DialogHTMLAttributes<HTMLDialogElement>`.",
-			},
-		},
-	},
 } satisfies Meta<typeof Dialog>;
 
 export const Default: Story = {};
