@@ -53,10 +53,6 @@ const Funnel = ({ children }: FunnelProps) => {
 		};
 	}, []);
 
-	useEffect(() => {
-		console.log("step changed", step);
-	}, []);
-
 	return (
 		<FunnelContext value={{ step, total, prev, next, jump }}>
 			{childrenArray[step]}
