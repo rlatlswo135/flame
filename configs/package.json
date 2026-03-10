@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "flame-configs",
   "type": "module",
-  "main": "./tsup/tsup.config.ts",
+  "main": "./index.ts",
   "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@vitejs/plugin-react": "^5.1.4",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "@biomejs/biome": "catalog:"
+    "vitest": "catalog:"
   }
 }

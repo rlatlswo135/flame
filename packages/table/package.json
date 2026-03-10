@@ -19,9 +19,9 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "echo \"Error: no test specified\" && exit 1",
-		"lint": "echo \"Error: no test specified\" && exit 1",
-		"format": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsup",
+		"test": "vitest",
+		"dev": "tsup --watch",
 		"clear": "rm -rf node_modules"
 	},
 	"peerDependencies": {
@@ -39,6 +39,7 @@
 		"react-dom": "catalog:",
 		"tsup": "catalog:",
 		"typescript": "catalog:",
-		"@flame/configs": "workspace:*"
+		"@flame/configs": "workspace:*",
+		"vitest": "catalog:"
 	}
 }
