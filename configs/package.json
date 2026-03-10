@@ -5,8 +5,10 @@
   "type": "module",
   "main": "./index.ts",
   "devDependencies": {
-    "@biomejs/biome": "catalog:",
     "@vitejs/plugin-react": "^5.1.4",
+    "@biomejs/biome": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/react": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
