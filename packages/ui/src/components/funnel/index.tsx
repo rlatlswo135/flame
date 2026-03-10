@@ -47,10 +47,6 @@ const Funnel = ({ children }: FunnelProps) => {
 				}
 			});
 		}
-
-		return () => {
-			setStep(0);
-		};
 	}, []);
 
 	return (
