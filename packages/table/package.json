@@ -19,9 +19,9 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "echo \"Error: no test specified\" && exit 1",
-		"lint": "echo \"Error: no test specified\" && exit 1",
-		"format": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsup",
+		"test": "vitest",
+		"dev": "tsup --watch",
 		"clear": "rm -rf node_modules"
 	},
 	"peerDependencies": {
@@ -32,13 +32,17 @@
 		"@tanstack/react-table": "^8.21.3"
 	},
 	"devDependencies": {
+		"@flame/configs": "workspace:*",
 		"@biomejs/biome": "catalog:",
+		"@testing-library/dom": "catalog:",
+		"@testing-library/react": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"tsup": "catalog:",
 		"typescript": "catalog:",
-		"@flame/configs": "workspace:*"
+		"vitest": "catalog:",
+		"happy-dom": "catalog:"
 	}
 }

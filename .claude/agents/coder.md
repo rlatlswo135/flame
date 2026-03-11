@@ -36,3 +36,12 @@ maxTurns: 30
 - 기존 컴포넌트 코드 임의 수정 금지
 - 새 의존성 설치 금지 (필요하면 사용자에게 확인)
 - 과도한 주석이나 docstring 추가 금지
+
+### 5. 테스트 코드 작성
+#### 컴포넌트 테스트
+아래 계층 따를것
+1. Critical User Paths → Always test these
+2. Error Handling      → Test failure scenarios
+3. Edge Cases          → Empty data, extreme values
+4. Accessibility       → Screen readers, keyboard nav
+5. Performance         → Large datasets, animations
