@@ -29,12 +29,13 @@
 		"react-dom": "catalog:peer-react-dom"
 	},
 	"devDependencies": {
-		"@flame/configs": "workspace:*",
 		"@biomejs/biome": "catalog:",
+		"@flame/configs": "workspace:*",
 		"@testing-library/dom": "catalog:",
 		"@testing-library/react": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
+		"happy-dom": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"tsup": "catalog:",

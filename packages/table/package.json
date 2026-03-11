@@ -42,6 +42,7 @@
 		"react-dom": "catalog:",
 		"tsup": "catalog:",
 		"typescript": "catalog:",
-		"vitest": "catalog:"
+		"vitest": "catalog:",
+		"happy-dom": "catalog:"
 	}
 }
