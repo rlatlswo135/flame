@@ -28,6 +28,9 @@
 		"react": "catalog:peer-react",
 		"react-dom": "catalog:peer-react-dom"
 	},
+	"dependencies": {
+		"@floating-ui/react": "^0.27.19"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
 		"@flame/configs": "workspace:*",
