@@ -1,6 +1,6 @@
 import {
+	type ComponentPropsWithoutRef,
 	cloneElement,
-	type DialogHTMLAttributes,
 	type PropsWithChildren,
 	useRef,
 	useState,
@@ -67,7 +67,7 @@ const Closer = ({ children }: ElementFnChildren<{ close: () => void }>) => {
 const Content = ({
 	children,
 	...props
-}: PropsWithChildren<DialogHTMLAttributes<HTMLDialogElement>>) => {
+}: ComponentPropsWithoutRef<"dialog">) => {
 	const ctx = useCtx(DialogContext);
 
 	const onClose = (e: React.SyntheticEvent<HTMLDialogElement>) => {
