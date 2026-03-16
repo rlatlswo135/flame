@@ -6,10 +6,11 @@
   "main": "./index.ts",
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@vitejs/plugin-react": "^5.1.4",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@vitejs/plugin-react": "^5.1.4"
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "catalog:"
   }
 }
