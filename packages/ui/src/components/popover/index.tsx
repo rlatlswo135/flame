@@ -37,7 +37,15 @@ const Popover = ({
 
 	const floating = useFloating({
 		open: isOpen,
-		onOpenChange: setIsOpen,
+		onOpenChange: (isOpen) => {
+			setIsOpen(isOpen);
+
+			if (isOpen) {
+				onOpen?.();
+			} else {
+				onClose?.();
+			}
+		},
 		...options,
 	});
 
