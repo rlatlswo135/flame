@@ -13,7 +13,8 @@
 	},
 	"dependencies": {
 		"react": "catalog:",
-		"react-dom": "catalog:"
+		"react-dom": "catalog:",
+		"@floating-ui/react": "^0.27.19"
 	},
 	"devDependencies": {
 		"@flame/ui": "workspace:*",

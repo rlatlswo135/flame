@@ -154,14 +154,10 @@ const Content = ({ children, ...props }: ContentProps) => {
 	return element;
 };
 
+Trigger.displayName = "Popover.Trigger";
+Content.displayName = "Popover.Content";
+
 Popover.Trigger = Trigger;
 Popover.Content = Content;
 
 export { Popover, type PopoverProps };
-
-/*
-TODO - storybook
-
-1. controlled -> open + onOpenChange
-
-*/

@@ -90,6 +90,10 @@ const Content = ({
 	);
 };
 
+Trigger.displayName = "Dialog.Trigger";
+Content.displayName = "Dialog.Content";
+Closer.displayName = "Dialog.Closer";
+
 Dialog.Trigger = Trigger;
 Dialog.Content = Content;
 Dialog.Closer = Closer;

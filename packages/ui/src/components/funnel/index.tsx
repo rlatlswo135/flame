@@ -82,6 +82,10 @@ const Prev = ({ children }: ElementFnChildren<{ prev: () => void }>) => {
 	return cloneElement(children as ClickableElement, { onClick: prev });
 };
 
+Step.displayName = "Funnel.Step";
+Next.displayName = "Funnel.Next";
+Prev.displayName = "Funnel.Prev";
+
 Funnel.Step = Step;
 Funnel.Next = Next;
 Funnel.Prev = Prev;
