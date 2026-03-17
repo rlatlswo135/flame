@@ -7,8 +7,6 @@ import type {
 import { createContext } from "react";
 
 type PopoverContextValue = {
-	onClose: (() => void) | undefined;
-	onOpen: (() => void) | undefined;
 	focusTrap: boolean;
 	portal: boolean | FloatingPortalProps;
 	floating: UseFloatingReturn;

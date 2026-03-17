@@ -61,10 +61,10 @@ const Popover = ({
 
 	const floating = useFloating({
 		open: isOpen,
-		onOpenChange: (isOpen) => {
-			setIsOpen(isOpen);
+		onOpenChange: (nextOpen) => {
+			setIsOpen(nextOpen);
 
-			if (isOpen) {
+			if (nextOpen) {
 				onOpen?.();
 			} else {
 				onClose?.();
@@ -72,7 +72,7 @@ const Popover = ({
 		},
 		...options,
 	});
-
+	// TODO: 1,3번 피드백 내용 좀더 분석해보기 (claude)
 	const role = useRole(floating.context, roleOptions);
 	const click = useClick(floating.context, clickOptions);
 	const dismiss = useDismiss(floating.context, dismissOptions);
@@ -82,8 +82,6 @@ const Popover = ({
 	const context = useMemo(
 		() => ({
 			floating,
-			onClose,
-			onOpen,
 			interactions,
 			transition,
 			focusTrap,
