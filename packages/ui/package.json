@@ -26,9 +26,7 @@
 	},
 	"peerDependencies": {
 		"react": "catalog:peer-react",
-		"react-dom": "catalog:peer-react-dom"
-	},
-	"dependencies": {
+		"react-dom": "catalog:peer-react-dom",
 		"@floating-ui/react": "^0.27.19"
 	},
 	"devDependencies": {

@@ -4,6 +4,7 @@ import {
 	isValidElement,
 	type PropsWithChildren,
 	useEffect,
+	useMemo,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
@@ -49,11 +50,12 @@ const Funnel = ({ children }: FunnelProps) => {
 		}
 	}, []);
 
-	return (
-		<FunnelContext value={{ step, total, prev, next, jump }}>
-			{childrenArray[step]}
-		</FunnelContext>
+	const context = useMemo(
+		() => ({ step, total, prev, next, jump }),
+		[step, total, prev, next, jump],
 	);
+
+	return <FunnelContext value={context}>{childrenArray[step]}</FunnelContext>;
 };
 
 const Step = (props: FnChildren<{ jump: (step: number) => void }>) => {

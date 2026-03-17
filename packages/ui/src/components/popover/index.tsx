@@ -1,14 +1,25 @@
 import {
+	FloatingFocusManager,
+	FloatingPortal,
+	type FloatingPortalProps,
+	type UseClickProps,
+	type UseDismissProps,
 	type UseFloatingOptions,
 	type UseFloatingReturn,
 	type UseInteractionsReturn,
+	type UseRoleProps,
+	type UseTransitionStylesProps,
 	useClick,
+	useDismiss,
 	useFloating,
 	useInteractions,
+	useRole,
+	useTransitionStyles,
 } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	type PropsWithChildren,
+	useMemo,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
@@ -18,7 +29,14 @@ import { PopoverContext } from "./context";
 type PopoverProps = {
 	onClose?: () => void;
 	onOpen?: () => void;
+	focusTrap?: boolean;
+	portal?: boolean | FloatingPortalProps;
+	/** customs */
 	options?: UseFloatingOptions;
+	dismiss?: UseDismissProps;
+	click?: UseClickProps;
+	role?: UseRoleProps;
+	transition?: boolean | UseTransitionStylesProps;
 };
 
 type ContentProps = FnChildren<{
@@ -28,10 +46,16 @@ type ContentProps = FnChildren<{
 	Omit<ComponentPropsWithoutRef<"section">, "style" | "children">;
 
 const Popover = ({
+	portal = false,
+	focusTrap = true,
+	transition = false,
 	children,
 	options,
 	onClose,
 	onOpen,
+	role: roleOptions,
+	click: clickOptions,
+	dismiss: dismissOptions,
 }: PropsWithChildren<PopoverProps>) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -49,15 +73,26 @@ const Popover = ({
 		...options,
 	});
 
-	const click = useClick(floating.context);
+	const role = useRole(floating.context, roleOptions);
+	const click = useClick(floating.context, clickOptions);
+	const dismiss = useDismiss(floating.context, dismissOptions);
 
-	const interactions = useInteractions([click]);
+	const interactions = useInteractions([role, click, dismiss]);
 
-	return (
-		<PopoverContext value={{ floating, onClose, onOpen, interactions }}>
-			{children}
-		</PopoverContext>
+	const context = useMemo(
+		() => ({
+			floating,
+			onClose,
+			onOpen,
+			interactions,
+			transition,
+			focusTrap,
+			portal,
+		}),
+		[floating, onClose, onOpen, interactions, transition, focusTrap, portal],
 	);
+
+	return <PopoverContext value={context}>{children}</PopoverContext>;
 };
 
 const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
@@ -75,30 +110,52 @@ const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
 };
 
 const Content = ({ children, ...props }: ContentProps) => {
-	const { floating, interactions } = useCtx(PopoverContext);
+	const {
+		portal,
+		floating,
+		focusTrap,
+		interactions,
+		transition: transitionOptions,
+	} = useCtx(PopoverContext);
+
+	const transition = useTransitionStyles(
+		floating.context,
+		typeof transitionOptions === "object" ? transitionOptions : undefined,
+	);
 
 	if (typeof children === "function")
 		return children({ floating, interactions });
 
-	return (
-		<section
-			ref={floating.refs.setFloating}
-			style={floating.floatingStyles}
-			{...interactions.getFloatingProps()}
-			{...props}
-		>
-			{children}
-		</section>
-	);
-};
+	const shouldMount = transitionOptions
+		? transition.isMounted
+		: floating.context.open;
 
-const Closer = () => {
-	return <button type="button">Closer</button>;
+	const element = shouldMount && (
+		<FloatingFocusManager context={floating.context} modal={focusTrap}>
+			<section
+				ref={floating.refs.setFloating}
+				style={{
+					...floating.floatingStyles,
+					...(transitionOptions && transition.styles),
+				}}
+				{...interactions.getFloatingProps()}
+				{...props}
+			>
+				{children}
+			</section>
+		</FloatingFocusManager>
+	);
+
+	if (portal) {
+		const portalProps = typeof portal === "boolean" ? {} : portal;
+		return <FloatingPortal {...portalProps}>{element}</FloatingPortal>;
+	}
+
+	return element;
 };
 
 Popover.Trigger = Trigger;
 Popover.Content = Content;
-Popover.Closer = Closer;
 
 export { Popover, type PopoverProps };
 

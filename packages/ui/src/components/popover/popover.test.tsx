@@ -12,7 +12,6 @@ const renderPopover = (props?: Parameters<typeof Popover>[0]) => {
 			</Popover.Trigger>
 			<Popover.Content data-testid="content">
 				<p>콘텐츠</p>
-				<Popover.Closer />
 			</Popover.Content>
 		</Popover>,
 	);
@@ -90,15 +89,6 @@ describe("Popover", () => {
 			const { user } = renderPopover();
 			await user.click(screen.getByText("트리거"));
 			expect(screen.getByTestId("content").tagName).toBe("SECTION");
-		});
-	});
-
-	describe("Closer", () => {
-		it("Closer 클릭 시 닫힌다", async () => {
-			const { user } = renderPopover();
-			await user.click(screen.getByText("트리거"));
-			await user.click(screen.getByText("Closer"));
-			expect(screen.queryByTestId("content")).not.toBeInTheDocument();
 		});
 	});
 });
