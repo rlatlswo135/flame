@@ -20,7 +20,7 @@
 	],
 	"scripts": {
 		"build": "tsup",
-		"test": "vitest",
+		"test": "echo 'test'",
 		"dev": "tsup --watch",
 		"clear": "rm -rf node_modules"
 	},

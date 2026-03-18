@@ -25,7 +25,8 @@
     "build": "pnpm @ui build && pnpm @table build && pnpm @docs build",
     "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @table clear && pnpm @docs clear && pnpm @storybook clear && pnpm store prune",
     "prepare": "husky",
-    "lint": "biome check --write --verbose"
+    "lint": "biome check --write --verbose",
+    "test":"pnpm --parallel -r run test"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
