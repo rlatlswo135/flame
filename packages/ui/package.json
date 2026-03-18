@@ -26,13 +26,15 @@
 	},
 	"peerDependencies": {
 		"react": "catalog:peer-react",
-		"react-dom": "catalog:peer-react-dom"
+		"react-dom": "catalog:peer-react-dom",
+		"@floating-ui/react": "^0.27.19"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
 		"@flame/configs": "workspace:*",
 		"@testing-library/dom": "catalog:",
 		"@testing-library/react": "catalog:",
+		"@testing-library/user-event": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"happy-dom": "catalog:",

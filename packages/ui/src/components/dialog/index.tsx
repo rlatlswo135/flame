@@ -1,7 +1,8 @@
 import {
+	type ComponentPropsWithoutRef,
 	cloneElement,
-	type DialogHTMLAttributes,
 	type PropsWithChildren,
+	useMemo,
 	useRef,
 	useState,
 } from "react";
@@ -31,21 +32,20 @@ const Dialog = ({
 		dialog.current?.close();
 	};
 
-	return (
-		<DialogContext
-			value={{
-				open,
-				dialog,
-				close,
-				isOpen,
-				setIsOpen,
-				closeOutside,
-				keepMounted,
-			}}
-		>
-			{children}
-		</DialogContext>
+	const context = useMemo(
+		() => ({
+			open,
+			dialog,
+			close,
+			isOpen,
+			setIsOpen,
+			closeOutside,
+			keepMounted,
+		}),
+		[open, dialog, close, isOpen, setIsOpen, closeOutside, keepMounted],
 	);
+
+	return <DialogContext value={context}>{children}</DialogContext>;
 };
 
 const Trigger = ({ children }: ElementFnChildren<{ open: () => void }>) => {
@@ -67,7 +67,7 @@ const Closer = ({ children }: ElementFnChildren<{ close: () => void }>) => {
 const Content = ({
 	children,
 	...props
-}: PropsWithChildren<DialogHTMLAttributes<HTMLDialogElement>>) => {
+}: ComponentPropsWithoutRef<"dialog">) => {
 	const ctx = useCtx(DialogContext);
 
 	const onClose = (e: React.SyntheticEvent<HTMLDialogElement>) => {
@@ -89,6 +89,10 @@ const Content = ({
 		</dialog>
 	);
 };
+
+Trigger.displayName = "Dialog.Trigger";
+Content.displayName = "Dialog.Content";
+Closer.displayName = "Dialog.Closer";
 
 Dialog.Trigger = Trigger;
 Dialog.Content = Content;
