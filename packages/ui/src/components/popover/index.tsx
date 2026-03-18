@@ -26,18 +26,27 @@ import { useCtx } from "@/src/hooks/use-ctx";
 import type { FnChildren } from "@/src/types";
 import { PopoverContext } from "./context";
 
-type PopoverProps = {
-	onClose?: () => void;
-	onOpen?: () => void;
+type BaseProps = {
 	focusTrap?: boolean;
 	portal?: boolean | FloatingPortalProps;
 	/** customs */
-	options?: UseFloatingOptions;
+	options?: Omit<UseFloatingOptions, "open" | "onOpenChange">;
 	dismiss?: UseDismissProps;
 	click?: UseClickProps;
 	role?: UseRoleProps;
 	transition?: boolean | UseTransitionStylesProps;
 };
+
+type ControlledProps = BaseProps & {
+	open: boolean;
+	onOpenChange: (nextOpen: boolean) => void;
+};
+type UncontrolledProps = BaseProps & {
+	onClose?: () => void;
+	onOpen?: () => void;
+};
+
+type PopoverProps = ControlledProps | UncontrolledProps;
 
 type ContentProps = FnChildren<{
 	interactions: UseInteractionsReturn;
@@ -51,28 +60,34 @@ const Popover = ({
 	transition = false,
 	children,
 	options,
-	onClose,
-	onOpen,
 	role: roleOptions,
 	click: clickOptions,
 	dismiss: dismissOptions,
+	...props
 }: PropsWithChildren<PopoverProps>) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const controlled = "open" in props;
+
+	const [internalOpen, setIsInternalOpen] = useState(false);
 
 	const floating = useFloating({
-		open: isOpen,
+		open: controlled ? props.open : internalOpen,
 		onOpenChange: (nextOpen) => {
-			setIsOpen(nextOpen);
+			if (controlled) {
+				props.onOpenChange(nextOpen);
+				return;
+			}
+
+			setIsInternalOpen(nextOpen);
 
 			if (nextOpen) {
-				onOpen?.();
+				props.onOpen?.();
 			} else {
-				onClose?.();
+				props.onClose?.();
 			}
 		},
 		...options,
 	});
-	// TODO: 1,3번 피드백 내용 좀더 분석해보기 (claude)
+
 	const role = useRole(floating.context, roleOptions);
 	const click = useClick(floating.context, clickOptions);
 	const dismiss = useDismiss(floating.context, dismissOptions);
@@ -87,7 +102,7 @@ const Popover = ({
 			focusTrap,
 			portal,
 		}),
-		[floating, onClose, onOpen, interactions, transition, focusTrap, portal],
+		[floating, interactions, transition, focusTrap, portal],
 	);
 
 	return <PopoverContext value={context}>{children}</PopoverContext>;
@@ -128,7 +143,9 @@ const Content = ({ children, ...props }: ContentProps) => {
 		? transition.isMounted
 		: floating.context.open;
 
-	const element = shouldMount && (
+	if (!shouldMount) return null;
+
+	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>
 			<section
 				ref={floating.refs.setFloating}
