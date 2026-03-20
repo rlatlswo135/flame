@@ -114,7 +114,7 @@ export const useFloatingBase = ({
 		() => ({
 			ref: floating.refs.setReference,
 		}),
-		[],
+		[floating.refs.setReference],
 	);
 
 	const contentBaseProps = useMemo(
@@ -125,7 +125,12 @@ export const useFloatingBase = ({
 				...(transitionOptions && transition.styles),
 			},
 		}),
-		[],
+		[
+			floating.floatingStyles,
+			floating.refs.setFloating,
+			transition.styles,
+			transitionOptions,
+		],
 	);
 
 	return {

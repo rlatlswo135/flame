@@ -3,6 +3,7 @@ import {
 	cloneElement,
 	isValidElement,
 	type PropsWithChildren,
+	useCallback,
 	useEffect,
 	useMemo,
 	useState,
@@ -24,23 +25,25 @@ const Funnel = ({ children }: FunnelProps) => {
 
 	const total = childrenArray.length;
 
-	const next = () => {
+	const next = useCallback(() => {
 		if (step === childrenArray.length - 1) return;
 		setStep(step + 1);
-	};
+	}, [childrenArray.length, step]);
 
-	const prev = () => {
+	const prev = useCallback(() => {
 		if (step === 0) return;
 		setStep(step - 1);
-	};
+	}, [step]);
 
-	const jump = (jumpTo: number) => {
-		if (jumpTo < 0 || jumpTo >= total) return;
-		setStep(jumpTo);
-	};
+	const jump = useCallback(
+		(jumpTo: number) => {
+			if (jumpTo < 0 || jumpTo >= total) return;
+			setStep(jumpTo);
+		},
+		[total],
+	);
 
 	useEffect(() => {
-		// @ts-expect-error
 		if (process.env.NODE_ENV === "development") {
 			childrenArray.forEach((children) => {
 				if (!isValidElement(children) || children.type !== Step) {
@@ -48,7 +51,7 @@ const Funnel = ({ children }: FunnelProps) => {
 				}
 			});
 		}
-	}, []);
+	}, [childrenArray.forEach]);
 
 	const context = useMemo(
 		() => ({ step, total, prev, next, jump }),

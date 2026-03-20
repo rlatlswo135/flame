@@ -2,6 +2,7 @@ import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
+	useCallback,
 	useMemo,
 	useRef,
 	useState,
@@ -23,14 +24,14 @@ const Dialog = ({
 	const dialog = useRef<HTMLDialogElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const open = () => {
+	const open = useCallback(() => {
 		dialog.current?.showModal();
 		if (!keepMounted) setIsOpen(true);
-	};
+	}, [keepMounted]);
 
-	const close = () => {
+	const close = useCallback(() => {
 		dialog.current?.close();
-	};
+	}, []);
 
 	const context = useMemo(
 		() => ({
@@ -42,7 +43,7 @@ const Dialog = ({
 			closeOutside,
 			keepMounted,
 		}),
-		[open, dialog, close, isOpen, setIsOpen, closeOutside, keepMounted],
+		[close, closeOutside, isOpen, keepMounted, open],
 	);
 
 	return <DialogContext value={context}>{children}</DialogContext>;
