@@ -14,7 +14,8 @@
       "!!**/.next",
       "!!**/build",
       "!!**/out",
-      "!!**/next-env.d.ts"
+      "!!**/next-env.d.ts",
+      "!!**/*.md"
     ]
   }
 }
