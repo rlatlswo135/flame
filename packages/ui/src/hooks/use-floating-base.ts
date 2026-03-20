@@ -11,12 +11,14 @@ import {
 	useClick,
 	useDismiss,
 	useFloating,
-	useInteractions,
 	useRole,
+	useTransitionStyles,
 } from "@floating-ui/react";
-import { useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 
-export type FloatingBaseProps = {
+type UseFloatingReturn = ReturnType<typeof useFloating>;
+
+type BaseProps = {
 	focusTrap?: boolean;
 	portal?: boolean | FloatingPortalProps;
 	options?: Omit<UseFloatingOptions, "open" | "onOpenChange">;
@@ -26,20 +28,67 @@ export type FloatingBaseProps = {
 	transition?: boolean | UseTransitionStylesProps;
 };
 
+type ControlledProps = BaseProps & {
+	open: boolean;
+	onOpenChange: (nextOpen: boolean) => void;
+};
+
+type UncontrolledProps = BaseProps & {
+	onClose?: () => void;
+	onOpen?: () => void;
+};
+
+export type FloatingBaseProps = ControlledProps | UncontrolledProps;
+
+type FloatingBaseReturn = {
+	focusTrap: boolean;
+	floating: UseFloatingReturn;
+	portal: boolean | FloatingPortalProps;
+	transition: ReturnType<typeof useTransitionStyles>;
+	baseInteractions: {
+		role: ReturnType<typeof useRole>;
+		click: ReturnType<typeof useClick>;
+		dismiss: ReturnType<typeof useDismiss>;
+	};
+	triggerBaseProps: {
+		ref: UseFloatingReturn["refs"]["setReference"];
+	};
+	contentBaseProps: {
+		ref: UseFloatingReturn["refs"]["setFloating"];
+		style: CSSProperties;
+	};
+};
+
 export const useFloatingBase = ({
 	portal = false,
 	focusTrap = true,
-	transition = false,
+	transition: transitionOptions = false,
 	options,
 	role: roleOptions,
 	click: clickOptions,
 	dismiss: dismissOptions,
-}: FloatingBaseProps = {}) => {
-	const [isOpen, setIsOpen] = useState(false);
+	...props
+}: FloatingBaseProps): FloatingBaseReturn => {
+	const controlled = "open" in props;
+
+	const [internalOpen, setIsInternalOpen] = useState(false);
 
 	const floating = useFloating({
-		open: isOpen,
-		onOpenChange: setIsOpen,
+		open: controlled ? props.open : internalOpen,
+		onOpenChange: (nextOpen) => {
+			if (controlled) {
+				props.onOpenChange(nextOpen);
+				return;
+			}
+
+			setIsInternalOpen(nextOpen);
+
+			if (nextOpen) {
+				props.onOpen?.();
+			} else {
+				props.onClose?.();
+			}
+		},
 		...options,
 	});
 
@@ -47,15 +96,45 @@ export const useFloatingBase = ({
 	const click = useClick(floating.context, clickOptions);
 	const dismiss = useDismiss(floating.context, dismissOptions);
 
-	const interactions = useInteractions([role, click, dismiss]);
+	const transition = useTransitionStyles(
+		floating.context,
+		typeof transitionOptions === "object" ? transitionOptions : undefined,
+	);
+
+	const baseInteractions = useMemo(
+		() => ({
+			role,
+			click,
+			dismiss,
+		}),
+		[role, click, dismiss],
+	);
+
+	const triggerBaseProps = useMemo(
+		() => ({
+			ref: floating.refs.setReference,
+		}),
+		[],
+	);
+
+	const contentBaseProps = useMemo(
+		() => ({
+			ref: floating.refs.setFloating,
+			style: {
+				...floating.floatingStyles,
+				...(transitionOptions && transition.styles),
+			},
+		}),
+		[],
+	);
 
 	return {
-		isOpen,
-		setIsOpen,
 		floating,
-		interactions,
-		transition,
 		portal,
 		focusTrap,
+		baseInteractions,
+		transition,
+		triggerBaseProps,
+		contentBaseProps,
 	};
 };
