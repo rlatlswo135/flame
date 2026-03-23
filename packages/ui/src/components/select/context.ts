@@ -1,20 +1,11 @@
-import type {
-	FloatingPortalProps,
-	UseFloatingReturn,
-	UseInteractionsReturn,
-	UseTransitionStylesProps,
-} from "@floating-ui/react";
+import type { UseInteractionsReturn } from "@floating-ui/react";
 import { createContext } from "react";
+import type { FloatingBaseReturn } from "@/src/hooks/use-floating-base";
 
-type SelectContextType = {
-	focusTrap: boolean;
+type SelectContextValue = FloatingBaseReturn & {
 	value: string;
 	onChange: (value: string) => void;
-
-	portal: boolean | FloatingPortalProps;
-	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
-	transition: boolean | UseTransitionStylesProps;
 };
 
-export const SelectContext = createContext<SelectContextType | null>(null);
+export const SelectContext = createContext<SelectContextValue | null>(null);

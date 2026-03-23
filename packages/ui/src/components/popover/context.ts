@@ -1,17 +1,9 @@
-import type {
-	FloatingPortalProps,
-	UseFloatingReturn,
-	UseInteractionsReturn,
-	UseTransitionStylesProps,
-} from "@floating-ui/react";
+import type { UseInteractionsReturn } from "@floating-ui/react";
 import { createContext } from "react";
+import type { FloatingBaseReturn } from "@/src/hooks/use-floating-base";
 
-type PopoverContextValue = {
-	focusTrap: boolean;
-	portal: boolean | FloatingPortalProps;
-	floating: UseFloatingReturn;
+type PopoverContextValue = FloatingBaseReturn & {
 	interactions: UseInteractionsReturn;
-	transition: boolean | UseTransitionStylesProps;
 };
 
 export const PopoverContext = createContext<PopoverContextValue | null>(null);
