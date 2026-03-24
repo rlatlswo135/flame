@@ -9,7 +9,6 @@ import {
 } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
-	type ComponentPropsWithRef,
 	type PropsWithChildren,
 	useMemo,
 } from "react";
@@ -32,7 +31,7 @@ type OptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
 }> &
-	Omit<ComponentPropsWithRef<"ul">, "children">;
+	Omit<ComponentPropsWithoutRef<"ul">, "children">;
 
 type OptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
 
@@ -79,12 +78,12 @@ const Options = ({ children, ...props }: OptionsProps) => {
 		baseContentProps,
 	} = useCtx(SelectContext);
 
-	if (typeof children === "function")
-		return children({ floating, interactions });
-
 	const shouldMount = transition ? transition.isMounted : floating.context.open;
 
 	if (!shouldMount) return null;
+
+	if (typeof children === "function")
+		return children({ floating, interactions });
 
 	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>

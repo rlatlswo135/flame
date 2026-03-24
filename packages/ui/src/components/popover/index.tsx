@@ -63,12 +63,12 @@ const Content = ({ children, ...props }: ContentProps) => {
 		baseContentProps,
 	} = useCtx(PopoverContext);
 
-	if (typeof children === "function")
-		return children({ floating, interactions });
-
 	const shouldMount = transition ? transition.isMounted : floating.context.open;
 
 	if (!shouldMount) return null;
+
+	if (typeof children === "function")
+		return children({ floating, interactions });
 
 	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>
