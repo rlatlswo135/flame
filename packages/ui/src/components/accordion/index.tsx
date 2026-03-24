@@ -6,7 +6,7 @@ type AccordionProps = PropsWithChildren<{
 	single?: boolean;
 }>;
 
-type AccordionItemProps = PropsWithChildren<{}>;
+type AccordionItemProps = PropsWithChildren;
 
 const Accordion = ({ single = false, children }: AccordionProps) => {
 	const value = useMemo(() => ({ single }), [single]);
@@ -14,6 +14,7 @@ const Accordion = ({ single = false, children }: AccordionProps) => {
 };
 
 const Item = ({ children }: AccordionItemProps) => {
+	// TODO: open state control when single mode
 	const { single } = useCtx(AccordionContext);
 
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -33,7 +34,7 @@ const Item = ({ children }: AccordionItemProps) => {
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
 
-const Trigger = ({ children }: PropsWithChildren<{}>) => {
+const Trigger = ({ children }: PropsWithChildren) => {
 	const { toggle } = useCtx(AccordionItemContext);
 
 	return (
@@ -43,7 +44,7 @@ const Trigger = ({ children }: PropsWithChildren<{}>) => {
 	);
 };
 
-const Content = ({ children }: PropsWithChildren<{}>) => {
+const Content = ({ children }: PropsWithChildren) => {
 	return <div>{children}</div>;
 };
 
