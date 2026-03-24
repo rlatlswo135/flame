@@ -32,7 +32,7 @@ type OptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
 }> &
-	ComponentPropsWithRef<"ul">;
+	Omit<ComponentPropsWithRef<"ul">, "children">;
 
 type OptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
 
