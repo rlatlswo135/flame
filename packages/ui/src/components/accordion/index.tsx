@@ -9,26 +9,33 @@ type AccordionProps = PropsWithChildren<{
 type AccordionItemProps = PropsWithChildren;
 
 const Accordion = ({ single = false, children }: AccordionProps) => {
-	const value = useMemo(() => ({ single }), [single]);
+	const [expandedId, setExpandedId] = useState("");
+
+	const value = useMemo(
+		() => ({ expandedId, setExpandedId, single }),
+		[expandedId, single],
+	);
+
 	return <AccordionContext value={value}>{children}</AccordionContext>;
 };
 
 const Item = ({ children }: AccordionItemProps) => {
-	// TODO: open state control when single mode
-	const { single } = useCtx(AccordionContext);
+	const { single, expandedId } = useCtx(AccordionContext);
 
-	const [isExpanded, setIsExpanded] = useState(false);
+	const [internalExpanded, setInternalExpanded] = useState(false);
+
+	const isExpanded = single ? expandedId === "" : internalExpanded;
 
 	const toggle = useCallback(() => {
-		setIsExpanded((prev) => !prev);
+		setInternalExpanded((prev) => !prev);
 	}, []);
 
 	const value = useMemo(
 		() => ({
-			isExpanded,
 			toggle,
+			isExpanded,
 		}),
-		[isExpanded, toggle],
+		[toggle, isExpanded],
 	);
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
@@ -36,9 +43,18 @@ const Item = ({ children }: AccordionItemProps) => {
 
 const Trigger = ({ children }: PropsWithChildren) => {
 	const { toggle } = useCtx(AccordionItemContext);
+	const { expandedId, setExpandedId, single } = useCtx(AccordionContext);
+
+	const onClickTrigger = () => {
+		if (single) {
+			setExpandedId((id) => (id === expandedId ? "" : id));
+		} else {
+			toggle();
+		}
+	};
 
 	return (
-		<button type="button" onClick={toggle}>
+		<button type="button" onClick={onClickTrigger}>
 			{children}
 		</button>
 	);

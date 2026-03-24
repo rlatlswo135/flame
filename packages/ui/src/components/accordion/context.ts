@@ -1,12 +1,14 @@
-import { createContext } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 
 type AccordionContextValue = {
-	single?: boolean;
+	single: boolean;
+	expandedId: string;
+	setExpandedId: Dispatch<SetStateAction<string>>;
 };
 
 type AccordionItemContextValue = {
-	isExpanded: boolean;
 	toggle: () => void;
+	isExpanded: boolean;
 };
 
 export const AccordionContext = createContext<AccordionContextValue | null>(
