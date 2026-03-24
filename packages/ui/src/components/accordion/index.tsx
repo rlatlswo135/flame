@@ -1,4 +1,10 @@
-import { type PropsWithChildren, useCallback, useMemo, useState } from "react";
+import {
+	type PropsWithChildren,
+	useCallback,
+	useId,
+	useMemo,
+	useState,
+} from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import { AccordionContext, AccordionItemContext } from "./context";
 
@@ -20,6 +26,7 @@ const Accordion = ({ single = false, children }: AccordionProps) => {
 };
 
 const Item = ({ children }: AccordionItemProps) => {
+	const id = useId();
 	const { single, expandedId } = useCtx(AccordionContext);
 
 	const [internalExpanded, setInternalExpanded] = useState(false);
@@ -32,22 +39,23 @@ const Item = ({ children }: AccordionItemProps) => {
 
 	const value = useMemo(
 		() => ({
+			id,
 			toggle,
 			isExpanded,
 		}),
-		[toggle, isExpanded],
+		[toggle, isExpanded, id],
 	);
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
 
 const Trigger = ({ children }: PropsWithChildren) => {
-	const { toggle } = useCtx(AccordionItemContext);
+	const { toggle, id } = useCtx(AccordionItemContext);
 	const { expandedId, setExpandedId, single } = useCtx(AccordionContext);
 
 	const onClickTrigger = () => {
 		if (single) {
-			setExpandedId((id) => (id === expandedId ? "" : id));
+			setExpandedId(id === expandedId ? "" : id);
 		} else {
 			toggle();
 		}

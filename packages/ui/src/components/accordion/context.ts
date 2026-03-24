@@ -7,6 +7,7 @@ type AccordionContextValue = {
 };
 
 type AccordionItemContextValue = {
+	id: string;
 	toggle: () => void;
 	isExpanded: boolean;
 };
