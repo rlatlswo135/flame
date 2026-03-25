@@ -2,12 +2,11 @@ import { createContext, type Dispatch, type SetStateAction } from "react";
 
 type AccordionContextValue = {
 	single: boolean;
-	expandedId: string;
-	setExpandedId: Dispatch<SetStateAction<string>>;
+	activeItemId: string;
+	setActiveItemId: Dispatch<SetStateAction<string>>;
 };
 
 type AccordionItemContextValue = {
-	id: string;
 	toggle: () => void;
 	isExpanded: boolean;
 };

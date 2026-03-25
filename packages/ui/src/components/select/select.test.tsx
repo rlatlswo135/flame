@@ -67,8 +67,9 @@ describe("Select", () => {
 	});
 
 	describe("Options children", () => {
-		it("function children일 때 floating, interactions를 인자로 받는다", () => {
+		it("function children일 때 floating, interactions를 인자로 받는다", async () => {
 			const childrenFn = vi.fn(() => <div>커스텀</div>);
+			const user = userEvent.setup();
 
 			render(
 				<Select value="" onChange={vi.fn()}>
@@ -78,6 +79,8 @@ describe("Select", () => {
 					<Select.Options>{childrenFn}</Select.Options>
 				</Select>,
 			);
+
+			await user.click(screen.getByText("선택"));
 
 			expect(childrenFn).toHaveBeenCalledWith(
 				expect.objectContaining({

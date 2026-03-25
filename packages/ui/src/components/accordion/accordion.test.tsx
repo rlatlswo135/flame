@@ -8,13 +8,17 @@ const renderAccordion = (props?: Parameters<typeof Accordion>[0]) => {
 	render(
 		<Accordion {...props}>
 			<Accordion.Item>
-				<Accordion.Trigger>항목 1</Accordion.Trigger>
+				<Accordion.Trigger>
+					<button type="button">항목 1</button>
+				</Accordion.Trigger>
 				<Accordion.Content data-testid="content-1">
 					<p>내용 1</p>
 				</Accordion.Content>
 			</Accordion.Item>
 			<Accordion.Item>
-				<Accordion.Trigger>항목 2</Accordion.Trigger>
+				<Accordion.Trigger>
+					<button type="button">항목 2</button>
+				</Accordion.Trigger>
 				<Accordion.Content data-testid="content-2">
 					<p>내용 2</p>
 				</Accordion.Content>
@@ -68,7 +72,9 @@ describe("Accordion", () => {
 			render(
 				<Accordion>
 					<Accordion.Item initialOpen>
-						<Accordion.Trigger>항목 1</Accordion.Trigger>
+						<Accordion.Trigger>
+						<button type="button">항목 1</button>
+					</Accordion.Trigger>
 						<Accordion.Content data-testid="content-1">
 							<p>내용 1</p>
 						</Accordion.Content>
