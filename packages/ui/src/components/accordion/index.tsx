@@ -70,16 +70,20 @@ const Trigger = ({ children }: ElementFnChildren<{ toggle: () => void }>) => {
 const Content = ({
 	children,
 	...props
-}: PropsWithChildren<ComponentPropsWithRef<"section">>) => {
+}: PropsWithChildren<ComponentPropsWithRef<"div">>) => {
 	const { isExpanded } = useCtx(AccordionItemContext);
 
 	if (!isExpanded) return null;
 
-	return <section {...props}>{children}</section>;
+	return <div {...props}>{children}</div>;
 };
+
+Item.displayName = "Accordion.Item";
+Trigger.displayName = "Accordion.Trigger";
+Content.displayName = "Accordion.Content";
 
 Accordion.Item = Item;
 Accordion.Trigger = Trigger;
 Accordion.Content = Content;
 
-export { Accordion, type AccordionProps };
+export { Accordion, type AccordionProps, type AccordionItemProps };

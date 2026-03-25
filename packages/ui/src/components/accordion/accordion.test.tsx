@@ -73,8 +73,8 @@ describe("Accordion", () => {
 				<Accordion>
 					<Accordion.Item initialOpen>
 						<Accordion.Trigger>
-						<button type="button">항목 1</button>
-					</Accordion.Trigger>
+							<button type="button">항목 1</button>
+						</Accordion.Trigger>
 						<Accordion.Content data-testid="content-1">
 							<p>내용 1</p>
 						</Accordion.Content>
