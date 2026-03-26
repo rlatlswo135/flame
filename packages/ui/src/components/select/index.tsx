@@ -7,10 +7,7 @@ import {
 	FloatingPortal,
 	useInteractions,
 } from "@floating-ui/react";
-import {
-	type ComponentPropsWithoutRef,
-	type PropsWithChildren,
-} from "react";
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
