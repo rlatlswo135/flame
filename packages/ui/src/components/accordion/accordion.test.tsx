@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Accordion } from ".";
+import { Accordion } from "./accordion";
 
 const renderAccordion = (props?: Parameters<typeof Accordion>[0]) => {
 	const user = userEvent.setup();

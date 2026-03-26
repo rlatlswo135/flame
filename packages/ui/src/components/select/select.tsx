@@ -7,7 +7,11 @@ import {
 	FloatingPortal,
 	useInteractions,
 } from "@floating-ui/react";
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
+import {
+	type ComponentPropsWithoutRef,
+	cloneElement,
+	type PropsWithChildren,
+} from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
@@ -23,7 +27,7 @@ type SelectProps = PropsWithChildren<
 	}
 >;
 
-type SelectTriggerProps = ComponentPropsWithoutRef<"div">;
+type SelectTriggerProps = PropsWithChildren;
 
 type SelectOptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
@@ -33,12 +37,7 @@ type SelectOptionsProps = FnChildren<{
 
 type SelectOptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
 
-const Select = ({
-	value,
-	children,
-	onChange,
-	...props
-}: PropsWithChildren<SelectProps>) => {
+const Select = ({ value, children, onChange, ...props }: SelectProps) => {
 	const base = useFloatingBase(props);
 
 	const interactions = useInteractions(Object.values(base.baseInteractions));
@@ -53,14 +52,15 @@ const Select = ({
 	return <SelectContext value={context}>{children}</SelectContext>;
 };
 
-const Trigger = ({ children, ...props }: SelectTriggerProps) => {
-	const { baseTriggerProps, interactions } = useCtx(SelectContext);
+const Trigger = ({ children }: SelectTriggerProps) => {
+	const { baseTriggerProps, floating, interactions } = useCtx(SelectContext);
 
-	return (
-		<div {...baseTriggerProps} {...interactions.getReferenceProps()} {...props}>
-			{children}
-		</div>
-	);
+	const triggerProps = interactions.getReferenceProps({
+		...baseTriggerProps,
+		"aria-expanded": floating.context.open,
+	});
+
+	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
 const Options = ({ children, ...props }: SelectOptionsProps) => {
@@ -82,7 +82,12 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 
 	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>
-			<ul {...baseContentProps} {...interactions.getFloatingProps()} {...props}>
+			<ul
+				{...baseContentProps}
+				{...interactions.getFloatingProps()}
+				aria-hidden={!floating.context.open}
+				{...props}
+			>
 				{children}
 			</ul>
 		</FloatingFocusManager>

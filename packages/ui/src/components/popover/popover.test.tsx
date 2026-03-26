@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Popover } from ".";
+import { Popover } from "./popover";
 
 const renderPopover = (props?: Parameters<typeof Popover>[0]) => {
 	const user = userEvent.setup();

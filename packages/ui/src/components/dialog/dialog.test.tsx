@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Dialog } from ".";
+import { Dialog } from "./dialog";
 
 const renderDialog = (props?: Parameters<typeof Dialog>[0]) => {
 	const user = userEvent.setup();

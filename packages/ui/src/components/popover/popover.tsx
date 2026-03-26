@@ -5,7 +5,11 @@ import {
 	type UseInteractionsReturn,
 	useInteractions,
 } from "@floating-ui/react";
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
+import {
+	type ComponentPropsWithoutRef,
+	cloneElement,
+	type PropsWithChildren,
+} from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
@@ -38,14 +42,15 @@ const Popover = ({ children, ...props }: PopoverProps) => {
 	return <PopoverContext value={context}>{children}</PopoverContext>;
 };
 
-const Trigger = ({ children, ...props }: PopoverTriggerProps) => {
-	const { baseTriggerProps, interactions } = useCtx(PopoverContext);
+const Trigger = ({ children }: PopoverTriggerProps) => {
+	const { baseTriggerProps, floating, interactions } = useCtx(PopoverContext);
 
-	return (
-		<div {...baseTriggerProps} {...interactions.getReferenceProps()} {...props}>
-			{children}
-		</div>
-	);
+	const triggerProps = interactions.getReferenceProps({
+		...baseTriggerProps,
+		"aria-expanded": floating.context.open,
+	});
+
+	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
 const Content = ({ children, ...props }: PopoverContentProps) => {
@@ -70,6 +75,7 @@ const Content = ({ children, ...props }: PopoverContentProps) => {
 			<section
 				{...baseContentProps}
 				{...interactions.getFloatingProps()}
+				aria-hidden={!floating.context.open}
 				{...props}
 			>
 				{children}
