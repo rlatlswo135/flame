@@ -10,7 +10,6 @@ import {
 import {
 	type ComponentPropsWithoutRef,
 	type PropsWithChildren,
-	useMemo,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import {
@@ -27,13 +26,15 @@ type SelectProps = PropsWithChildren<
 	}
 >;
 
-type OptionsProps = FnChildren<{
+type SelectTriggerProps = ComponentPropsWithoutRef<"div">;
+
+type SelectOptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
 }> &
 	Omit<ComponentPropsWithoutRef<"ul">, "children">;
 
-type OptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
+type SelectOptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
 
 const Select = ({
 	value,
@@ -45,20 +46,17 @@ const Select = ({
 
 	const interactions = useInteractions(Object.values(base.baseInteractions));
 
-	const context = useMemo(
-		() => ({
-			...base,
-			value,
-			onChange,
-			interactions,
-		}),
-		[base, value, onChange, interactions],
-	);
+	const context = {
+		...base,
+		value,
+		onChange,
+		interactions,
+	};
 
 	return <SelectContext value={context}>{children}</SelectContext>;
 };
 
-const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
+const Trigger = ({ children, ...props }: SelectTriggerProps) => {
 	const { baseTriggerProps, interactions } = useCtx(SelectContext);
 
 	return (
@@ -68,7 +66,7 @@ const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
 	);
 };
 
-const Options = ({ children, ...props }: OptionsProps) => {
+const Options = ({ children, ...props }: SelectOptionsProps) => {
 	const {
 		portal,
 		floating,
@@ -101,7 +99,7 @@ const Options = ({ children, ...props }: OptionsProps) => {
 	return element;
 };
 
-const Option = ({ value, ...props }: OptionProps) => {
+const Option = ({ value, ...props }: SelectOptionProps) => {
 	const { onChange } = useCtx(SelectContext);
 
 	return (
@@ -123,4 +121,10 @@ Select.Trigger = Trigger;
 Select.Options = Options;
 Select.Option = Option;
 
-export { Select, type SelectProps };
+export {
+	Select,
+	type SelectProps,
+	type SelectTriggerProps,
+	type SelectOptionsProps,
+	type SelectOptionProps,
+};

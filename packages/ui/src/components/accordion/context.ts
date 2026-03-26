@@ -2,8 +2,8 @@ import { createContext, type Dispatch, type SetStateAction } from "react";
 
 type AccordionContextValue = {
 	single: boolean;
-	activeItemId: string;
-	setActiveItemId: Dispatch<SetStateAction<string>>;
+	activeItemId: string | null;
+	setActiveItemId: Dispatch<SetStateAction<string | null>>;
 };
 
 type AccordionItemContextValue = {

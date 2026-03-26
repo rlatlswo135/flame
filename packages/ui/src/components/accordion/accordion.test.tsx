@@ -94,5 +94,49 @@ describe("Accordion", () => {
 			expect(screen.queryByTestId("content-1")).not.toBeInTheDocument();
 			expect(screen.getByTestId("content-2")).toBeInTheDocument();
 		});
+
+		it("single=true + initialOpen일 때 해당 Item이 초기 열림 상태다", () => {
+			render(
+				<Accordion single>
+					<Accordion.Item initialOpen>
+						<Accordion.Trigger>
+							<button type="button">항목 1</button>
+						</Accordion.Trigger>
+						<Accordion.Content data-testid="content-1">
+							<p>내용 1</p>
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item>
+						<Accordion.Trigger>
+							<button type="button">항목 2</button>
+						</Accordion.Trigger>
+						<Accordion.Content data-testid="content-2">
+							<p>내용 2</p>
+						</Accordion.Content>
+					</Accordion.Item>
+				</Accordion>,
+			);
+
+			expect(screen.getByTestId("content-1")).toBeInTheDocument();
+			expect(screen.queryByTestId("content-2")).not.toBeInTheDocument();
+		});
+	});
+
+	describe("에러 처리", () => {
+		it("Item 없이 Trigger를 렌더링하면 에러가 발생한다", () => {
+			expect(() =>
+				render(
+					<Accordion.Trigger>
+						<button type="button">항목</button>
+					</Accordion.Trigger>,
+				),
+			).toThrow();
+		});
+
+		it("Item 없이 Content를 렌더링하면 에러가 발생한다", () => {
+			expect(() =>
+				render(<Accordion.Content>내용</Accordion.Content>),
+			).toThrow();
+		});
 	});
 });

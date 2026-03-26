@@ -2,10 +2,8 @@ import {
 	type ComponentPropsWithRef,
 	cloneElement,
 	type PropsWithChildren,
-	useCallback,
 	useEffect,
 	useId,
-	useMemo,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
@@ -20,13 +18,14 @@ type AccordionItemProps = PropsWithChildren<{
 	initialOpen?: boolean;
 }>;
 
-const Accordion = ({ single = false, children }: AccordionProps) => {
-	const [activeItemId, setActiveItemId] = useState("");
+type AccordionTriggerProps = ElementFnChildren<{ toggle: () => void }>;
 
-	const value = useMemo(
-		() => ({ activeItemId, setActiveItemId, single }),
-		[activeItemId, single],
-	);
+type AccordionContentProps = PropsWithChildren<ComponentPropsWithRef<"div">>;
+
+const Accordion = ({ single = false, children }: AccordionProps) => {
+	const [activeItemId, setActiveItemId] = useState<string | null>(null);
+
+	const value = { activeItemId, setActiveItemId, single };
 
 	return <AccordionContext value={value}>{children}</AccordionContext>;
 };
@@ -46,20 +45,20 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 
 	const isExpanded = single ? activeItemId === id : localExpanded;
 
-	const toggle = useCallback(() => {
+	const toggle = () => {
 		if (single) {
-			setActiveItemId((activeId) => (activeId === id ? "" : id));
+			setActiveItemId((activeId) => (activeId === id ? null : id));
 		} else {
 			setLocalExpanded((isOpen) => !isOpen);
 		}
-	}, [single, id, setActiveItemId]);
+	};
 
-	const value = useMemo(() => ({ toggle, isExpanded }), [toggle, isExpanded]);
+	const value = { toggle, isExpanded };
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
 
-const Trigger = ({ children }: ElementFnChildren<{ toggle: () => void }>) => {
+const Trigger = ({ children }: AccordionTriggerProps) => {
 	const { toggle } = useCtx(AccordionItemContext);
 
 	if (typeof children === "function") return children({ toggle });
@@ -67,15 +66,16 @@ const Trigger = ({ children }: ElementFnChildren<{ toggle: () => void }>) => {
 	return cloneElement(children as ClickableElement, { onClick: toggle });
 };
 
-const Content = ({
-	children,
-	...props
-}: PropsWithChildren<ComponentPropsWithRef<"div">>) => {
+const Content = ({ children, ...props }: AccordionContentProps) => {
 	const { isExpanded } = useCtx(AccordionItemContext);
 
 	if (!isExpanded) return null;
 
-	return <div {...props}>{children}</div>;
+	return (
+		<div data-expanded={isExpanded} {...props}>
+			{children}
+		</div>
+	);
 };
 
 Item.displayName = "Accordion.Item";
@@ -86,4 +86,10 @@ Accordion.Item = Item;
 Accordion.Trigger = Trigger;
 Accordion.Content = Content;
 
-export { Accordion, type AccordionProps, type AccordionItemProps };
+export {
+	Accordion,
+	type AccordionProps,
+	type AccordionItemProps,
+	type AccordionTriggerProps,
+	type AccordionContentProps,
+};

@@ -7,20 +7,9 @@ maxTurns: 10
 ---
 
 You are the **Convention Guard agent** for the flame design system.
-Check changed files against the rules below. If a `CONVENTIONS.md` exists at the package root, apply those rules as well.
+Check changed files against the rules defined in `.claude/rules/` — especially `common.md`, `ui-components.md`, `storybook.md`, and `tests.md`.
 
-## Rules
-
-### Naming
-- Components: PascalCase / Sub-components: dot notation (`Dialog.Trigger`)
-- Hooks: `use` prefix, camelCase / Types: `{Component}Props` pattern
-- Directories & files: kebab-case
-
-### Patterns
-- Context: `createContext<T | null>(null)` → consume via `useCtx`
-- Compound Component: sub-components as static properties on Root
-- Children: `FnChildren<T>` or `ElementFnChildren<T>` for render props
-- Named exports only (no default exports)
+If a `CONVENTIONS.md` exists at the package root, apply those rules as well.
 
 ## Output Format
 
