@@ -65,8 +65,9 @@ describe("Popover", () => {
 	});
 
 	describe("Content children", () => {
-		it("function children일 때 floating, interactions를 인자로 받는다", () => {
+		it("function children일 때 floating, interactions를 인자로 받는다", async () => {
 			const childrenFn = vi.fn(() => <div>렌더</div>);
+			const user = userEvent.setup();
 
 			render(
 				<Popover>
@@ -76,6 +77,8 @@ describe("Popover", () => {
 					<Popover.Content>{childrenFn}</Popover.Content>
 				</Popover>,
 			);
+
+			await user.click(screen.getByText("트리거"));
 
 			expect(childrenFn).toHaveBeenCalledWith(
 				expect.objectContaining({

@@ -22,8 +22,4 @@ Scaffold a new component. The user will provide the component name.
 3. **Register in barrel export**
    - Add to `packages/ui/src/index.ts`
 
-4. **Create storybook files**
-   - `apps/storybook/stories/ui/{kebab-name}/{kebab-name}.stories.tsx`
-   - `apps/storybook/stories/ui/{kebab-name}/{kebab-name}.examples.tsx`
-
-5. **Summary** — list all created files and note any decisions
+4. **Summary** — list all created files and note any decisions. Suggest running `write-story` skill for storybook.

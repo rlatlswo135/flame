@@ -7,8 +7,8 @@ paths:
 # Test Rules
 
 ## Location
-- `packages/ui/src/components/{name}/__tests__/{name}.test.tsx`
-- `packages/table/src/**/__tests__/*.test.tsx`
+- `packages/ui/src/components/{name}/{name}.test.tsx`
+- `packages/table/src/**/{name}.test.tsx`
 
 ## Priority Hierarchy
 1. Critical User Paths — renders, core interactions, context communication

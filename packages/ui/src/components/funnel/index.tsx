@@ -3,9 +3,7 @@ import {
 	cloneElement,
 	isValidElement,
 	type PropsWithChildren,
-	useCallback,
 	useEffect,
-	useMemo,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
@@ -18,6 +16,12 @@ import { FunnelContext } from "./context";
 
 type FunnelProps = PropsWithChildren;
 
+type FunnelStepProps = FnChildren<{ jump: (step: number) => void }>;
+
+type FunnelNextProps = ElementFnChildren<{ next: () => void }>;
+
+type FunnelPrevProps = ElementFnChildren<{ prev: () => void }>;
+
 const Funnel = ({ children }: FunnelProps) => {
 	const [step, setStep] = useState(0);
 
@@ -25,23 +29,20 @@ const Funnel = ({ children }: FunnelProps) => {
 
 	const total = childrenArray.length;
 
-	const next = useCallback(() => {
+	const next = () => {
 		if (step === childrenArray.length - 1) return;
 		setStep(step + 1);
-	}, [childrenArray.length, step]);
+	};
 
-	const prev = useCallback(() => {
+	const prev = () => {
 		if (step === 0) return;
 		setStep(step - 1);
-	}, [step]);
+	};
 
-	const jump = useCallback(
-		(jumpTo: number) => {
-			if (jumpTo < 0 || jumpTo >= total) return;
-			setStep(jumpTo);
-		},
-		[total],
-	);
+	const jump = (jumpTo: number) => {
+		if (jumpTo < 0 || jumpTo >= total) return;
+		setStep(jumpTo);
+	};
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === "development") {
@@ -53,15 +54,12 @@ const Funnel = ({ children }: FunnelProps) => {
 		}
 	}, [childrenArray.forEach]);
 
-	const context = useMemo(
-		() => ({ step, total, prev, next, jump }),
-		[step, total, prev, next, jump],
-	);
+	const context = { step, total, prev, next, jump };
 
 	return <FunnelContext value={context}>{childrenArray[step]}</FunnelContext>;
 };
 
-const Step = (props: FnChildren<{ jump: (step: number) => void }>) => {
+const Step = (props: FunnelStepProps) => {
 	const { jump } = useCtx(FunnelContext);
 
 	if (typeof props.children === "function") return props.children({ jump });
@@ -69,7 +67,7 @@ const Step = (props: FnChildren<{ jump: (step: number) => void }>) => {
 	return props.children;
 };
 
-const Next = ({ children }: ElementFnChildren<{ next: () => void }>) => {
+const Next = ({ children }: FunnelNextProps) => {
 	const { next } = useCtx(FunnelContext);
 
 	if (typeof children === "function") return children({ next });
@@ -77,7 +75,7 @@ const Next = ({ children }: ElementFnChildren<{ next: () => void }>) => {
 	return cloneElement(children as ClickableElement, { onClick: next });
 };
 
-const Prev = ({ children }: ElementFnChildren<{ prev: () => void }>) => {
+const Prev = ({ children }: FunnelPrevProps) => {
 	const { prev } = useCtx(FunnelContext);
 
 	if (typeof children === "function") return children({ prev });
@@ -93,4 +91,10 @@ Funnel.Step = Step;
 Funnel.Next = Next;
 Funnel.Prev = Prev;
 
-export { Funnel, type FunnelProps };
+export {
+	Funnel,
+	type FunnelProps,
+	type FunnelStepProps,
+	type FunnelNextProps,
+	type FunnelPrevProps,
+};

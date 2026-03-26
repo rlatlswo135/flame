@@ -5,11 +5,7 @@ import {
 	type UseInteractionsReturn,
 	useInteractions,
 } from "@floating-ui/react";
-import {
-	type ComponentPropsWithoutRef,
-	type PropsWithChildren,
-	useMemo,
-} from "react";
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
@@ -24,7 +20,9 @@ type PopoverProps = PropsWithChildren<
 	}
 >;
 
-type ContentProps = FnChildren<{
+type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
+
+type PopoverContentProps = FnChildren<{
 	interactions: UseInteractionsReturn;
 	floating: UseFloatingReturn;
 }> &
@@ -35,15 +33,12 @@ const Popover = ({ children, ...props }: PopoverProps) => {
 
 	const interactions = useInteractions(Object.values(base.baseInteractions));
 
-	const context = useMemo(
-		() => ({ ...base, interactions }),
-		[base, interactions],
-	);
+	const context = { ...base, interactions };
 
 	return <PopoverContext value={context}>{children}</PopoverContext>;
 };
 
-const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
+const Trigger = ({ children, ...props }: PopoverTriggerProps) => {
 	const { baseTriggerProps, interactions } = useCtx(PopoverContext);
 
 	return (
@@ -53,7 +48,7 @@ const Trigger = ({ children, ...props }: ComponentPropsWithoutRef<"div">) => {
 	);
 };
 
-const Content = ({ children, ...props }: ContentProps) => {
+const Content = ({ children, ...props }: PopoverContentProps) => {
 	const {
 		portal,
 		floating,
@@ -96,4 +91,9 @@ Content.displayName = "Popover.Content";
 Popover.Trigger = Trigger;
 Popover.Content = Content;
 
-export { Popover, type PopoverProps };
+export {
+	Popover,
+	type PopoverProps,
+	type PopoverTriggerProps,
+	type PopoverContentProps,
+};

@@ -2,8 +2,6 @@ import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
-	useCallback,
-	useMemo,
 	useRef,
 	useState,
 } from "react";
@@ -16,6 +14,12 @@ type DialogProps = PropsWithChildren<{
 	keepMounted?: boolean;
 }>;
 
+type DialogTriggerProps = ElementFnChildren<{ open: () => void }>;
+
+type DialogCloserProps = ElementFnChildren<{ close: () => void }>;
+
+type DialogContentProps = ComponentPropsWithoutRef<"dialog">;
+
 const Dialog = ({
 	children,
 	closeOutside = false,
@@ -24,32 +28,29 @@ const Dialog = ({
 	const dialog = useRef<HTMLDialogElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const open = useCallback(() => {
+	const open = () => {
 		dialog.current?.showModal();
 		if (!keepMounted) setIsOpen(true);
-	}, [keepMounted]);
+	};
 
-	const close = useCallback(() => {
+	const close = () => {
 		dialog.current?.close();
-	}, []);
+	};
 
-	const context = useMemo(
-		() => ({
-			open,
-			dialog,
-			close,
-			isOpen,
-			setIsOpen,
-			closeOutside,
-			keepMounted,
-		}),
-		[close, closeOutside, isOpen, keepMounted, open],
-	);
+	const context = {
+		open,
+		dialog,
+		close,
+		isOpen,
+		setIsOpen,
+		closeOutside,
+		keepMounted,
+	};
 
 	return <DialogContext value={context}>{children}</DialogContext>;
 };
 
-const Trigger = ({ children }: ElementFnChildren<{ open: () => void }>) => {
+const Trigger = ({ children }: DialogTriggerProps) => {
 	const { open } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ open });
@@ -57,7 +58,7 @@ const Trigger = ({ children }: ElementFnChildren<{ open: () => void }>) => {
 	return cloneElement(children as ClickableElement, { onClick: open });
 };
 
-const Closer = ({ children }: ElementFnChildren<{ close: () => void }>) => {
+const Closer = ({ children }: DialogCloserProps) => {
 	const { close } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ close });
@@ -65,10 +66,7 @@ const Closer = ({ children }: ElementFnChildren<{ close: () => void }>) => {
 	return cloneElement(children as ClickableElement, { onClick: close });
 };
 
-const Content = ({
-	children,
-	...props
-}: ComponentPropsWithoutRef<"dialog">) => {
+const Content = ({ children, ...props }: DialogContentProps) => {
 	const ctx = useCtx(DialogContext);
 
 	const onClose = (e: React.SyntheticEvent<HTMLDialogElement>) => {
@@ -99,4 +97,10 @@ Dialog.Trigger = Trigger;
 Dialog.Content = Content;
 Dialog.Closer = Closer;
 
-export { Dialog, type DialogProps };
+export {
+	Dialog,
+	type DialogProps,
+	type DialogTriggerProps,
+	type DialogCloserProps,
+	type DialogContentProps,
+};
