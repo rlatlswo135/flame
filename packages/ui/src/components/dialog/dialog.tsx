@@ -51,11 +51,14 @@ const Dialog = ({
 };
 
 const Trigger = ({ children }: DialogTriggerProps) => {
-	const { open } = useCtx(DialogContext);
+	const { open, isOpen } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ open });
 
-	return cloneElement(children as ClickableElement, { onClick: open });
+	return cloneElement(children as ClickableElement, {
+		onClick: open,
+		"aria-expanded": isOpen,
+	});
 };
 
 const Closer = ({ children }: DialogCloserProps) => {
@@ -78,6 +81,7 @@ const Content = ({ children, ...props }: DialogContentProps) => {
 		<dialog
 			ref={ctx.dialog}
 			onClick={ctx.closeOutside ? ctx.close : undefined}
+			aria-hidden={!ctx.isOpen}
 			{...props}
 			onClose={onClose}
 		>

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Select } from ".";
+import { Select } from "./select";
 
 const renderSelect = (props?: Partial<Parameters<typeof Select>[0]>) => {
 	const user = userEvent.setup();

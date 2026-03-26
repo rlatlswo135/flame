@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Funnel } from ".";
+import { Funnel } from "./funnel";
 
 const renderFunnel = () => {
 	const user = userEvent.setup();

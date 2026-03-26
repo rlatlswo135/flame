@@ -59,11 +59,14 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 };
 
 const Trigger = ({ children }: AccordionTriggerProps) => {
-	const { toggle } = useCtx(AccordionItemContext);
+	const { toggle, isExpanded } = useCtx(AccordionItemContext);
 
 	if (typeof children === "function") return children({ toggle });
 
-	return cloneElement(children as ClickableElement, { onClick: toggle });
+	return cloneElement(children as ClickableElement, {
+		onClick: toggle,
+		"aria-expanded": isExpanded,
+	});
 };
 
 const Content = ({ children, ...props }: AccordionContentProps) => {
@@ -72,7 +75,7 @@ const Content = ({ children, ...props }: AccordionContentProps) => {
 	if (!isExpanded) return null;
 
 	return (
-		<div data-expanded={isExpanded} {...props}>
+		<div data-expanded={isExpanded} aria-hidden={!isExpanded} {...props}>
 			{children}
 		</div>
 	);
