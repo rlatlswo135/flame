@@ -102,17 +102,14 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 };
 
 const Option = ({ value, ...props }: SelectOptionProps) => {
-	const { onChange } = useCtx(SelectContext);
+	const { onChange, floating } = useCtx(SelectContext);
 
-	return (
-		<li
-			data-value={value}
-			onClick={() => {
-				onChange(value);
-			}}
-			{...props}
-		/>
-	);
+	const onClick = () => {
+		onChange(value);
+		floating.context.onOpenChange(false);
+	};
+
+	return <li data-value={value} onClick={onClick} {...props} />;
 };
 
 Trigger.displayName = "Select.Trigger";

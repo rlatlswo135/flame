@@ -1,0 +1,149 @@
+{
+  "home": {
+    "title": "Flame",
+    "titleSuffix": "Design System",
+    "description": "A headless React component library for building accessible user interfaces.",
+    "getStarted": "Get Started",
+    "components": {
+      "accordion": "Expandable content sections",
+      "dialog": "Modal dialog built on native <dialog />",
+      "funnel": "Step-based navigation wizard",
+      "popover": "Floating position-aware popups",
+      "select": "Dropdown select input"
+    }
+  },
+  "header": {
+    "brand": "Flame"
+  },
+  "sidebar": {
+    "overview": "Overview",
+    "gettingStarted": "Getting Started",
+    "components": "Components"
+  },
+  "docs": {
+    "title": "Getting Started",
+    "subtitle": "Learn how to integrate the Flame design system into your project.",
+    "installTitle": "Installation",
+    "installDescription": "Install the package with pnpm.",
+    "installCommand": "pnpm add @anthropic/flame-ui",
+    "usageTitle": "Basic Usage",
+    "usageDescription": "All components follow a compound component pattern with dot notation. They are headless — no default styles included — so you can style them however you like.",
+    "featuresTitle": "Key Features",
+    "features": {
+      "headless": "Headless — fully functional with zero default styles",
+      "a11y": "Accessible — follows WAI-ARIA patterns",
+      "compound": "Compound components — intuitive composition via dot notation",
+      "treeshake": "Tree-shakeable — only bundle what you use",
+      "react19": "React 19 — leverages the latest React features",
+      "typescript": "TypeScript — complete type support"
+    }
+  },
+  "components": {
+    "demo": "Demo",
+    "apiReference": "API Reference",
+    "accordion": {
+      "title": "Accordion",
+      "description": "A headless accordion component with single and multi expand modes. Compose with Item, Trigger, and Content sub-components.",
+      "props": {
+        "single": "When true, only one item can be expanded at a time",
+        "itemChildren": "Trigger and Content sub-components",
+        "itemInitialOpen": "Initial expanded state of the item",
+        "triggerChildren": "A clickable element or render function that receives the toggle handler",
+        "contentProps": "All native div element attributes"
+      },
+      "demo": {
+        "whatIsFlame": "What is Flame?",
+        "whatIsFlameContent": "Flame is a headless React 19 design system focused on composability and accessibility. It provides unstyled, fully functional components that you can style to match your design.",
+        "gettingStarted": "Getting Started",
+        "gettingStartedContent": "Install via pnpm add @flame/ui and import the components you need. Each component is fully tree-shakeable and ships with zero default styles.",
+        "components": "Components",
+        "componentsContent": "Flame includes Accordion, Dialog, Funnel, Popover, Select, Toast, and more. All components follow a compound component pattern with dot notation."
+      }
+    },
+    "dialog": {
+      "title": "Dialog",
+      "description": "A headless modal dialog component built on the native <dialog /> element. Supports outside-click dismissal and keep-mounted mode.",
+      "props": {
+        "children": "Dialog sub-components (Trigger, Content, Closer)",
+        "closeOutside": "Close the dialog when clicking outside the content area",
+        "keepMounted": "Keep content mounted in the DOM when dialog is closed",
+        "triggerChildren": "A clickable element or render function that receives the open handler",
+        "contentProps": "All native dialog element attributes",
+        "closerChildren": "A clickable element or render function that receives the close handler"
+      },
+      "demo": {
+        "openDialog": "Open Dialog",
+        "welcomeTitle": "Welcome to Flame",
+        "welcomeDescription": "This is a headless dialog built on the native <dialog /> element. It supports outside-click dismissal and keep-mounted mode.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "funnel": {
+      "title": "Funnel",
+      "description": "A step-by-step wizard component. Compose with Step, Next, and Prev sub-components to build multi-step flows.",
+      "props": {
+        "children": "Funnel.Step elements",
+        "stepChildren": "Render function that receives a jump callback to navigate to a specific step",
+        "nextChildren": "A clickable element or render function that receives the next handler",
+        "prevChildren": "A clickable element or render function that receives the prev handler"
+      },
+      "demo": {
+        "enterInfo": "Enter Info",
+        "enterInfoDescription": "Fill in your details to get started.",
+        "confirm": "Confirm",
+        "confirmDescription": "Review the information you provided.",
+        "complete": "Complete",
+        "completeDescription": "You are all set!",
+        "back": "Back",
+        "next": "Next",
+        "startOver": "Start Over"
+      }
+    },
+    "popover": {
+      "title": "Popover",
+      "description": "A headless popover component powered by Floating UI. Supports portal rendering, focus trapping, dismiss handling, and CSS transitions out of the box.",
+      "props": {
+        "children": "Popover sub-components (Trigger, Content)",
+        "portal": "Render content in a portal",
+        "focusTrap": "Trap focus within the popover content",
+        "transition": "Enable CSS transitions for open/close",
+        "dismiss": "Configure dismiss behavior (outside click, escape key)",
+        "onOpen": "Called when the popover opens (uncontrolled mode)",
+        "onClose": "Called when the popover closes (uncontrolled mode)",
+        "triggerChildren": "A clickable element that toggles the popover",
+        "contentChildren": "Content to display or a render function with floating context",
+        "contentProps": "All native section element attributes"
+      },
+      "demo": {
+        "openPopover": "Open Popover",
+        "popoverTitle": "Popover Title",
+        "popoverDescription": "This is a headless popover powered by Floating UI. It supports portal rendering, focus trapping, and CSS transitions."
+      }
+    },
+    "select": {
+      "title": "Select",
+      "description": "A headless select/dropdown component powered by Floating UI. Supports controlled value, portal rendering, and CSS transitions.",
+      "props": {
+        "value": "Currently selected value",
+        "onChange": "Callback when an option is selected",
+        "portal": "Render options in a portal",
+        "focusTrap": "Trap focus within the options list",
+        "transition": "Enable CSS transitions for open/close",
+        "children": "Select sub-components (Trigger, Options)",
+        "triggerChildren": "A clickable element that toggles the options list",
+        "optionsChildren": "Option elements or a render function with floating context",
+        "optionsProps": "All native ul element attributes",
+        "optionValue": "The value for this option",
+        "optionProps": "All native li element attributes"
+      },
+      "demo": {
+        "placeholder": "Choose a fruit",
+        "apple": "Apple",
+        "banana": "Banana",
+        "cherry": "Cherry",
+        "grape": "Grape"
+      }
+    }
+  }
+}

@@ -1,31 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --flame-bg: #fffaf6;
+  --flame-bg-secondary: #fff5ee;
+  --flame-bg-tertiary: #ffeee3;
+  --flame-text: #2d1f14;
+  --flame-text-secondary: #6b5344;
+  --flame-text-tertiary: #9a8577;
+  --flame-border: #e8d5c4;
+  --flame-accent: #e8590c;
+  --flame-accent-hover: #d14b07;
+  --flame-accent-soft: #fff0e6;
+}
+
+.dark {
+  --flame-bg: #1a1210;
+  --flame-bg-secondary: #241b17;
+  --flame-bg-tertiary: #2e2420;
+  --flame-text: #f5ede8;
+  --flame-text-secondary: #bba899;
+  --flame-text-tertiary: #7a6b5e;
+  --flame-border: #3d312a;
+  --flame-accent: #f97316;
+  --flame-accent-hover: #fb923c;
+  --flame-accent-soft: #2e1e0f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-flame-bg: var(--flame-bg);
+  --color-flame-bg-secondary: var(--flame-bg-secondary);
+  --color-flame-bg-tertiary: var(--flame-bg-tertiary);
+  --color-flame-text: var(--flame-text);
+  --color-flame-text-secondary: var(--flame-text-secondary);
+  --color-flame-text-tertiary: var(--flame-text-tertiary);
+  --color-flame-border: var(--flame-border);
+  --color-flame-accent: var(--flame-accent);
+  --color-flame-accent-hover: var(--flame-accent-hover);
+  --color-flame-accent-soft: var(--flame-accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  /* background: var(--background); */
-  /* color: var(--foreground); */
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--flame-bg);
+  color: var(--flame-text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 @layer base {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+
+  .dark .shiki,
+  .dark .shiki span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+
   dialog {
     all: revert;
     padding: 0;
