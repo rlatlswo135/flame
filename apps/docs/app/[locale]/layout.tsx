@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import '../globals.css';
+import { Toaster } from '@flame/ui';
 import { ThemeProvider } from '@/src/features/theme/theme-provider';
 
 const geistSans = Geist({
@@ -48,7 +49,10 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-flame-bg text-flame-text`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Toaster placement="bottom-right" className="flex flex-col gap-2 p-4" />
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,6 +1,11 @@
-import { Toaster, toast } from "@flame/ui";
+import { Toaster } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { CompoundExample, CustomTimeoutExample } from "./toast.examples";
+import {
+	ClickToDismissExample,
+	CompoundExample,
+	CustomTimeoutExample,
+	DefaultExample,
+} from "./toast.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -33,13 +38,7 @@ const meta = {
 			</>
 		),
 	],
-	render() {
-		return (
-			<button type="button" onClick={() => toast(<div>Hello, toast!</div>)}>
-				Show toast
-			</button>
-		);
-	},
+	render: () => <DefaultExample />,
 } satisfies Meta<typeof Toaster>;
 
 export const Default: Story = {};
@@ -90,11 +89,7 @@ export const ClickToDismiss: Story = {
 			},
 		},
 	},
-	render: () => (
-		<button type="button" onClick={() => toast(<div>Click me to dismiss</div>)}>
-			Show dismissible toast
-		</button>
-	),
+	render: () => <ClickToDismissExample />,
 };
 
 export const Placement: Story = {

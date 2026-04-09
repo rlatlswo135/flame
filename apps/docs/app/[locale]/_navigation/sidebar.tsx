@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-const COMPONENTS = ['Accordion', 'Dialog', 'Funnel', 'Popover', 'Select'] as const;
+const COMPONENTS = ['Accordion', 'Dialog', 'Funnel', 'Popover', 'Select', 'Toast'] as const;
 
 function linkClass(isActive: boolean) {
   return `block px-3 py-1.5 rounded-md text-sm transition-colors ${

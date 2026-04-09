@@ -1,11 +1,20 @@
-import { type ComponentPropsWithRef, useId, useSyncExternalStore } from "react";
+"use client";
+
+import {
+	type ComponentPropsWithRef,
+	useId,
+	useRef,
+	useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useMounted } from "@/src/hooks/use-mounted";
 import { ToastContext } from "./context";
-import { toastStore } from "./store";
+import { type ToastAnimation, toastStore } from "./store";
 
 type ToasterProps = {
 	placement?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+	animation?: ToastAnimation | false;
 } & ComponentPropsWithRef<"section">;
 
 type ToastProps = ComponentPropsWithRef<"div">;
@@ -19,21 +28,71 @@ const placementStyle = {
 	"bottom-right": { bottom: "10px", right: "10px" },
 };
 
-// TODO: maximum toast, animation, etc.
+const getDefaultAnimation = (placement: string): ToastAnimation => {
+	const offset = placement.startsWith("top") ? "-20px" : "20px";
+	return {
+		enter: [
+			{ transform: `translateY(${offset})`, opacity: 0 },
+			{ transform: "translateY(0)", opacity: 1 },
+		],
+		exit: [
+			{ transform: "translateY(0)", opacity: 1 },
+			{ transform: `translateY(${offset})`, opacity: 0 },
+		],
+		options: { duration: 250, easing: "ease-out" },
+	};
+};
+
 const Toaster = ({
 	placement = "bottom-left",
+	animation,
 	style,
 	...props
 }: ToasterProps) => {
-	const toast = useSyncExternalStore(
+	const isMounted = useMounted();
+	const elMap = useRef<Map<number, HTMLDivElement>>(new Map());
+
+	const resolvedAnimation =
+		animation === false ? null : (animation ?? getDefaultAnimation(placement));
+
+	const toasts = useSyncExternalStore(
 		toastStore.subscribe,
+		toastStore.getSnapshot,
 		toastStore.getSnapshot,
 	);
 
-	const onClickToast = (id: number) => {
+	const exitToast = async (id: number) => {
+		const el = elMap.current.get(id);
+		if (el && resolvedAnimation) {
+			await el.animate(resolvedAnimation.exit, resolvedAnimation.options)
+				.finished;
+		}
+		elMap.current.delete(id);
 		toastStore.remove(id);
 		toastStore.signal();
 	};
+
+	const onRefMount = (
+		id: number,
+		status: string,
+		el: HTMLDivElement | null,
+	) => {
+		if (!el) return;
+
+		if (status === "exiting") {
+			exitToast(id);
+			return;
+		}
+
+		if (!elMap.current.has(id)) {
+			elMap.current.set(id, el);
+			if (resolvedAnimation) {
+				el.animate(resolvedAnimation.enter, resolvedAnimation.options);
+			}
+		}
+	};
+
+	if (!isMounted) return null;
 
 	return createPortal(
 		<section
@@ -41,22 +100,33 @@ const Toaster = ({
 				inset: 0,
 				position: "fixed",
 				pointerEvents: "none",
-				...style,
 			}}
 			{...props}
 			data-toast-container
 			aria-label="notifications"
 		>
-			{toast.map((i) => (
-				// biome-ignore lint/a11y/noStaticElementInteractions: this is a toast wrapper
-				<div
-					key={i.id}
-					style={{ pointerEvents: "auto", ...placementStyle[placement] }}
-					onClick={() => onClickToast(i.id)}
-				>
-					{i.content}
-				</div>
-			))}
+			<div
+				style={{
+					gap: 8,
+					display: "flex",
+					position: "absolute",
+					flexDirection: "column",
+					...style,
+					...placementStyle[placement],
+				}}
+			>
+				{toasts.map((i) => (
+					// biome-ignore lint/a11y/noStaticElementInteractions: this is a toast wrapper
+					<div
+						key={i.id}
+						ref={(el) => onRefMount(i.id, i.status, el)}
+						style={{ pointerEvents: "auto" }}
+						onClick={() => exitToast(i.id)}
+					>
+						{i.content}
+					</div>
+				))}
+			</div>
 		</section>,
 		document.body,
 	);
@@ -109,6 +179,7 @@ Toast.Description = Description;
 export {
 	Toaster,
 	Toast,
+	type ToasterProps,
 	type ToastProps,
 	type ToastTitleProps,
 	type ToastDescriptionProps,

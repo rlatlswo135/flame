@@ -1,13 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-const FEATURE_KEYS = [
-  'headless',
-  'a11y',
-  'compound',
-  'treeshake',
-  'react19',
-  'typescript',
-] as const;
+const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'react19', 'typescript'] as const;
 
 export default async function DocsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
