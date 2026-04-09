@@ -9,7 +9,8 @@
       "dialog": "Modal dialog built on native <dialog />",
       "funnel": "Step-based navigation wizard",
       "popover": "Floating position-aware popups",
-      "select": "Dropdown select input"
+      "select": "Dropdown select input",
+      "toast": "Imperative toast notifications"
     }
   },
   "header": {
@@ -31,7 +32,6 @@
     "featuresTitle": "Key Features",
     "features": {
       "headless": "Headless — fully functional with zero default styles",
-      "a11y": "Accessible — follows WAI-ARIA patterns",
       "compound": "Compound components — intuitive composition via dot notation",
       "treeshake": "Tree-shakeable — only bundle what you use",
       "react19": "React 19 — leverages the latest React features",
@@ -143,6 +143,27 @@
         "banana": "Banana",
         "cherry": "Cherry",
         "grape": "Grape"
+      }
+    },
+    "toast": {
+      "title": "Toast",
+      "description": "An imperative toast notification system. Place a Toaster container once, then call toast() anywhere to show notifications with auto-dismiss and queue management.",
+      "props": {
+        "placement": "Position of the toast container on screen",
+        "toasterProps": "All native section element attributes",
+        "toastProps": "All native div element attributes. Receives role=\"status\" and aria-live=\"polite\" automatically",
+        "titleProps": "All native div element attributes. Linked to parent Toast via aria-labelledby",
+        "descriptionProps": "All native div element attributes. Linked to parent Toast via aria-describedby",
+        "fnContent": "Toast content to display (ReactNode)",
+        "fnTimeout": "Auto-dismiss time in milliseconds"
+      },
+      "demo": {
+        "showSuccess": "Show Success",
+        "showInfo": "Show Info",
+        "successTitle": "Saved",
+        "successDescription": "Your changes have been saved successfully.",
+        "infoTitle": "Info",
+        "infoDescription": "This notification will dismiss in 5 seconds."
       }
     }
   }

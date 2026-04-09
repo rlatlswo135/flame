@@ -5,7 +5,7 @@ import { Toast, Toaster } from "./toast";
 
 const renderToaster = (props?: Parameters<typeof Toaster>[0]) => {
 	const user = userEvent.setup();
-	render(<Toaster {...props} />);
+	render(<Toaster animation={false} {...props} />);
 	return { user };
 };
 
@@ -30,8 +30,10 @@ describe("Toast", () => {
 
 		it("초기 상태에서 toast가 없다", () => {
 			renderToaster();
-			const container = document.querySelector("[data-toast-container]");
-			expect(container?.children.length).toBe(0);
+			const wrapper = document.querySelector(
+				"[data-toast-container]",
+			)?.firstElementChild;
+			expect(wrapper?.children.length).toBe(0);
 		});
 	});
 
@@ -60,8 +62,10 @@ describe("Toast", () => {
 				toast(<div>먼저</div>);
 				toast(<div>나중</div>);
 			});
-			const container = document.querySelector("[data-toast-container]");
-			const items = container?.children;
+			const wrapper = document.querySelector(
+				"[data-toast-container]",
+			)?.firstElementChild;
+			const items = wrapper?.children;
 			expect(items?.[0]?.textContent).toContain("나중");
 			expect(items?.[1]?.textContent).toContain("먼저");
 		});
@@ -185,10 +189,7 @@ describe("Toast", () => {
 		const getContainer = () =>
 			document.querySelector("[data-toast-container]") as HTMLElement;
 
-		const getWrapper = () => {
-			const container = getContainer();
-			return container.children[0] as HTMLElement;
-		};
+		const getWrapper = () => getContainer().firstElementChild as HTMLElement;
 
 		it("컨테이너에 position: fixed, inset: 0, pointerEvents: none이 적용된다", () => {
 			renderToaster();
@@ -218,19 +219,22 @@ describe("Toast", () => {
 			expect(wrapper.style.right).toBe("10px");
 		});
 
-		it("toast wrapper에 pointerEvents: auto가 적용된다", () => {
+		it("toast item에 pointerEvents: auto가 적용된다", () => {
 			renderToaster();
 			act(() => {
 				toast(<div>wrapper test</div>);
 			});
-			expect(getWrapper().style.pointerEvents).toBe("auto");
+			const toastItem = getWrapper().firstElementChild as HTMLElement;
+			expect(toastItem.style.pointerEvents).toBe("auto");
 		});
 
-		it("사용자 style prop이 머지된다", () => {
+		it("사용자 style prop이 wrapper에 머지된다", () => {
 			renderToaster({ style: { zIndex: 9999 } });
-			const container = getContainer();
-			expect(container.style.zIndex).toBe("9999");
-			expect(container.style.position).toBe("fixed");
+			act(() => {
+				toast(<div>style test</div>);
+			});
+			const wrapper = getWrapper();
+			expect(wrapper.style.zIndex).toBe("9999");
 		});
 	});
 

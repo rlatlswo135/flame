@@ -1,14 +1,25 @@
 import type { ReactNode } from "react";
 
+type ToastStatus = "active" | "exiting";
+
 type Toast = {
 	id: number;
 	timeoutId: NodeJS.Timeout;
 	content: ReactNode;
+	status: ToastStatus;
 };
+
+type ToastAnimation = {
+	enter: Keyframe[];
+	exit: Keyframe[];
+	options?: KeyframeAnimationOptions;
+};
+
 type ToastOptions = {
 	timeout?: number;
 };
 
+let _id = 0;
 let toasts: Toast[] = [];
 const listeners: Set<() => void> = new Set();
 
@@ -26,6 +37,11 @@ export const toastStore = {
 	},
 	unshift: (toast: Toast) => {
 		toasts = [toast, ...toasts];
+	},
+	markExiting: (id: number) => {
+		toasts = toasts.map((t) =>
+			t.id === id ? { ...t, status: "exiting" as const } : t,
+		);
 	},
 	remove: (id: number) => {
 		const filteredToast: Toast[] = [];
@@ -49,13 +65,15 @@ export const toastStore = {
 };
 
 export const toast = (content: ReactNode, options?: ToastOptions) => {
-	const id = Date.now();
+	const id = ++_id;
 
 	const timeoutId = setTimeout(() => {
-		toastStore.remove(id);
+		toastStore.markExiting(id);
 		toastStore.signal();
 	}, options?.timeout ?? 3000);
 
-	toastStore.unshift({ id, content, timeoutId });
+	toastStore.unshift({ id, content, timeoutId, status: "active" });
 	toastStore.signal();
 };
+
+export type { ToastAnimation };
