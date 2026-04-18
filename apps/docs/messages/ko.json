@@ -7,6 +7,7 @@
     "components": {
       "accordion": "확장/축소 가능한 콘텐츠 섹션",
       "dialog": "네이티브 <dialog /> 기반 모달 다이얼로그",
+      "drawer": "화면 가장자리에서 슬라이드되는 사이드 패널",
       "funnel": "단계별 네비게이션 마법사",
       "popover": "위치 인식 플로팅 팝업",
       "select": "드롭다운 셀렉트 입력",
@@ -77,6 +78,22 @@
         "welcomeDescription": "네이티브 <dialog /> 요소 기반의 헤드리스 다이얼로그입니다. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
         "cancel": "취소",
         "confirm": "확인"
+      }
+    },
+    "drawer": {
+      "title": "Drawer",
+      "description": "화면 가장자리에서 슬라이드되어 나타나는 헤드리스 드로어 컴포넌트. Trigger, Content, Closer 하위 컴포넌트로 구성하며, 포탈로 렌더링되고 어두운 오버레이를 통해 외부 클릭 닫기를 지원합니다.",
+      "props": {
+        "placement": "드로어가 슬라이드되어 나올 화면 가장자리",
+        "onOpen": "드로어가 열릴 때 호출",
+        "onClose": "드로어가 닫힐 때 호출",
+        "children": "Drawer 하위 컴포넌트 (Trigger, Content, Closer)",
+        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수",
+        "contentProps": "모든 네이티브 div 요소 속성. 외부 클릭 오버레이와 함께 포탈로 렌더링됨",
+        "closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
+      },
+      "demo": {
+        "comingSoon": "Drawer 데모는 준비 중입니다."
       }
     },
     "funnel": {

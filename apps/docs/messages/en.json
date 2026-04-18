@@ -7,6 +7,7 @@
     "components": {
       "accordion": "Expandable content sections",
       "dialog": "Modal dialog built on native <dialog />",
+      "drawer": "Slide-in side panel overlay",
       "funnel": "Step-based navigation wizard",
       "popover": "Floating position-aware popups",
       "select": "Dropdown select input",
@@ -77,6 +78,22 @@
         "welcomeDescription": "This is a headless dialog built on the native <dialog /> element. It supports outside-click dismissal and keep-mounted mode.",
         "cancel": "Cancel",
         "confirm": "Confirm"
+      }
+    },
+    "drawer": {
+      "title": "Drawer",
+      "description": "A headless drawer component that slides in from any edge of the viewport. Compose with Trigger, Content, and Closer sub-components, rendered into a portal with a dim overlay for outside-click dismissal.",
+      "props": {
+        "placement": "Edge of the viewport the drawer slides in from",
+        "onOpen": "Called when the drawer opens",
+        "onClose": "Called when the drawer closes",
+        "children": "Drawer sub-components (Trigger, Content, Closer)",
+        "triggerChildren": "A clickable element or render function that receives the open handler",
+        "contentProps": "All native div element attributes. Rendered into a portal with an outside-click overlay",
+        "closerChildren": "A clickable element or render function that receives the close handler"
+      },
+      "demo": {
+        "comingSoon": "Drawer demo is under construction."
       }
     },
     "funnel": {

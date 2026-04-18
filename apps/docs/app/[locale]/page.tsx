@@ -2,7 +2,15 @@ import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Header } from './_navigation/header';
 
-const COMPONENT_NAMES = ['Accordion', 'Dialog', 'Funnel', 'Popover', 'Select', 'Toast'] as const;
+const COMPONENT_NAMES = [
+  'Accordion',
+  'Dialog',
+  'Drawer',
+  'Funnel',
+  'Popover',
+  'Select',
+  'Toast',
+] as const;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
