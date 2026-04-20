@@ -2,6 +2,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Drawer } from "./drawer";
 
+const getDim = (content: HTMLElement) =>
+	content.previousElementSibling as HTMLElement;
+
 const renderDrawer = (props?: Parameters<typeof Drawer>[0]) => {
 	const user = userEvent.setup();
 
@@ -42,7 +45,7 @@ describe("Drawer", () => {
 		it("dim 영역 클릭 시 Content가 닫힌다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
-			await user.click(screen.getByTestId("drawer-dim"));
+			await user.click(getDim(screen.getByTestId("drawer")));
 			expect(screen.queryByTestId("drawer")).not.toBeInTheDocument();
 		});
 
@@ -182,7 +185,7 @@ describe("Drawer", () => {
 			const onClose = vi.fn();
 			const { user } = renderDrawer({ onClose });
 			await user.click(screen.getByText("열기"));
-			await user.click(screen.getByTestId("drawer-dim"));
+			await user.click(getDim(screen.getByTestId("drawer")));
 			expect(onClose).toHaveBeenCalledOnce();
 		});
 	});
@@ -255,7 +258,7 @@ describe("Drawer", () => {
 			const { user } = renderNestedDrawer();
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
-			await user.click(screen.getByTestId("inner-drawer-dim"));
+			await user.click(getDim(screen.getByTestId("inner-drawer")));
 			expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument();
 			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
 		});
