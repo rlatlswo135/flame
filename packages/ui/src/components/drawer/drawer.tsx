@@ -1,13 +1,16 @@
 "use client";
 
 import {
-	type ComponentPropsWithRef,
+	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
+	type RefObject,
+	useRef,
 	useState,
 } from "react";
 import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useFocusTrap } from "@/src/hooks/use-focus-trap";
 import { useMounted } from "@/src/hooks/use-mounted";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
@@ -26,7 +29,11 @@ type DrawerTriggerProps = ElementFnChildren<{ open: () => void }>;
 
 type DrawerCloserProps = ElementFnChildren<{ close: () => void }>;
 
-type DrawerContentProps = ComponentPropsWithRef<"div">;
+type DrawerContentProps = ComponentPropsWithoutRef<"div"> & {
+	ref?: RefObject<HTMLDivElement | null>;
+};
+
+let globalZIndex = 0;
 
 const Drawer = ({
 	placement = "right",
@@ -37,21 +44,31 @@ const Drawer = ({
 }: DrawerProps) => {
 	const resolvedId = useResolvedId(contentId);
 
+	const [baseZIndex, setBaseZIndex] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const open = () => {
+		setBaseZIndex(++globalZIndex);
 		setIsOpen(true);
 		onOpen?.();
 	};
 
 	const close = () => {
+		--globalZIndex;
 		setIsOpen(false);
 		onClose?.();
 	};
 
 	return (
 		<DrawerContext
-			value={{ isOpen, open, close, placement, contentId: resolvedId }}
+			value={{
+				open,
+				close,
+				isOpen,
+				placement,
+				baseZIndex: baseZIndex * 10,
+				contentId: resolvedId,
+			}}
 		>
 			{children}
 		</DrawerContext>
@@ -78,19 +95,26 @@ const Closer = ({ children }: DrawerCloserProps) => {
 	return cloneElement(children as ClickableElement, { onClick: close });
 };
 
-const Content = ({ children, ...props }: DrawerContentProps) => {
-	const { isOpen, close, placement, contentId } = useCtx(DrawerContext);
+const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
+	const innerRef = useRef<HTMLDivElement>(null);
+	const ref = refProp ?? innerRef;
+
 	const isMounted = useMounted();
+
+	const { isOpen, close, placement, contentId, baseZIndex } =
+		useCtx(DrawerContext);
+
+	useFocusTrap(ref, isOpen && isMounted);
 
 	if (!isOpen || !isMounted) return null;
 
 	return createPortal(
-		<div>
+		<div ref={ref} style={{ zIndex: baseZIndex }}>
 			{/* biome-ignore lint/a11y/noStaticElementInteractions: dim is a redundant mouse-only close affordance; keyboard users close via Escape */}
 			<div
 				data-slot="dim"
 				onClick={close}
-				style={{ inset: 0, position: "fixed", zIndex: 1 }}
+				style={{ inset: 0, position: "fixed", zIndex: baseZIndex + 1 }}
 			/>
 			<div
 				{...props}
@@ -99,7 +123,7 @@ const Content = ({ children, ...props }: DrawerContentProps) => {
 				aria-modal="true"
 				data-slot="content"
 				data-placement={placement}
-				style={{ zIndex: 2, ...props.style }}
+				style={{ zIndex: baseZIndex + 2, ...props.style }}
 			>
 				{children}
 			</div>

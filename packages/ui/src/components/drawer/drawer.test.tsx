@@ -15,6 +15,10 @@ const renderDrawer = (props?: Parameters<typeof Drawer>[0]) => {
 			</Drawer.Trigger>
 			<Drawer.Content data-testid="drawer">
 				<p>드로어 내용</p>
+				<form>
+					<input />
+					<button type="submit">Submit</button>
+				</form>
 			</Drawer.Content>
 		</Drawer>,
 	);
