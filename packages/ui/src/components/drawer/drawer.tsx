@@ -11,6 +11,7 @@ import {
 import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
 import { useFocusTrap } from "@/src/hooks/use-focus-trap";
+import { useKeyDown } from "@/src/hooks/use-key-down";
 import { useMounted } from "@/src/hooks/use-mounted";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
@@ -105,6 +106,12 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 		useCtx(DrawerContext);
 
 	useFocusTrap(ref, isOpen && isMounted);
+	useKeyDown({
+		key: "Escape",
+		handler: close,
+		enabled: isOpen && isMounted,
+		target: ref.current!,
+	});
 
 	if (!isOpen || !isMounted) return null;
 

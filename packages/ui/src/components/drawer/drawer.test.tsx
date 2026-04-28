@@ -172,7 +172,7 @@ describe("Drawer", () => {
 			const { user } = renderDrawer();
 			const trigger = screen.getByText("열기");
 			await user.click(trigger);
-			await user.keyboard("{Escape}");
+			await user.click(getDim(screen.getByTestId("drawer")));
 			expect(document.activeElement).toBe(trigger);
 		});
 	});

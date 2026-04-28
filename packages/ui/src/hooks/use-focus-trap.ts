@@ -27,7 +27,7 @@ export const useFocusTrap = (
 			target.setAttribute("tabindex", "-1");
 			target.focus();
 		}
-		// TODO: Trigger로 왜 focus 안돌아가는지, getFocusable, handleKeydown 외부로 빼서 useCallback하는거랑 내부에서 하는거랑 무슨차이가 있을까. 가독성 vs 등
+
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key !== "Tab") return;
 
