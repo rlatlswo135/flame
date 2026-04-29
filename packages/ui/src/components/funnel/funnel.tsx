@@ -70,19 +70,27 @@ const Step = (props: FunnelStepProps) => {
 };
 
 const Next = ({ children }: FunnelNextProps) => {
-	const { next } = useCtx(FunnelContext);
+	const { next, step, total } = useCtx(FunnelContext);
+	const isLast = step === total - 1;
 
 	if (typeof children === "function") return children({ next });
 
-	return cloneElement(children as ClickableElement, { onClick: next });
+	return cloneElement(children as ClickableElement, {
+		onClick: next,
+		"aria-disabled": isLast,
+	});
 };
 
 const Prev = ({ children }: FunnelPrevProps) => {
-	const { prev } = useCtx(FunnelContext);
+	const { prev, step } = useCtx(FunnelContext);
+	const isFirst = step === 0;
 
 	if (typeof children === "function") return children({ prev });
 
-	return cloneElement(children as ClickableElement, { onClick: prev });
+	return cloneElement(children as ClickableElement, {
+		onClick: prev,
+		"aria-disabled": isFirst,
+	});
 };
 
 Step.displayName = "Funnel.Step";

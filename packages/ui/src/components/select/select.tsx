@@ -35,9 +35,9 @@ type SelectOptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
 }> &
-	Omit<ComponentPropsWithoutRef<"ul">, "children">;
+	Omit<ComponentPropsWithoutRef<"div">, "children">;
 
-type SelectOptionProps = ComponentPropsWithoutRef<"li"> & { value: string };
+type SelectOptionProps = ComponentPropsWithoutRef<"div"> & { value: string };
 
 const Select = ({ value, children, onChange, ...props }: SelectProps) => {
 	const base = useFloatingBase(props);
@@ -84,14 +84,15 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 
 	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>
-			<ul
+			<div
+				role="listbox"
 				{...baseContentProps}
 				{...interactions.getFloatingProps()}
 				aria-hidden={!floating.context.open}
 				{...props}
 			>
 				{children}
-			</ul>
+			</div>
 		</FloatingFocusManager>
 	);
 
@@ -104,14 +105,23 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 };
 
 const Option = ({ value, ...props }: SelectOptionProps) => {
-	const { onChange, floating } = useCtx(SelectContext);
+	const { value: selectedValue, onChange, floating } = useCtx(SelectContext);
 
 	const onClick = () => {
 		onChange(value);
 		floating.context.onOpenChange(false);
 	};
 
-	return <li data-value={value} onClick={onClick} {...props} />;
+	return (
+		<div
+			tabIndex={0}
+			role="option"
+			aria-selected={value === selectedValue}
+			data-value={value}
+			onClick={onClick}
+			{...props}
+		/>
+	);
 };
 
 Trigger.displayName = "Select.Trigger";

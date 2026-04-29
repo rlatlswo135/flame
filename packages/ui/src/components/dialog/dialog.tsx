@@ -8,6 +8,7 @@ import {
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
 import { DialogContext } from "./context";
 
@@ -27,6 +28,7 @@ const Dialog = ({
 	closeOutside = false,
 	keepMounted = false,
 }: DialogProps) => {
+	const contentId = useResolvedId();
 	const dialog = useRef<HTMLDialogElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -47,19 +49,21 @@ const Dialog = ({
 		setIsOpen,
 		closeOutside,
 		keepMounted,
+		contentId,
 	};
 
 	return <DialogContext value={context}>{children}</DialogContext>;
 };
 
 const Trigger = ({ children }: DialogTriggerProps) => {
-	const { open, isOpen } = useCtx(DialogContext);
+	const { open, isOpen, contentId } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ open });
 
 	return cloneElement(children as ClickableElement, {
 		onClick: open,
 		"aria-expanded": isOpen,
+		"aria-controls": contentId,
 	});
 };
 
@@ -81,6 +85,7 @@ const Content = ({ children, ...props }: DialogContentProps) => {
 
 	return (
 		<dialog
+			id={ctx.contentId}
 			ref={ctx.dialog}
 			onClick={ctx.closeOutside ? ctx.close : undefined}
 			aria-hidden={!ctx.isOpen}

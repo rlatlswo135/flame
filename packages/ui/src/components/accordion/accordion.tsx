@@ -9,6 +9,7 @@ import {
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
 import { AccordionContext, AccordionItemContext } from "./context";
 
@@ -45,6 +46,8 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	}, []);
 
+	const contentId = useResolvedId();
+
 	const isExpanded = single ? activeItemId === id : localExpanded;
 
 	const toggle = () => {
@@ -55,31 +58,37 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	};
 
-	const value = { toggle, isExpanded };
+	const value = { toggle, isExpanded, contentId };
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
 
 const Trigger = ({ children }: AccordionTriggerProps) => {
-	const { toggle, isExpanded } = useCtx(AccordionItemContext);
+	const { toggle, isExpanded, contentId } = useCtx(AccordionItemContext);
 
 	if (typeof children === "function") return children({ toggle });
 
 	return cloneElement(children as ClickableElement, {
 		onClick: toggle,
 		"aria-expanded": isExpanded,
+		"aria-controls": contentId,
 	});
 };
 
 const Content = ({ children, ...props }: AccordionContentProps) => {
-	const { isExpanded } = useCtx(AccordionItemContext);
+	const { isExpanded, contentId } = useCtx(AccordionItemContext);
 
 	if (!isExpanded) return null;
 
 	return (
-		<div data-expanded={isExpanded} aria-hidden={!isExpanded} {...props}>
+		<section
+			id={contentId}
+			data-expanded={isExpanded}
+			aria-hidden={!isExpanded}
+			{...props}
+		>
 			{children}
-		</div>
+		</section>
 	);
 };
 
