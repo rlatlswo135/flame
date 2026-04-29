@@ -3,6 +3,7 @@
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
+	type KeyboardEvent,
 	type PropsWithChildren,
 	type RefObject,
 	useRef,
@@ -11,7 +12,6 @@ import {
 import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
 import { useFocusTrap } from "@/src/hooks/use-focus-trap";
-import { useKeyDown } from "@/src/hooks/use-key-down";
 import { useMounted } from "@/src/hooks/use-mounted";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
@@ -55,7 +55,7 @@ const Drawer = ({
 	};
 
 	const close = () => {
-		--globalZIndex;
+		globalZIndex = Math.max(0, globalZIndex - 1);
 		setIsOpen(false);
 		onClose?.();
 	};
@@ -105,18 +105,19 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 	const { isOpen, close, placement, contentId, baseZIndex } =
 		useCtx(DrawerContext);
 
+	const handleKeydown = (e: KeyboardEvent) => {
+		if (e.key !== "Escape") return;
+		e.stopPropagation();
+		close();
+	};
+
 	useFocusTrap(ref, isOpen && isMounted);
-	useKeyDown({
-		key: "Escape",
-		handler: close,
-		enabled: isOpen && isMounted,
-		target: ref.current!,
-	});
 
 	if (!isOpen || !isMounted) return null;
 
 	return createPortal(
-		<div ref={ref} style={{ zIndex: baseZIndex }}>
+		// biome-ignore lint/a11y/noStaticElementInteractions: wrapper
+		<div ref={ref} style={{ zIndex: baseZIndex }} onKeyDown={handleKeydown}>
 			{/* biome-ignore lint/a11y/noStaticElementInteractions: dim is a redundant mouse-only close affordance; keyboard users close via Escape */}
 			<div
 				data-slot="dim"

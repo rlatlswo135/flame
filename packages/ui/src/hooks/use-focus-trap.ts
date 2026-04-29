@@ -28,7 +28,7 @@ export const useFocusTrap = (
 			target.focus();
 		}
 
-		const handleKeyDown = (e: KeyboardEvent) => {
+		const handleKeydown = (e: KeyboardEvent) => {
 			if (e.key !== "Tab") return;
 
 			const focusable = getFocusable();
@@ -50,10 +50,10 @@ export const useFocusTrap = (
 			}
 		};
 
-		target.addEventListener("keydown", handleKeyDown);
+		target.addEventListener("keydown", handleKeydown);
 
 		return () => {
-			target.removeEventListener("keydown", handleKeyDown);
+			target.removeEventListener("keydown", handleKeydown);
 			prevFocusRef.current?.focus();
 		};
 	}, [enabled, targetRef]);

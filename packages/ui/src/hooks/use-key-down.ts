@@ -13,16 +13,9 @@ type UseKeydownProps = {
 	handler: () => void;
 
 	enabled?: boolean;
-	target?: HTMLElement;
 };
 
-export const useKeyDown = ({
-	key,
-	handler,
-	enabled,
-	target,
-}: UseKeydownProps) => {
-	// TODO: handler내부 중첩 스코프 확인
+export const useKeyDown = ({ key, handler, enabled }: UseKeydownProps) => {
 	const event = useEffectEvent((e: KeyboardEvent) => {
 		if (!enabled) return;
 		if (e.key !== key) return;
@@ -31,11 +24,9 @@ export const useKeyDown = ({
 	});
 
 	useEffect(() => {
-		const targetElement = (target ?? document) as HTMLElement;
-
-		targetElement.addEventListener("keydown", event);
+		document.addEventListener("keydown", event);
 		return () => {
-			targetElement.removeEventListener("keydown", event);
+			document.removeEventListener("keydown", event);
 		};
-	}, [target]);
+	}, []);
 };
