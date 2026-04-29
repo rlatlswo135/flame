@@ -20,19 +20,18 @@ const DrawerDemo = () => {
           </Drawer.Trigger>
           <Drawer.Content
             className={`fixed bg-flame-bg border border-flame-border shadow-2xl ${
-              placement === 'right' ? 'top-0 right-0 h-full w-80' :
-              placement === 'left' ? 'top-0 left-0 h-full w-80' :
-              placement === 'top' ? 'top-0 left-0 w-full h-48' :
-              'bottom-0 left-0 w-full h-48'
+              placement === 'right'
+                ? 'top-0 right-0 h-full w-80'
+                : placement === 'left'
+                  ? 'top-0 left-0 h-full w-80'
+                  : placement === 'top'
+                    ? 'top-0 left-0 w-full h-48'
+                    : 'bottom-0 left-0 w-full h-48'
             }`}
           >
             <div className="p-6">
-              <h2 className="text-lg font-semibold text-flame-text mb-2">
-                {t('title')}
-              </h2>
-              <p className="text-sm text-flame-text-secondary mb-6">
-                {t('description')}
-              </p>
+              <h2 className="text-lg font-semibold text-flame-text mb-2">{t('title')}</h2>
+              <p className="text-sm text-flame-text-secondary mb-6">{t('description')}</p>
               <Drawer.Closer>
                 <button
                   type="button"
