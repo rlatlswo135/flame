@@ -12,7 +12,7 @@ function DrawerExample() {
       <Drawer.Trigger>
         <button>Open Drawer</button>
       </Drawer.Trigger>
-      <Drawer.Content>
+      <Drawer.Content className="fixed top-0 right-0 h-full w-80">
         <h2>Drawer Title</h2>
         <p>Slide-in panel content goes here.</p>
         <Drawer.Closer>
@@ -36,6 +36,11 @@ export default async function DrawerPage({ params }: { params: Promise<{ locale:
       defaultValue: '"right"',
       description: t('props.placement'),
     },
+    {
+      name: 'contentId',
+      type: 'string',
+      description: t('props.contentId'),
+    },
     { name: 'onOpen', type: '() => void', description: t('props.onOpen') },
     { name: 'onClose', type: '() => void', description: t('props.onClose') },
     { name: 'children', type: 'ReactNode', description: t('props.children') },
@@ -51,8 +56,13 @@ export default async function DrawerPage({ params }: { params: Promise<{ locale:
 
   const contentProps: PropDef[] = [
     {
+      name: 'ref',
+      type: 'RefObject<HTMLDivElement | null>',
+      description: t('props.contentRef'),
+    },
+    {
       name: '...props',
-      type: 'ComponentPropsWithRef<"div">',
+      type: 'ComponentPropsWithoutRef<"div">',
       description: t('props.contentProps'),
     },
   ];

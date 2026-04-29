@@ -2,6 +2,7 @@
 
 export * from "./components/accordion/accordion";
 export * from "./components/dialog/dialog";
+export * from "./components/drawer/drawer";
 export * from "./components/funnel/funnel";
 export * from "./components/popover/popover";
 export * from "./components/select/select";

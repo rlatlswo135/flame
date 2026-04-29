@@ -34,6 +34,7 @@ type DrawerContentProps = ComponentPropsWithoutRef<"div"> & {
 	ref?: RefObject<HTMLDivElement | null>;
 };
 
+const MODAL_Z_BASE = 1000;
 let globalZIndex = 0;
 
 const Drawer = ({
@@ -67,7 +68,7 @@ const Drawer = ({
 				close,
 				isOpen,
 				placement,
-				baseZIndex: baseZIndex * 10,
+				baseZIndex: MODAL_Z_BASE + baseZIndex * 10,
 				contentId: resolvedId,
 			}}
 		>

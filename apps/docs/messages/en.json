@@ -49,8 +49,8 @@
         "single": "When true, only one item can be expanded at a time",
         "itemChildren": "Trigger and Content sub-components",
         "itemInitialOpen": "Initial expanded state of the item",
-        "triggerChildren": "A clickable element or render function that receives the toggle handler",
-        "contentProps": "All native div element attributes"
+        "triggerChildren": "A clickable element or render function that receives the toggle handler. Receives aria-controls automatically",
+        "contentProps": "All native section element attributes. Renders as <section /> with an auto-generated id"
       },
       "demo": {
         "whatIsFlame": "What is Flame?",
@@ -68,8 +68,8 @@
         "children": "Dialog sub-components (Trigger, Content, Closer)",
         "closeOutside": "Close the dialog when clicking outside the content area",
         "keepMounted": "Keep content mounted in the DOM when dialog is closed",
-        "triggerChildren": "A clickable element or render function that receives the open handler",
-        "contentProps": "All native dialog element attributes",
+        "triggerChildren": "A clickable element or render function that receives the open handler. Receives aria-controls automatically",
+        "contentProps": "All native dialog element attributes. Receives an auto-generated id",
         "closerChildren": "A clickable element or render function that receives the close handler"
       },
       "demo": {
@@ -82,18 +82,22 @@
     },
     "drawer": {
       "title": "Drawer",
-      "description": "A headless drawer component that slides in from any edge of the viewport. Compose with Trigger, Content, and Closer sub-components, rendered into a portal with a dim overlay for outside-click dismissal.",
+      "description": "A headless drawer component that slides in from any edge of the viewport. Includes focus trap, ESC key handling, and automatic z-index stacking for nested drawers. Compose with Trigger, Content, and Closer sub-components.",
       "props": {
         "placement": "Edge of the viewport the drawer slides in from",
+        "contentId": "Custom id for the content element. Auto-generated if omitted. Used by Trigger's aria-controls",
         "onOpen": "Called when the drawer opens",
         "onClose": "Called when the drawer closes",
         "children": "Drawer sub-components (Trigger, Content, Closer)",
-        "triggerChildren": "A clickable element or render function that receives the open handler",
-        "contentProps": "All native div element attributes. Rendered into a portal with an outside-click overlay",
+        "triggerChildren": "A clickable element or render function that receives the open handler. Receives aria-expanded and aria-controls automatically",
+        "contentRef": "Ref to the content wrapper element",
+        "contentProps": "All native div element attributes. Rendered into a portal with role=\"dialog\" and aria-modal=\"true\"",
         "closerChildren": "A clickable element or render function that receives the close handler"
       },
       "demo": {
-        "comingSoon": "Drawer demo is under construction."
+        "title": "Drawer Panel",
+        "description": "This drawer includes focus trap, ESC key handling, and z-index stacking for nested drawers.",
+        "close": "Close"
       }
     },
     "funnel": {
@@ -102,8 +106,8 @@
       "props": {
         "children": "Funnel.Step elements",
         "stepChildren": "Render function that receives a jump callback to navigate to a specific step",
-        "nextChildren": "A clickable element or render function that receives the next handler",
-        "prevChildren": "A clickable element or render function that receives the prev handler"
+        "nextChildren": "A clickable element or render function that receives the next handler. Receives aria-disabled at the last step",
+        "prevChildren": "A clickable element or render function that receives the prev handler. Receives aria-disabled at the first step"
       },
       "demo": {
         "enterInfo": "Enter Info",
@@ -150,9 +154,9 @@
         "children": "Select sub-components (Trigger, Options)",
         "triggerChildren": "A clickable element that toggles the options list",
         "optionsChildren": "Option elements or a render function with floating context",
-        "optionsProps": "All native ul element attributes",
+        "optionsProps": "All native div element attributes. Renders with role=\"listbox\"",
         "optionValue": "The value for this option",
-        "optionProps": "All native li element attributes"
+        "optionProps": "All native div element attributes. Renders with role=\"option\" and aria-selected"
       },
       "demo": {
         "placeholder": "Choose a fruit",

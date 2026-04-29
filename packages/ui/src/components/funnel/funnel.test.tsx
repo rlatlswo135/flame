@@ -87,14 +87,23 @@ describe("Funnel", () => {
 
 		it("첫 번째 Step에서 Next가 aria-disabled=false를 가진다", () => {
 			renderFunnel();
-			expect(screen.getByText("다음")).toHaveAttribute("aria-disabled", "false");
+			expect(screen.getByText("다음")).toHaveAttribute(
+				"aria-disabled",
+				"false",
+			);
 		});
 
 		it("중간 Step에서 Next와 Prev가 aria-disabled=false를 가진다", async () => {
 			const { user } = renderFunnel();
 			await user.click(screen.getByText("다음"));
-			expect(screen.getByText("다음")).toHaveAttribute("aria-disabled", "false");
-			expect(screen.getByText("이전")).toHaveAttribute("aria-disabled", "false");
+			expect(screen.getByText("다음")).toHaveAttribute(
+				"aria-disabled",
+				"false",
+			);
+			expect(screen.getByText("이전")).toHaveAttribute(
+				"aria-disabled",
+				"false",
+			);
 		});
 	});
 

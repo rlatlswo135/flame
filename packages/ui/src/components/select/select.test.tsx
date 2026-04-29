@@ -83,7 +83,10 @@ describe("Select", () => {
 			const { user } = renderSelect({ value: "apple" });
 			await user.click(screen.getByText("선택"));
 			expect(screen.getByText("사과")).toHaveAttribute("aria-selected", "true");
-			expect(screen.getByText("바나나")).toHaveAttribute("aria-selected", "false");
+			expect(screen.getByText("바나나")).toHaveAttribute(
+				"aria-selected",
+				"false",
+			);
 		});
 	});
 
