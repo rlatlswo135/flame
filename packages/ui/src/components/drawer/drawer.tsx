@@ -105,7 +105,7 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 	const { isOpen, close, placement, contentId, baseZIndex } =
 		useCtx(DrawerContext);
 
-	const handleKeydown = (e: KeyboardEvent) => {
+	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key !== "Escape") return;
 		e.stopPropagation();
 		close();
@@ -117,7 +117,7 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 
 	return createPortal(
 		// biome-ignore lint/a11y/noStaticElementInteractions: wrapper
-		<div ref={ref} style={{ zIndex: baseZIndex }} onKeyDown={handleKeydown}>
+		<div ref={ref} style={{ zIndex: baseZIndex }} onKeyDown={handleKeyDown}>
 			{/* biome-ignore lint/a11y/noStaticElementInteractions: dim is a redundant mouse-only close affordance; keyboard users close via Escape */}
 			<div
 				data-slot="dim"

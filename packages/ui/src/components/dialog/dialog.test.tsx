@@ -35,6 +35,15 @@ describe("Dialog", () => {
 		});
 	});
 
+	describe("접근성", () => {
+		it("Trigger의 aria-controls가 Content의 id를 참조한다", () => {
+			renderDialog();
+			const trigger = screen.getByText("열기");
+			const dialog = screen.getByTestId("dialog");
+			expect(trigger).toHaveAttribute("aria-controls", dialog.id);
+		});
+	});
+
 	describe("열기/닫기", () => {
 		it("Trigger 클릭 시 Content가 열린다", async () => {
 			const { user } = renderDialog();

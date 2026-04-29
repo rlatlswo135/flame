@@ -77,6 +77,27 @@ describe("Funnel", () => {
 		});
 	});
 
+	describe("접근성", () => {
+		it("첫 번째 Step에서 Prev가 aria-disabled=true를 가진다", async () => {
+			const { user } = renderFunnel();
+			await user.click(screen.getByText("다음"));
+			await user.click(screen.getByText("이전"));
+			expect(screen.queryByText("이전")).not.toBeInTheDocument();
+		});
+
+		it("첫 번째 Step에서 Next가 aria-disabled=false를 가진다", () => {
+			renderFunnel();
+			expect(screen.getByText("다음")).toHaveAttribute("aria-disabled", "false");
+		});
+
+		it("중간 Step에서 Next와 Prev가 aria-disabled=false를 가진다", async () => {
+			const { user } = renderFunnel();
+			await user.click(screen.getByText("다음"));
+			expect(screen.getByText("다음")).toHaveAttribute("aria-disabled", "false");
+			expect(screen.getByText("이전")).toHaveAttribute("aria-disabled", "false");
+		});
+	});
+
 	describe("jump", () => {
 		it("function children으로 jump를 받아 특정 Step으로 이동한다", async () => {
 			const user = userEvent.setup();

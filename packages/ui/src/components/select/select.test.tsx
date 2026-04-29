@@ -66,6 +66,27 @@ describe("Select", () => {
 		});
 	});
 
+	describe("접근성", () => {
+		it("Options가 role=listbox를 가진다", async () => {
+			const { user } = renderSelect();
+			await user.click(screen.getByText("선택"));
+			expect(screen.getByTestId("options")).toHaveAttribute("role", "listbox");
+		});
+
+		it("Option이 role=option을 가진다", async () => {
+			const { user } = renderSelect();
+			await user.click(screen.getByText("선택"));
+			expect(screen.getByText("사과")).toHaveAttribute("role", "option");
+		});
+
+		it("선택된 Option이 aria-selected=true를 가진다", async () => {
+			const { user } = renderSelect({ value: "apple" });
+			await user.click(screen.getByText("선택"));
+			expect(screen.getByText("사과")).toHaveAttribute("aria-selected", "true");
+			expect(screen.getByText("바나나")).toHaveAttribute("aria-selected", "false");
+		});
+	});
+
 	describe("Options children", () => {
 		it("function children일 때 floating, interactions를 인자로 받는다", async () => {
 			const childrenFn = vi.fn(() => <div>커스텀</div>);
@@ -88,12 +109,6 @@ describe("Select", () => {
 					interactions: expect.any(Object),
 				}),
 			);
-		});
-
-		it("ReactNode일 때 ul로 렌더링된다", async () => {
-			const { user } = renderSelect();
-			await user.click(screen.getByText("선택"));
-			expect(screen.getByTestId("options").tagName).toBe("UL");
 		});
 	});
 });

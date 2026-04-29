@@ -85,11 +85,11 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 	const element = (
 		<FloatingFocusManager context={floating.context} modal={focusTrap}>
 			<div
-				role="listbox"
 				{...baseContentProps}
 				{...interactions.getFloatingProps()}
-				aria-hidden={!floating.context.open}
 				{...props}
+				role="listbox"
+				aria-hidden={!floating.context.open}
 			>
 				{children}
 			</div>

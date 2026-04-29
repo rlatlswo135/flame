@@ -122,6 +122,32 @@ describe("Accordion", () => {
 		});
 	});
 
+	describe("접근성", () => {
+		it("Trigger의 aria-controls가 Content의 id를 참조한다", async () => {
+			const { user } = renderAccordion();
+			await user.click(screen.getByText("항목 1"));
+			const trigger = screen.getByText("항목 1");
+			const content = screen.getByTestId("content-1");
+			expect(trigger).toHaveAttribute("aria-controls", content.id);
+		});
+
+		it("Content가 section 태그로 렌더링된다", async () => {
+			const { user } = renderAccordion();
+			await user.click(screen.getByText("항목 1"));
+			expect(screen.getByTestId("content-1").tagName).toBe("SECTION");
+		});
+	});
+
+	describe("접근성", () => {
+		it("Trigger의 aria-controls가 Content의 id를 참조한다", async () => {
+			const { user } = renderAccordion();
+			await user.click(screen.getByText("항목 1"));
+			const trigger = screen.getByText("항목 1");
+			const content = screen.getByTestId("content-1");
+			expect(trigger).toHaveAttribute("aria-controls", content.id);
+		});
+	});
+
 	describe("에러 처리", () => {
 		it("Item 없이 Trigger를 렌더링하면 에러가 발생한다", () => {
 			expect(() =>
