@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Drawer } from "./drawer";
 
@@ -50,14 +50,18 @@ describe("Drawer", () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
 			await user.click(getDim(screen.getByTestId("drawer")));
-			expect(screen.queryByTestId("drawer")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
+			);
 		});
 
 		it("ESC 키 누를 시 Content가 닫힌다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
 			await user.keyboard("{Escape}");
-			expect(screen.queryByTestId("drawer")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
+			);
 		});
 
 		it("Content 내부 클릭 시 닫히지 않는다", async () => {
@@ -120,8 +124,10 @@ describe("Drawer", () => {
 		it("열릴 때 Content 내부로 포커스가 이동한다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
-			const drawer = screen.getByTestId("drawer");
-			expect(drawer.contains(document.activeElement)).toBe(true);
+			await waitFor(() => {
+				const drawer = screen.getByTestId("drawer");
+				expect(drawer.contains(document.activeElement)).toBe(true);
+			});
 		});
 
 		it("Tab 키로 포커스가 Content 밖으로 나가지 않는다", async () => {
@@ -138,6 +144,10 @@ describe("Drawer", () => {
 				</Drawer>,
 			);
 			await user.click(screen.getByText("열기"));
+			await waitFor(() => {
+				const drawer = screen.getByTestId("drawer");
+				expect(drawer.contains(document.activeElement)).toBe(true);
+			});
 			const drawer = screen.getByTestId("drawer");
 
 			// 마지막 요소에서 Tab → 첫 번째 요소로 순환
@@ -160,6 +170,10 @@ describe("Drawer", () => {
 				</Drawer>,
 			);
 			await user.click(screen.getByText("열기"));
+			await waitFor(() => {
+				const drawer = screen.getByTestId("drawer");
+				expect(drawer.contains(document.activeElement)).toBe(true);
+			});
 			const drawer = screen.getByTestId("drawer");
 
 			// 첫 번째 요소에서 Shift+Tab → 마지막 요소로 순환
@@ -173,7 +187,7 @@ describe("Drawer", () => {
 			const trigger = screen.getByText("열기");
 			await user.click(trigger);
 			await user.click(getDim(screen.getByTestId("drawer")));
-			expect(document.activeElement).toBe(trigger);
+			await waitFor(() => expect(document.activeElement).toBe(trigger));
 		});
 	});
 
@@ -213,7 +227,9 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("열기"));
 			expect(screen.getByTestId("drawer")).toBeInTheDocument();
 			await user.click(screen.getByText("닫기"));
-			expect(screen.queryByTestId("drawer")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
+			);
 		});
 	});
 
@@ -263,7 +279,9 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.click(getDim(screen.getByTestId("inner-drawer")));
-			expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument(),
+			);
 			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
 		});
 
@@ -272,7 +290,9 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.keyboard("{Escape}");
-			expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument(),
+			);
 			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
 		});
 
@@ -285,6 +305,24 @@ describe("Drawer", () => {
 			const outerZ = Number(outer.parentElement?.style.zIndex || 0);
 			const innerZ = Number(inner.parentElement?.style.zIndex || 0);
 			expect(innerZ).toBeGreaterThan(outerZ);
+		});
+	});
+
+	describe("에러 처리", () => {
+		it("Drawer 없이 Trigger를 렌더링하면 에러가 발생한다", () => {
+			expect(() =>
+				render(
+					<Drawer.Trigger>
+						<button type="button">열기</button>
+					</Drawer.Trigger>,
+				),
+			).toThrow();
+		});
+
+		it("Drawer 없이 Content를 렌더링하면 에러가 발생한다", () => {
+			expect(() =>
+				render(<Drawer.Content>내용</Drawer.Content>),
+			).toThrow();
 		});
 	});
 });

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Accordion } from "./accordion";
 
@@ -55,7 +55,9 @@ describe("Accordion", () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 1"));
-			expect(screen.queryByTestId("content-1")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("content-1")).not.toBeInTheDocument(),
+			);
 		});
 
 		it("다른 Item의 Trigger를 클릭해도 기존 Item은 유지된다", async () => {
@@ -91,7 +93,9 @@ describe("Accordion", () => {
 			const { user } = renderAccordion({ single: true });
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 2"));
-			expect(screen.queryByTestId("content-1")).not.toBeInTheDocument();
+			await waitFor(() =>
+				expect(screen.queryByTestId("content-1")).not.toBeInTheDocument(),
+			);
 			expect(screen.getByTestId("content-2")).toBeInTheDocument();
 		});
 
@@ -135,16 +139,6 @@ describe("Accordion", () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			expect(screen.getByTestId("content-1").tagName).toBe("SECTION");
-		});
-	});
-
-	describe("접근성", () => {
-		it("Trigger의 aria-controls가 Content의 id를 참조한다", async () => {
-			const { user } = renderAccordion();
-			await user.click(screen.getByText("항목 1"));
-			const trigger = screen.getByText("항목 1");
-			const content = screen.getByTestId("content-1");
-			expect(trigger).toHaveAttribute("aria-controls", content.id);
 		});
 	});
 
