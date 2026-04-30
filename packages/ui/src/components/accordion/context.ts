@@ -1,4 +1,9 @@
-import { createContext, type Dispatch, type RefObject, type SetStateAction } from "react";
+import {
+	createContext,
+	type Dispatch,
+	type RefObject,
+	type SetStateAction,
+} from "react";
 import type { TransitionStatus } from "@/src/hooks/use-exit-transition";
 
 type AccordionContextValue = {

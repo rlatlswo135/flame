@@ -136,7 +136,10 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 		close();
 	};
 
-	useFocusTrap(ref, (status === "entering" || status === "entered") && isMounted);
+	useFocusTrap(
+		ref,
+		(status === "entering" || status === "entered") && isMounted,
+	);
 
 	if (!mounted || !isMounted) return null;
 

@@ -320,9 +320,7 @@ describe("Drawer", () => {
 		});
 
 		it("Drawer 없이 Content를 렌더링하면 에러가 발생한다", () => {
-			expect(() =>
-				render(<Drawer.Content>내용</Drawer.Content>),
-			).toThrow();
+			expect(() => render(<Drawer.Content>내용</Drawer.Content>)).toThrow();
 		});
 	});
 });

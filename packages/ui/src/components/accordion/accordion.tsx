@@ -1,11 +1,11 @@
 "use client";
 
 import {
-	type CSSProperties,
 	type ComponentPropsWithRef,
-	type RefObject,
+	type CSSProperties,
 	cloneElement,
 	type PropsWithChildren,
+	type RefObject,
 	useEffect,
 	useId,
 	useState,
@@ -64,7 +64,14 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	};
 
-	const value = { toggle, isExpanded, contentId, mounted, status, transitionRef };
+	const value = {
+		toggle,
+		isExpanded,
+		contentId,
+		mounted,
+		status,
+		transitionRef,
+	};
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
