@@ -139,7 +139,8 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 		zIndex: baseZIndex + 2,
 		transform: isOpen ? slide.to : slide.from,
 		visibility: isOpen ? "visible" : "hidden",
-		transition: "transform 250ms cubic-bezier(0.32, 0.72, 0, 1), visibility 250ms cubic-bezier(0.32, 0.72, 0, 1)",
+		transition:
+			"transform 250ms cubic-bezier(0.32, 0.72, 0, 1), visibility 250ms cubic-bezier(0.32, 0.72, 0, 1)",
 		...props.style,
 	};
 

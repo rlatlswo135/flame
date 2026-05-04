@@ -39,8 +39,12 @@ describe("Accordion", () => {
 
 		it("초기 상태에서 Content가 접혀있다", () => {
 			renderAccordion();
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
-			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("0fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"0fr",
+			);
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe(
+				"0fr",
+			);
 		});
 	});
 
@@ -48,22 +52,30 @@ describe("Accordion", () => {
 		it("Trigger 클릭 시 해당 Content가 열린다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"1fr",
+			);
 		});
 
 		it("열린 상태에서 Trigger 재클릭 시 닫힌다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 1"));
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"0fr",
+			);
 		});
 
 		it("다른 Item의 Trigger를 클릭해도 기존 Item은 유지된다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 2"));
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
-			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"1fr",
+			);
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe(
+				"1fr",
+			);
 		});
 	});
 
@@ -82,7 +94,9 @@ describe("Accordion", () => {
 				</Accordion>,
 			);
 
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"1fr",
+			);
 		});
 	});
 
@@ -91,8 +105,12 @@ describe("Accordion", () => {
 			const { user } = renderAccordion({ single: true });
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 2"));
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
-			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"0fr",
+			);
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe(
+				"1fr",
+			);
 		});
 
 		it("single=true + initialOpen일 때 해당 Item이 초기 열림 상태다", () => {
@@ -117,8 +135,12 @@ describe("Accordion", () => {
 				</Accordion>,
 			);
 
-			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
-			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("0fr");
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe(
+				"1fr",
+			);
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe(
+				"0fr",
+			);
 		});
 	});
 

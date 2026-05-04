@@ -253,8 +253,12 @@ describe("Drawer", () => {
 			const { user } = renderNestedDrawer();
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
-			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("visible");
-			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe(
+				"visible",
+			);
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe(
+				"visible",
+			);
 		});
 
 		it("내부 drawer의 dim 클릭 시 내부만 닫힌다", async () => {
@@ -262,8 +266,12 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.click(getDim(screen.getByTestId("inner-drawer")));
-			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("hidden");
-			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe(
+				"hidden",
+			);
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe(
+				"visible",
+			);
 		});
 
 		it("내부 drawer의 ESC 시 내부만 닫힌다", async () => {
@@ -271,8 +279,12 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.keyboard("{Escape}");
-			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("hidden");
-			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe(
+				"hidden",
+			);
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe(
+				"visible",
+			);
 		});
 
 		it("내부 drawer가 외부보다 높은 z-index를 갖는다", async () => {
