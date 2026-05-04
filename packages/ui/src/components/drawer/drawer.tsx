@@ -12,7 +12,6 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
-import { useExitTransition } from "@/src/hooks/use-exit-transition";
 import { useFocusTrap } from "@/src/hooks/use-focus-trap";
 import { useMounted } from "@/src/hooks/use-mounted";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
@@ -39,8 +38,6 @@ type DrawerContentProps = ComponentPropsWithoutRef<"div"> & {
 const MODAL_Z_BASE = 1000;
 let globalZIndex = 0;
 
-const TRANSITION = "250ms cubic-bezier(0.32, 0.72, 0, 1)";
-
 const SLIDE_TRANSFORMS: Record<Placement, { from: string; to: string }> = {
 	right: { from: "translateX(100%)", to: "translateX(0)" },
 	left: { from: "translateX(-100%)", to: "translateX(0)" },
@@ -59,7 +56,6 @@ const Drawer = ({
 
 	const [baseZIndex, setBaseZIndex] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
-	const { mounted, status, transitionRef } = useExitTransition(isOpen);
 
 	const open = () => {
 		setBaseZIndex(++globalZIndex);
@@ -82,9 +78,6 @@ const Drawer = ({
 				placement,
 				baseZIndex: MODAL_Z_BASE + baseZIndex * 10,
 				contentId: resolvedId,
-				status,
-				mounted,
-				transitionRef,
 			}}
 		>
 			{children}
@@ -118,46 +111,35 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 
 	const isMounted = useMounted();
 
-	const {
-		isOpen,
-		close,
-		placement,
-		contentId,
-		baseZIndex,
-		status,
-		mounted,
-		transitionRef,
-	} = useCtx(DrawerContext);
+	const { isOpen, close, placement, contentId, baseZIndex } =
+		useCtx(DrawerContext);
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key !== "Escape") return;
-		if (status === "exiting") return;
 		e.stopPropagation();
 		close();
 	};
 
-	useFocusTrap(
-		ref,
-		(status === "entering" || status === "entered") && isMounted,
-	);
+	useFocusTrap(ref, isOpen && isMounted);
 
-	if (!mounted || !isMounted) return null;
+	if (!isMounted) return null;
 
-	const isVisible = status === "entering" || status === "entered";
 	const slide = SLIDE_TRANSFORMS[placement];
 
 	const dimStyle: CSSProperties = {
 		inset: 0,
 		position: "fixed",
 		zIndex: baseZIndex + 1,
-		opacity: isVisible ? 1 : 0,
-		transition: `opacity ${TRANSITION}`,
+		opacity: isOpen ? 1 : 0,
+		pointerEvents: isOpen ? "auto" : "none",
+		transition: "opacity 250ms cubic-bezier(0.32, 0.72, 0, 1)",
 	};
 
 	const contentStyle: CSSProperties = {
 		zIndex: baseZIndex + 2,
-		transform: isVisible ? slide.to : slide.from,
-		transition: `transform ${TRANSITION}`,
+		transform: isOpen ? slide.to : slide.from,
+		visibility: isOpen ? "visible" : "hidden",
+		transition: "transform 250ms cubic-bezier(0.32, 0.72, 0, 1), visibility 250ms cubic-bezier(0.32, 0.72, 0, 1)",
 		...props.style,
 	};
 
@@ -168,7 +150,6 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 			<div data-slot="dim" onClick={close} style={dimStyle} />
 			<div
 				{...props}
-				ref={transitionRef as RefObject<HTMLDivElement>}
 				id={contentId}
 				role="dialog"
 				aria-modal="true"

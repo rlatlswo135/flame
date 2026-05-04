@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Accordion } from "./accordion";
 
@@ -37,10 +37,10 @@ describe("Accordion", () => {
 			expect(screen.getByText("항목 2")).toBeInTheDocument();
 		});
 
-		it("초기 상태에서 Content가 보이지 않는다", () => {
+		it("초기 상태에서 Content가 접혀있다", () => {
 			renderAccordion();
-			expect(screen.queryByTestId("content-1")).not.toBeInTheDocument();
-			expect(screen.queryByTestId("content-2")).not.toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("0fr");
 		});
 	});
 
@@ -48,29 +48,27 @@ describe("Accordion", () => {
 		it("Trigger 클릭 시 해당 Content가 열린다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
-			expect(screen.getByTestId("content-1")).toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
 		});
 
 		it("열린 상태에서 Trigger 재클릭 시 닫힌다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 1"));
-			await waitFor(() =>
-				expect(screen.queryByTestId("content-1")).not.toBeInTheDocument(),
-			);
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
 		});
 
 		it("다른 Item의 Trigger를 클릭해도 기존 Item은 유지된다", async () => {
 			const { user } = renderAccordion();
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 2"));
-			expect(screen.getByTestId("content-1")).toBeInTheDocument();
-			expect(screen.getByTestId("content-2")).toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("1fr");
 		});
 	});
 
 	describe("initialOpen", () => {
-		it("initialOpen=true일 때 초기 상태에서 Content가 보인다", () => {
+		it("initialOpen=true일 때 초기 상태에서 Content가 열려있다", () => {
 			render(
 				<Accordion>
 					<Accordion.Item initialOpen>
@@ -84,7 +82,7 @@ describe("Accordion", () => {
 				</Accordion>,
 			);
 
-			expect(screen.getByTestId("content-1")).toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
 		});
 	});
 
@@ -93,10 +91,8 @@ describe("Accordion", () => {
 			const { user } = renderAccordion({ single: true });
 			await user.click(screen.getByText("항목 1"));
 			await user.click(screen.getByText("항목 2"));
-			await waitFor(() =>
-				expect(screen.queryByTestId("content-1")).not.toBeInTheDocument(),
-			);
-			expect(screen.getByTestId("content-2")).toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("0fr");
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("1fr");
 		});
 
 		it("single=true + initialOpen일 때 해당 Item이 초기 열림 상태다", () => {
@@ -121,8 +117,8 @@ describe("Accordion", () => {
 				</Accordion>,
 			);
 
-			expect(screen.getByTestId("content-1")).toBeInTheDocument();
-			expect(screen.queryByTestId("content-2")).not.toBeInTheDocument();
+			expect(screen.getByTestId("content-1").style.gridTemplateRows).toBe("1fr");
+			expect(screen.getByTestId("content-2").style.gridTemplateRows).toBe("0fr");
 		});
 	});
 
@@ -135,9 +131,8 @@ describe("Accordion", () => {
 			expect(trigger).toHaveAttribute("aria-controls", content.id);
 		});
 
-		it("Content가 section 태그로 렌더링된다", async () => {
-			const { user } = renderAccordion();
-			await user.click(screen.getByText("항목 1"));
+		it("Content가 section 태그로 렌더링된다", () => {
+			renderAccordion();
 			expect(screen.getByTestId("content-1").tagName).toBe("SECTION");
 		});
 	});

@@ -5,13 +5,11 @@ import {
 	type CSSProperties,
 	cloneElement,
 	type PropsWithChildren,
-	type RefObject,
 	useEffect,
 	useId,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
-import { useExitTransition } from "@/src/hooks/use-exit-transition";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
 import { AccordionContext, AccordionItemContext } from "./context";
@@ -27,8 +25,6 @@ type AccordionItemProps = PropsWithChildren<{
 type AccordionTriggerProps = ElementFnChildren<{ toggle: () => void }>;
 
 type AccordionContentProps = PropsWithChildren<ComponentPropsWithRef<"div">>;
-
-const TRANSITION = "250ms ease";
 
 const Accordion = ({ single = false, children }: AccordionProps) => {
 	const [activeItemId, setActiveItemId] = useState<string | null>(null);
@@ -54,7 +50,6 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 	const contentId = useResolvedId();
 
 	const isExpanded = single ? activeItemId === id : localExpanded;
-	const { mounted, status, transitionRef } = useExitTransition(isExpanded);
 
 	const toggle = () => {
 		if (single) {
@@ -64,14 +59,7 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	};
 
-	const value = {
-		toggle,
-		isExpanded,
-		contentId,
-		mounted,
-		status,
-		transitionRef,
-	};
+	const value = { toggle, isExpanded, contentId };
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
@@ -89,27 +77,21 @@ const Trigger = ({ children }: AccordionTriggerProps) => {
 };
 
 const Content = ({ children, ...props }: AccordionContentProps) => {
-	const { isExpanded, contentId, mounted, status, transitionRef } =
-		useCtx(AccordionItemContext);
-
-	if (!mounted) return null;
-
-	const isVisible = status === "entering" || status === "entered";
+	const { isExpanded, contentId } = useCtx(AccordionItemContext);
 
 	const sectionStyle: CSSProperties = {
 		...props.style,
 		display: "grid",
-		gridTemplateRows: isVisible ? "1fr" : "0fr",
-		transition: `grid-template-rows ${TRANSITION}`,
+		gridTemplateRows: isExpanded ? "1fr" : "0fr",
+		transition: "grid-template-rows 250ms ease",
 	};
 
 	return (
 		<section
 			{...props}
-			ref={transitionRef as RefObject<HTMLElement>}
 			id={contentId}
 			data-expanded={isExpanded}
-			aria-hidden={!isVisible}
+			aria-hidden={!isExpanded}
 			style={sectionStyle}
 		>
 			<div style={{ overflow: "hidden", minHeight: 0 }}>{children}</div>

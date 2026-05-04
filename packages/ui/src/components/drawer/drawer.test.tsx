@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Drawer } from "./drawer";
 
@@ -35,7 +35,7 @@ describe("Drawer", () => {
 
 		it("초기 상태에서 Content가 보이지 않는다", () => {
 			renderDrawer();
-			expect(screen.queryByTestId("drawer")).not.toBeInTheDocument();
+			expect(screen.getByTestId("drawer").style.visibility).toBe("hidden");
 		});
 	});
 
@@ -43,32 +43,28 @@ describe("Drawer", () => {
 		it("Trigger 클릭 시 Content가 열린다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
-			expect(screen.getByTestId("drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("drawer").style.visibility).toBe("visible");
 		});
 
 		it("dim 영역 클릭 시 Content가 닫힌다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
 			await user.click(getDim(screen.getByTestId("drawer")));
-			await waitFor(() =>
-				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
-			);
+			expect(screen.getByTestId("drawer").style.visibility).toBe("hidden");
 		});
 
 		it("ESC 키 누를 시 Content가 닫힌다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
 			await user.keyboard("{Escape}");
-			await waitFor(() =>
-				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
-			);
+			expect(screen.getByTestId("drawer").style.visibility).toBe("hidden");
 		});
 
 		it("Content 내부 클릭 시 닫히지 않는다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
 			await user.click(screen.getByText("드로어 내용"));
-			expect(screen.getByTestId("drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("drawer").style.visibility).toBe("visible");
 		});
 	});
 
@@ -124,10 +120,8 @@ describe("Drawer", () => {
 		it("열릴 때 Content 내부로 포커스가 이동한다", async () => {
 			const { user } = renderDrawer();
 			await user.click(screen.getByText("열기"));
-			await waitFor(() => {
-				const drawer = screen.getByTestId("drawer");
-				expect(drawer.contains(document.activeElement)).toBe(true);
-			});
+			const drawer = screen.getByTestId("drawer");
+			expect(drawer.contains(document.activeElement)).toBe(true);
 		});
 
 		it("Tab 키로 포커스가 Content 밖으로 나가지 않는다", async () => {
@@ -144,10 +138,6 @@ describe("Drawer", () => {
 				</Drawer>,
 			);
 			await user.click(screen.getByText("열기"));
-			await waitFor(() => {
-				const drawer = screen.getByTestId("drawer");
-				expect(drawer.contains(document.activeElement)).toBe(true);
-			});
 			const drawer = screen.getByTestId("drawer");
 
 			// 마지막 요소에서 Tab → 첫 번째 요소로 순환
@@ -170,10 +160,6 @@ describe("Drawer", () => {
 				</Drawer>,
 			);
 			await user.click(screen.getByText("열기"));
-			await waitFor(() => {
-				const drawer = screen.getByTestId("drawer");
-				expect(drawer.contains(document.activeElement)).toBe(true);
-			});
 			const drawer = screen.getByTestId("drawer");
 
 			// 첫 번째 요소에서 Shift+Tab → 마지막 요소로 순환
@@ -187,7 +173,7 @@ describe("Drawer", () => {
 			const trigger = screen.getByText("열기");
 			await user.click(trigger);
 			await user.click(getDim(screen.getByTestId("drawer")));
-			await waitFor(() => expect(document.activeElement).toBe(trigger));
+			expect(document.activeElement).toBe(trigger);
 		});
 	});
 
@@ -225,18 +211,15 @@ describe("Drawer", () => {
 				</Drawer>,
 			);
 			await user.click(screen.getByText("열기"));
-			expect(screen.getByTestId("drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("drawer").style.visibility).toBe("visible");
 			await user.click(screen.getByText("닫기"));
-			await waitFor(() =>
-				expect(screen.queryByTestId("drawer")).not.toBeInTheDocument(),
-			);
+			expect(screen.getByTestId("drawer").style.visibility).toBe("hidden");
 		});
 	});
 
 	describe("portal", () => {
 		it("Content가 document.body에 portal로 렌더링된다", async () => {
-			const { user } = renderDrawer();
-			await user.click(screen.getByText("열기"));
+			renderDrawer();
 			const drawer = screen.getByTestId("drawer");
 			expect(document.body).toContainElement(drawer);
 		});
@@ -270,8 +253,8 @@ describe("Drawer", () => {
 			const { user } = renderNestedDrawer();
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
-			expect(screen.getByTestId("inner-drawer")).toBeInTheDocument();
-			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("visible");
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
 		});
 
 		it("내부 drawer의 dim 클릭 시 내부만 닫힌다", async () => {
@@ -279,10 +262,8 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.click(getDim(screen.getByTestId("inner-drawer")));
-			await waitFor(() =>
-				expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument(),
-			);
-			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("hidden");
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
 		});
 
 		it("내부 drawer의 ESC 시 내부만 닫힌다", async () => {
@@ -290,10 +271,8 @@ describe("Drawer", () => {
 			await user.click(screen.getByText("외부 열기"));
 			await user.click(screen.getByText("내부 열기"));
 			await user.keyboard("{Escape}");
-			await waitFor(() =>
-				expect(screen.queryByTestId("inner-drawer")).not.toBeInTheDocument(),
-			);
-			expect(screen.getByTestId("outer-drawer")).toBeInTheDocument();
+			expect(screen.getByTestId("inner-drawer").style.visibility).toBe("hidden");
+			expect(screen.getByTestId("outer-drawer").style.visibility).toBe("visible");
 		});
 
 		it("내부 drawer가 외부보다 높은 z-index를 갖는다", async () => {
