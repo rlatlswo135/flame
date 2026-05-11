@@ -6,20 +6,31 @@ import { DrawerDemo } from './drawer-demo';
 
 const demoCode = `import { Drawer } from '@flame/ui';
 
+const POSITION_CLASS = {
+  right: 'top-0 right-0 h-full w-80',
+  left: 'top-0 left-0 h-full w-80',
+  top: 'top-0 left-0 w-full h-48',
+  bottom: 'bottom-0 left-0 w-full h-48',
+} as const;
+
 function DrawerExample() {
   return (
-    <Drawer placement="right">
-      <Drawer.Trigger>
-        <button>Open Drawer</button>
-      </Drawer.Trigger>
-      <Drawer.Content className="fixed top-0 right-0 h-full w-80">
-        <h2>Drawer Title</h2>
-        <p>Slide-in panel content goes here.</p>
-        <Drawer.Closer>
-          <button>Close</button>
-        </Drawer.Closer>
-      </Drawer.Content>
-    </Drawer>
+    <div className="flex items-center gap-3">
+      {(['right', 'left', 'top', 'bottom'] as const).map((placement) => (
+        <Drawer key={placement} placement={placement}>
+          <Drawer.Trigger>
+            <button type="button">{placement}</button>
+          </Drawer.Trigger>
+          <Drawer.Content className={\`fixed \${POSITION_CLASS[placement]}\`}>
+            <h2>Drawer Panel</h2>
+            <p>Slide-in panel content goes here.</p>
+            <Drawer.Closer>
+              <button type="button">Close</button>
+            </Drawer.Closer>
+          </Drawer.Content>
+        </Drawer>
+      ))}
+    </div>
   );
 }`;
 

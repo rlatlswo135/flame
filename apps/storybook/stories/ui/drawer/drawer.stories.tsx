@@ -1,12 +1,24 @@
 import { Drawer } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { DefaultExample, NestedExample } from "./drawer.examples";
+import {
+	baseContentStyle,
+	CustomControlsExample,
+	DefaultExample,
+	FormExample,
+	NestedExample,
+	PLACEMENT_STYLE,
+} from "./drawer.examples";
 
 type Story = StoryObj<typeof meta>;
 
 const meta = {
 	title: "ui/Drawer",
 	component: Drawer,
+	subcomponents: {
+		"Drawer.Trigger": Drawer.Trigger,
+		"Drawer.Content": Drawer.Content,
+		"Drawer.Closer": Drawer.Closer,
+	},
 	parameters: {
 		docs: {
 			description: {
@@ -26,12 +38,14 @@ const meta = {
 			},
 		},
 		onOpen: {
+			action: "onOpen",
 			description: "Called when the drawer opens.",
 			table: {
 				type: { summary: "() => void" },
 			},
 		},
 		onClose: {
+			action: "onClose",
 			description: "Called when the drawer closes.",
 			table: {
 				type: { summary: "() => void" },
@@ -46,22 +60,16 @@ const meta = {
 			},
 		},
 	},
-	render: (props) => (
-		<Drawer {...props}>
+	args: {
+		placement: "right",
+	},
+	render: ({ placement = "right", ...props }) => (
+		<Drawer placement={placement} {...props}>
 			<Drawer.Trigger>
 				<button type="button">open drawer</button>
 			</Drawer.Trigger>
 			<Drawer.Content
-				style={{
-					position: "fixed",
-					top: 0,
-					right: 0,
-					height: "100%",
-					width: "320px",
-					background: "#fff",
-					padding: "24px",
-					boxShadow: "0 0 20px rgba(0,0,0,0.15)",
-				}}
+				style={{ ...baseContentStyle, ...PLACEMENT_STYLE[placement] }}
 			>
 				<h3>Drawer</h3>
 				<p>Slide-in panel content goes here.</p>
@@ -146,50 +154,19 @@ export const CustomControls: Story = {
 			},
 		},
 	},
-	render: () => (
-		<Drawer>
-			<Drawer.Trigger>
-				{({ open }) => (
-					<button
-						type="button"
-						onClick={() => {
-							console.log("opening");
-							open();
-						}}
-					>
-						open drawer
-					</button>
-				)}
-			</Drawer.Trigger>
-			<Drawer.Content
-				style={{
-					position: "fixed",
-					top: 0,
-					right: 0,
-					height: "100%",
-					width: "320px",
-					background: "#fff",
-					padding: "24px",
-					boxShadow: "0 0 20px rgba(0,0,0,0.15)",
-				}}
-			>
-				<h3>Custom Controls</h3>
-				<Drawer.Closer>
-					{({ close }) => (
-						<button
-							type="button"
-							onClick={() => {
-								console.log("closing");
-								close();
-							}}
-						>
-							close drawer
-						</button>
-					)}
-				</Drawer.Closer>
-			</Drawer.Content>
-		</Drawer>
-	),
+	render: () => <CustomControlsExample />,
+};
+
+export const WithForm: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Form content inside a drawer. Focus is trapped to the drawer while open, and Tab cycles through inputs and action buttons.",
+			},
+		},
+	},
+	render: () => <FormExample />,
 };
 
 export const Nested: Story = {
