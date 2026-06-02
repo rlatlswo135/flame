@@ -6,7 +6,6 @@ import {
 	cloneElement,
 	type PropsWithChildren,
 	useEffect,
-	useId,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
@@ -35,7 +34,7 @@ const Accordion = ({ single = false, children }: AccordionProps) => {
 };
 
 const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
-	const id = useId();
+	const id = useResolvedId();
 	const { single, activeItemId, setActiveItemId } = useCtx(AccordionContext);
 
 	const [localExpanded, setLocalExpanded] = useState(initialOpen);
@@ -47,8 +46,6 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	}, []);
 
-	const contentId = useResolvedId();
-
 	const isExpanded = single ? activeItemId === id : localExpanded;
 
 	const toggle = () => {
@@ -59,7 +56,7 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	};
 
-	const value = { toggle, isExpanded, contentId };
+	const value = { toggle, isExpanded, contentId: id };
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
@@ -99,13 +96,13 @@ const Content = ({ children, ...props }: AccordionContentProps) => {
 	);
 };
 
-Item.displayName = "Accordion.Item";
-Trigger.displayName = "Accordion.Trigger";
-Content.displayName = "Accordion.Content";
-
 Accordion.Item = Item;
 Accordion.Trigger = Trigger;
 Accordion.Content = Content;
+
+Item.displayName = "Accordion.Item";
+Trigger.displayName = "Accordion.Trigger";
+Content.displayName = "Accordion.Content";
 
 export {
 	Accordion,

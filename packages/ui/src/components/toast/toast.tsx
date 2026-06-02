@@ -2,11 +2,11 @@
 
 import {
 	type ComponentPropsWithRef,
-	useId,
 	useRef,
 	useSyncExternalStore,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import { Portal } from "@/src/primitives/portal";
 import { ToastContext } from "./context";
 import { type ToastAnimation, toastStore } from "./store";
@@ -130,7 +130,7 @@ const Toaster = ({
 };
 
 const Toast = ({ children, ...props }: ToastProps) => {
-	const id = useId();
+	const id = useResolvedId();
 
 	return (
 		<ToastContext value={{ id }}>
