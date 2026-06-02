@@ -10,11 +10,11 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
 import { useFocusTrap } from "@/src/hooks/use-focus-trap";
-import { useMounted } from "@/src/hooks/use-mounted";
+import { usePrefersReducedMotion } from "@/src/hooks/use-prefers-reduced-motion";
 import { useResolvedId } from "@/src/hooks/use-resolved-id";
+import { Portal } from "@/src/primitives/portal";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
 import { DrawerContext } from "./context";
 
@@ -35,15 +35,7 @@ type DrawerContentProps = ComponentPropsWithoutRef<"div"> & {
 	ref?: RefObject<HTMLDivElement | null>;
 };
 
-const MODAL_Z_BASE = 1000;
 let globalZIndex = 0;
-
-const SLIDE_TRANSFORMS: Record<Placement, { from: string; to: string }> = {
-	right: { from: "translateX(100%)", to: "translateX(0)" },
-	left: { from: "translateX(-100%)", to: "translateX(0)" },
-	top: { from: "translateY(-100%)", to: "translateY(0)" },
-	bottom: { from: "translateY(100%)", to: "translateY(0)" },
-};
 
 const Drawer = ({
 	placement = "right",
@@ -105,24 +97,28 @@ const Closer = ({ children }: DrawerCloserProps) => {
 	return cloneElement(children as ClickableElement, { onClick: close });
 };
 
-const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
+const Content = ({
+	children,
+	onKeyDown,
+	ref: refProp,
+	...props
+}: DrawerContentProps) => {
 	const innerRef = useRef<HTMLDivElement>(null);
 	const ref = refProp ?? innerRef;
 
-	const isMounted = useMounted();
+	const reducedMotion = usePrefersReducedMotion();
 
 	const { isOpen, close, placement, contentId, baseZIndex } =
 		useCtx(DrawerContext);
 
-	const handleKeyDown = (e: KeyboardEvent) => {
+	const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+		onKeyDown?.(e);
 		if (e.key !== "Escape") return;
 		e.stopPropagation();
 		close();
 	};
 
-	useFocusTrap(ref, isOpen && isMounted);
-
-	if (!isMounted) return null;
+	useFocusTrap(ref, isOpen);
 
 	const slide = SLIDE_TRANSFORMS[placement];
 
@@ -132,46 +128,51 @@ const Content = ({ children, ref: refProp, ...props }: DrawerContentProps) => {
 		zIndex: baseZIndex + 1,
 		opacity: isOpen ? 1 : 0,
 		pointerEvents: isOpen ? "auto" : "none",
-		transition: "opacity 250ms cubic-bezier(0.32, 0.72, 0, 1)",
+		transition: reducedMotion ? "none" : `opacity 250ms ${CUBIC_BEZIER}`,
 	};
 
 	const contentStyle: CSSProperties = {
+		position: "fixed",
+		...PLACEMENT_ANCHOR[placement],
 		zIndex: baseZIndex + 2,
 		transform: isOpen ? slide.to : slide.from,
 		visibility: isOpen ? "visible" : "hidden",
-		transition:
-			"transform 250ms cubic-bezier(0.32, 0.72, 0, 1), visibility 250ms cubic-bezier(0.32, 0.72, 0, 1)",
+		transition: reducedMotion
+			? "none"
+			: `transform 250ms ${CUBIC_BEZIER}, visibility 250ms ${CUBIC_BEZIER}`,
 		...props.style,
 	};
 
-	return createPortal(
-		// biome-ignore lint/a11y/noStaticElementInteractions: wrapper
-		<div ref={ref} style={{ zIndex: baseZIndex }} onKeyDown={handleKeyDown}>
-			{/* biome-ignore lint/a11y/noStaticElementInteractions: dim is a redundant mouse-only close affordance; keyboard users close via Escape */}
-			<div data-slot="dim" onClick={close} style={dimStyle} />
-			<div
-				{...props}
-				id={contentId}
-				role="dialog"
-				aria-modal="true"
-				data-slot="content"
-				data-placement={placement}
-				style={contentStyle}
-			>
-				{children}
+	return (
+		<Portal>
+			<div style={{ zIndex: baseZIndex }}>
+				{/* biome-ignore lint/a11y/noStaticElementInteractions: dim is a redundant mouse-only close affordance; keyboard users close via Escape */}
+				<div data-slot="dim" onClick={close} style={dimStyle} />
+				<div
+					{...props}
+					ref={ref}
+					id={contentId}
+					role="dialog"
+					aria-modal="true"
+					data-slot="content"
+					data-placement={placement}
+					style={contentStyle}
+					onKeyDown={handleKeyDown}
+				>
+					{children}
+				</div>
 			</div>
-		</div>,
-		document.body,
+		</Portal>
 	);
 };
-
-Trigger.displayName = "Drawer.Trigger";
-Content.displayName = "Drawer.Content";
-Closer.displayName = "Drawer.Closer";
 
 Drawer.Trigger = Trigger;
 Drawer.Content = Content;
 Drawer.Closer = Closer;
+
+Trigger.displayName = "Drawer.Trigger";
+Content.displayName = "Drawer.Content";
+Closer.displayName = "Drawer.Closer";
 
 export {
 	Drawer,
@@ -179,4 +180,22 @@ export {
 	type DrawerTriggerProps,
 	type DrawerCloserProps,
 	type DrawerContentProps,
+};
+
+const MODAL_Z_BASE = 1000;
+
+const CUBIC_BEZIER = "cubic-bezier(0.32, 0.72, 0, 1)";
+
+const SLIDE_TRANSFORMS: Record<Placement, { from: string; to: string }> = {
+	right: { from: "translateX(100%)", to: "translateX(0)" },
+	left: { from: "translateX(-100%)", to: "translateX(0)" },
+	top: { from: "translateY(-100%)", to: "translateY(0)" },
+	bottom: { from: "translateY(100%)", to: "translateY(0)" },
+};
+
+const PLACEMENT_ANCHOR: Record<Placement, CSSProperties> = {
+	right: { top: 0, right: 0, height: "100%" },
+	left: { top: 0, left: 0, height: "100%" },
+	top: { top: 0, left: 0, width: "100%" },
+	bottom: { bottom: 0, left: 0, width: "100%" },
 };

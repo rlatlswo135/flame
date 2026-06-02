@@ -3,21 +3,21 @@ import type { CSSProperties } from "react";
 
 type Placement = "top" | "right" | "bottom" | "left";
 
-const PLACEMENT_STYLE: Record<Placement, CSSProperties> = {
-	right: { top: 0, right: 0, height: "100%", width: "320px" },
-	left: { top: 0, left: 0, height: "100%", width: "320px" },
-	top: { top: 0, left: 0, width: "100%", height: "200px" },
-	bottom: { bottom: 0, left: 0, width: "100%", height: "200px" },
+// position과 엣지 도킹은 Drawer가 소유한다. 소비자는 주축 크기만 지정한다.
+const PLACEMENT_SIZE: Record<Placement, CSSProperties> = {
+	right: { width: "320px" },
+	left: { width: "320px" },
+	top: { height: "200px" },
+	bottom: { height: "200px" },
 };
 
 const baseContentStyle: CSSProperties = {
-	position: "fixed",
 	background: "#fff",
 	padding: "24px",
 	boxShadow: "0 0 20px rgba(0,0,0,0.15)",
 };
 
-export { PLACEMENT_STYLE, baseContentStyle };
+export { PLACEMENT_SIZE, baseContentStyle };
 
 export const DefaultExample = () => (
 	<div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
@@ -26,7 +26,7 @@ export const DefaultExample = () => (
 				<Drawer.Trigger>
 					<button type="button">{p}</button>
 				</Drawer.Trigger>
-				<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_STYLE[p] }}>
+				<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_SIZE[p] }}>
 					<h3>Drawer ({p})</h3>
 					<p>Slide-in panel content.</p>
 					<Drawer.Closer>
@@ -43,7 +43,7 @@ export const NestedExample = () => (
 		<Drawer.Trigger>
 			<button type="button">open outer</button>
 		</Drawer.Trigger>
-		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_STYLE.right }}>
+		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_SIZE.right }}>
 			<h3>Outer Drawer</h3>
 			<p>This is the outer drawer. Open the inner one below.</p>
 			<Drawer>
@@ -53,7 +53,7 @@ export const NestedExample = () => (
 				<Drawer.Content
 					style={{
 						...baseContentStyle,
-						...PLACEMENT_STYLE.right,
+						...PLACEMENT_SIZE.right,
 						width: "280px",
 						background: "#f9f9f9",
 					}}
@@ -87,7 +87,7 @@ export const CustomControlsExample = () => (
 				</button>
 			)}
 		</Drawer.Trigger>
-		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_STYLE.right }}>
+		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_SIZE.right }}>
 			<h3>Custom Controls</h3>
 			<Drawer.Closer>
 				{({ close }) => (
@@ -111,7 +111,7 @@ export const FormExample = () => (
 		<Drawer.Trigger>
 			<button type="button">open form drawer</button>
 		</Drawer.Trigger>
-		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_STYLE.right }}>
+		<Drawer.Content style={{ ...baseContentStyle, ...PLACEMENT_SIZE.right }}>
 			<h3>Edit Profile</h3>
 			<form
 				style={{ display: "flex", flexDirection: "column", gap: "12px" }}

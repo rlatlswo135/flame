@@ -19,14 +19,8 @@ const DrawerDemo = () => {
             </button>
           </Drawer.Trigger>
           <Drawer.Content
-            className={`fixed bg-flame-bg border border-flame-border shadow-2xl ${
-              placement === 'right'
-                ? 'top-0 right-0 h-full w-80'
-                : placement === 'left'
-                  ? 'top-0 left-0 h-full w-80'
-                  : placement === 'top'
-                    ? 'top-0 left-0 w-full h-48'
-                    : 'bottom-0 left-0 w-full h-48'
+            className={`bg-flame-bg border border-flame-border shadow-2xl ${
+              placement === 'right' || placement === 'left' ? 'w-80' : 'h-48'
             }`}
           >
             <div className="p-6">

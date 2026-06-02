@@ -92,6 +92,15 @@ describe("Drawer", () => {
 				placement,
 			);
 		});
+
+		it("content에 fixed 포지셔닝과 placement별 anchor가 적용된다", async () => {
+			const { user } = renderDrawer({ placement: "right" });
+			await user.click(screen.getByText("열기"));
+			const content = screen.getByTestId("drawer");
+			expect(content.style.position).toBe("fixed");
+			expect(content.style.right).toBe("0px");
+			expect(content.style.height).toBe("100%");
+		});
 	});
 
 	describe("접근성", () => {
@@ -175,6 +184,26 @@ describe("Drawer", () => {
 			await user.click(trigger);
 			await user.click(getDim(screen.getByTestId("drawer")));
 			expect(document.activeElement).toBe(trigger);
+		});
+
+		it("prefers-reduced-motion이면 트랜지션을 제거한다", async () => {
+			const matchMediaSpy = vi.spyOn(window, "matchMedia").mockReturnValue({
+				matches: true,
+				media: "(prefers-reduced-motion: reduce)",
+				onchange: null,
+				addEventListener: vi.fn(),
+				removeEventListener: vi.fn(),
+				addListener: vi.fn(),
+				removeListener: vi.fn(),
+				dispatchEvent: vi.fn(),
+			} as unknown as MediaQueryList);
+			try {
+				const { user } = renderDrawer();
+				await user.click(screen.getByText("열기"));
+				expect(screen.getByTestId("drawer").style.transition).toBe("none");
+			} finally {
+				matchMediaSpy.mockRestore();
+			}
 		});
 
 		it("자동 생성된 contentId가 Trigger의 aria-controls와 Content의 id에 일치한다", () => {
@@ -280,7 +309,7 @@ describe("Drawer", () => {
 	});
 
 	describe("Content prop 전달", () => {
-		it("ref가 Content wrapper 요소로 전달된다", async () => {
+		it("ref가 Content(dialog) 요소로 전달된다", async () => {
 			const user = userEvent.setup();
 			const ref = createRef<HTMLDivElement>();
 			render(
@@ -295,8 +324,8 @@ describe("Drawer", () => {
 			);
 			await user.click(screen.getByText("열기"));
 			const content = screen.getByTestId("drawer");
-			// ref는 dim과 content를 감싸는 wrapper div를 가리킨다
-			expect(ref.current).toBe(content.parentElement);
+			// ref는 children이 렌더링되는 content(role=dialog) 요소를 가리킨다
+			expect(ref.current).toBe(content);
 		});
 
 		it("className과 data-* 속성이 Content에 전달된다", () => {

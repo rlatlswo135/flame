@@ -6,7 +6,7 @@ import {
 	DefaultExample,
 	FormExample,
 	NestedExample,
-	PLACEMENT_STYLE,
+	PLACEMENT_SIZE,
 } from "./drawer.examples";
 
 type Story = StoryObj<typeof meta>;
@@ -69,7 +69,7 @@ const meta = {
 				<button type="button">open drawer</button>
 			</Drawer.Trigger>
 			<Drawer.Content
-				style={{ ...baseContentStyle, ...PLACEMENT_STYLE[placement] }}
+				style={{ ...baseContentStyle, ...PLACEMENT_SIZE[placement] }}
 			>
 				<h3>Drawer</h3>
 				<p>Slide-in panel content goes here.</p>

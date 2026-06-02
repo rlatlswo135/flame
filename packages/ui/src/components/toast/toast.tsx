@@ -6,9 +6,8 @@ import {
 	useRef,
 	useSyncExternalStore,
 } from "react";
-import { createPortal } from "react-dom";
 import { useCtx } from "@/src/hooks/use-ctx";
-import { useMounted } from "@/src/hooks/use-mounted";
+import { Portal } from "@/src/primitives/portal";
 import { ToastContext } from "./context";
 import { type ToastAnimation, toastStore } from "./store";
 
@@ -49,7 +48,6 @@ const Toaster = ({
 	style,
 	...props
 }: ToasterProps) => {
-	const isMounted = useMounted();
 	const elMap = useRef<Map<number, HTMLDivElement>>(new Map());
 
 	const resolvedAnimation =
@@ -92,43 +90,42 @@ const Toaster = ({
 		}
 	};
 
-	if (!isMounted) return null;
-
-	return createPortal(
-		<section
-			style={{
-				inset: 0,
-				position: "fixed",
-				pointerEvents: "none",
-			}}
-			{...props}
-			data-toast-container
-			aria-label="notifications"
-		>
-			<div
+	return (
+		<Portal>
+			<section
 				style={{
-					gap: 8,
-					display: "flex",
-					position: "absolute",
-					flexDirection: "column",
-					...style,
-					...placementStyle[placement],
+					inset: 0,
+					position: "fixed",
+					pointerEvents: "none",
 				}}
+				{...props}
+				data-toast-container
+				aria-label="notifications"
 			>
-				{toasts.map((i) => (
-					// biome-ignore lint/a11y/noStaticElementInteractions: this is a toast wrapper
-					<div
-						key={i.id}
-						ref={(el) => onRefMount(i.id, i.status, el)}
-						style={{ pointerEvents: "auto" }}
-						onClick={() => exitToast(i.id)}
-					>
-						{i.content}
-					</div>
-				))}
-			</div>
-		</section>,
-		document.body,
+				<div
+					style={{
+						gap: 8,
+						display: "flex",
+						position: "absolute",
+						flexDirection: "column",
+						...style,
+						...placementStyle[placement],
+					}}
+				>
+					{toasts.map((i) => (
+						// biome-ignore lint/a11y/noStaticElementInteractions: this is a toast wrapper
+						<div
+							key={i.id}
+							ref={(el) => onRefMount(i.id, i.status, el)}
+							style={{ pointerEvents: "auto" }}
+							onClick={() => exitToast(i.id)}
+						>
+							{i.content}
+						</div>
+					))}
+				</div>
+			</section>
+		</Portal>
 	);
 };
 
