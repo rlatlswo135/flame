@@ -2,13 +2,14 @@
 
 import {
 	type ComponentPropsWithRef,
+	type CSSProperties,
 	cloneElement,
 	type PropsWithChildren,
 	useEffect,
-	useId,
 	useState,
 } from "react";
 import { useCtx } from "@/src/hooks/use-ctx";
+import { useResolvedId } from "@/src/hooks/use-resolved-id";
 import type { ClickableElement, ElementFnChildren } from "@/src/types";
 import { AccordionContext, AccordionItemContext } from "./context";
 
@@ -33,7 +34,7 @@ const Accordion = ({ single = false, children }: AccordionProps) => {
 };
 
 const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
-	const id = useId();
+	const id = useResolvedId();
 	const { single, activeItemId, setActiveItemId } = useCtx(AccordionContext);
 
 	const [localExpanded, setLocalExpanded] = useState(initialOpen);
@@ -55,41 +56,53 @@ const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
 		}
 	};
 
-	const value = { toggle, isExpanded };
+	const value = { toggle, isExpanded, contentId: id };
 
 	return <AccordionItemContext value={value}>{children}</AccordionItemContext>;
 };
 
 const Trigger = ({ children }: AccordionTriggerProps) => {
-	const { toggle, isExpanded } = useCtx(AccordionItemContext);
+	const { toggle, isExpanded, contentId } = useCtx(AccordionItemContext);
 
 	if (typeof children === "function") return children({ toggle });
 
 	return cloneElement(children as ClickableElement, {
 		onClick: toggle,
 		"aria-expanded": isExpanded,
+		"aria-controls": contentId,
 	});
 };
 
 const Content = ({ children, ...props }: AccordionContentProps) => {
-	const { isExpanded } = useCtx(AccordionItemContext);
+	const { isExpanded, contentId } = useCtx(AccordionItemContext);
 
-	if (!isExpanded) return null;
+	const sectionStyle: CSSProperties = {
+		...props.style,
+		display: "grid",
+		gridTemplateRows: isExpanded ? "1fr" : "0fr",
+		transition: "grid-template-rows 250ms ease",
+	};
 
 	return (
-		<div data-expanded={isExpanded} aria-hidden={!isExpanded} {...props}>
-			{children}
-		</div>
+		<section
+			{...props}
+			id={contentId}
+			data-expanded={isExpanded}
+			aria-hidden={!isExpanded}
+			style={sectionStyle}
+		>
+			<div style={{ overflow: "hidden", minHeight: 0 }}>{children}</div>
+		</section>
 	);
 };
-
-Item.displayName = "Accordion.Item";
-Trigger.displayName = "Accordion.Trigger";
-Content.displayName = "Accordion.Content";
 
 Accordion.Item = Item;
 Accordion.Trigger = Trigger;
 Accordion.Content = Content;
+
+Item.displayName = "Accordion.Item";
+Trigger.displayName = "Accordion.Trigger";
+Content.displayName = "Accordion.Content";
 
 export {
 	Accordion,

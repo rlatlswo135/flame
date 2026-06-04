@@ -67,7 +67,7 @@ export default async function SelectPage({ params }: { params: Promise<{ locale:
     },
     {
       name: '...props',
-      type: 'ComponentPropsWithoutRef<"ul">',
+      type: 'ComponentPropsWithoutRef<"div">',
       description: t('props.optionsProps'),
     },
   ];
@@ -76,7 +76,7 @@ export default async function SelectPage({ params }: { params: Promise<{ locale:
     { name: 'value', type: 'string', description: t('props.optionValue') },
     {
       name: '...props',
-      type: 'ComponentPropsWithoutRef<"li">',
+      type: 'ComponentPropsWithoutRef<"div">',
       description: t('props.optionProps'),
     },
   ];

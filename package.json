@@ -14,7 +14,7 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
+"scripts": {
     "commit": "cz",
     "@ui": "pnpm --filter @flame/ui",
     "@table": "pnpm --filter @flame/table",

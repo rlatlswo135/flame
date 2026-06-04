@@ -69,7 +69,7 @@ export default async function AccordionPage({ params }: { params: Promise<{ loca
   const contentProps: PropDef[] = [
     {
       name: '...props',
-      type: 'ComponentPropsWithRef<"div">',
+      type: 'ComponentPropsWithoutRef<"section">',
       description: t('props.contentProps'),
     },
   ];

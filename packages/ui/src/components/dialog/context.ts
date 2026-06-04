@@ -7,6 +7,7 @@ import {
 
 type DialogContextValue = {
 	dialog: RefObject<HTMLDialogElement | null>;
+	contentId: string;
 	open: () => void;
 	close: () => void;
 	closeOutside?: boolean;

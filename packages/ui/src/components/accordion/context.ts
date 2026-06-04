@@ -9,6 +9,7 @@ type AccordionContextValue = {
 type AccordionItemContextValue = {
 	toggle: () => void;
 	isExpanded: boolean;
+	contentId: string;
 };
 
 export const AccordionContext = createContext<AccordionContextValue | null>(
