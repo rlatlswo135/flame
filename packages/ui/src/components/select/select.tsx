@@ -4,11 +4,7 @@ import type {
 	UseFloatingReturn,
 	UseInteractionsReturn,
 } from "@floating-ui/react";
-import {
-	FloatingFocusManager,
-	FloatingPortal,
-	useInteractions,
-} from "@floating-ui/react";
+import { FloatingFocusManager, useInteractions } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
@@ -19,11 +15,15 @@ import {
 	type FloatingBaseProps,
 	useFloatingBase,
 } from "@/src/hooks/use-floating-base";
+import {
+	OptionalPortal,
+	type OptionalPortalProps,
+} from "@/src/primitives/optional-portal";
 import type { FnChildren } from "@/src/types";
 import { SelectContext } from "./context";
 
 type SelectProps = PropsWithChildren<
-	FloatingBaseProps & {
+	Pick<FloatingBaseProps, "options" | "transition"> & {
 		value: string;
 		onChange: (value: string) => void;
 	}
@@ -35,12 +35,13 @@ type SelectOptionsProps = FnChildren<{
 	floating: UseFloatingReturn;
 	interactions: UseInteractionsReturn;
 }> &
+	OptionalPortalProps &
 	Omit<ComponentPropsWithoutRef<"div">, "children">;
 
 type SelectOptionProps = ComponentPropsWithoutRef<"div"> & { value: string };
 
 const Select = ({ value, children, onChange, ...props }: SelectProps) => {
-	const base = useFloatingBase(props);
+	const base = useFloatingBase({ ...props, hover: { enabled: false } });
 
 	const interactions = useInteractions(Object.values(base.baseInteractions));
 
@@ -65,15 +66,9 @@ const Trigger = ({ children }: SelectTriggerProps) => {
 	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
-const Options = ({ children, ...props }: SelectOptionsProps) => {
-	const {
-		portal,
-		floating,
-		focusTrap,
-		transition,
-		interactions,
-		baseContentProps,
-	} = useCtx(SelectContext);
+const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
+	const { floating, transition, interactions, baseContentProps } =
+		useCtx(SelectContext);
 
 	const shouldMount = transition ? transition.isMounted : floating.context.open;
 
@@ -82,26 +77,21 @@ const Options = ({ children, ...props }: SelectOptionsProps) => {
 	if (typeof children === "function")
 		return children({ floating, interactions });
 
-	const element = (
-		<FloatingFocusManager context={floating.context} modal={focusTrap}>
-			<div
-				{...baseContentProps}
-				{...interactions.getFloatingProps()}
-				{...props}
-				role="listbox"
-				aria-hidden={!floating.context.open}
-			>
-				{children}
-			</div>
-		</FloatingFocusManager>
+	return (
+		<OptionalPortal portal={portal}>
+			<FloatingFocusManager context={floating.context} modal>
+				<div
+					{...baseContentProps}
+					{...interactions.getFloatingProps()}
+					{...props}
+					role="listbox"
+					aria-hidden={!floating.context.open}
+				>
+					{children}
+				</div>
+			</FloatingFocusManager>
+		</OptionalPortal>
 	);
-
-	if (portal) {
-		const portalProps = typeof portal === "boolean" ? {} : portal;
-		return <FloatingPortal {...portalProps}>{element}</FloatingPortal>;
-	}
-
-	return element;
 };
 
 const Option = ({ value, ...props }: SelectOptionProps) => {
@@ -124,13 +114,13 @@ const Option = ({ value, ...props }: SelectOptionProps) => {
 	);
 };
 
-Trigger.displayName = "Select.Trigger";
-Options.displayName = "Select.Options";
-Option.displayName = "Select.Option";
-
 Select.Trigger = Trigger;
 Select.Options = Options;
 Select.Option = Option;
+
+Trigger.displayName = "Select.Trigger";
+Options.displayName = "Select.Options";
+Option.displayName = "Select.Option";
 
 export {
 	Select,

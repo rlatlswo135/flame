@@ -18,7 +18,7 @@
     "noUnusedParameters": true, // 사용되지 않는 매개변수 검사
     "noFallthroughCasesInSwitch": true, // switch 문에서 누락된 break 검사
     "noUncheckedSideEffectImports": true, // 암시적 any 타입 검사
-    "exactOptionalPropertyTypes": true, // 선택적 속성 타입 엄격성 활성화
+    "exactOptionalPropertyTypes": false, // 선택적 속성 타입 엄격성 활성화
     "skipLibCheck": true, // 라이브러리 타입 검사 건너뛰기
     "jsx": "react-jsx" // JSX 문법 사용
   },

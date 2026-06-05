@@ -1,8 +1,8 @@
 import type {
-	FloatingPortalProps,
 	UseClickProps,
 	UseDismissProps,
 	UseFloatingOptions,
+	UseHoverProps,
 	UseRoleProps,
 	UseTransitionStylesProps,
 } from "@floating-ui/react";
@@ -11,21 +11,19 @@ import {
 	useClick,
 	useDismiss,
 	useFloating,
+	useHover,
 	useRole,
 	useTransitionStyles,
 } from "@floating-ui/react";
 import { type CSSProperties, useMemo, useState } from "react";
 
-type UseFloatingReturn = ReturnType<typeof useFloating>;
-
 type BaseProps = {
-	focusTrap?: boolean;
-	portal?: boolean | FloatingPortalProps;
-	options?: Omit<UseFloatingOptions, "open" | "onOpenChange">;
-	dismiss?: UseDismissProps;
-	click?: UseClickProps;
 	role?: UseRoleProps;
+	hover?: UseHoverProps;
+	click?: UseClickProps;
+	dismiss?: UseDismissProps;
 	transition?: boolean | UseTransitionStylesProps;
+	options?: Omit<UseFloatingOptions, "open" | "onOpenChange">;
 };
 
 type ControlledProps = BaseProps & {
@@ -40,12 +38,31 @@ type UncontrolledProps = BaseProps & {
 
 export type FloatingBaseProps = ControlledProps | UncontrolledProps;
 
+type UseFloatingReturn = ReturnType<typeof useFloating>;
+
+export type FloatingBaseReturn = {
+	floating: UseFloatingReturn;
+	baseInteractions: {
+		role: ReturnType<typeof useRole>;
+		click: ReturnType<typeof useClick>;
+		hover: ReturnType<typeof useHover>;
+		dismiss: ReturnType<typeof useDismiss>;
+	};
+	baseTriggerProps: {
+		ref: UseFloatingReturn["refs"]["setReference"];
+	};
+	baseContentProps: {
+		ref: UseFloatingReturn["refs"]["setFloating"];
+		style: CSSProperties;
+	};
+	transition: ReturnType<typeof useTransitionStyles> | null;
+};
+
 export const useFloatingBase = ({
-	portal = false,
-	focusTrap = true,
 	transition: transitionOptions = false,
 	options,
 	role: roleOptions,
+	hover: hoverOptions,
 	click: clickOptions,
 	dismiss: dismissOptions,
 	...props
@@ -74,6 +91,7 @@ export const useFloatingBase = ({
 	});
 
 	const role = useRole(floating.context, roleOptions);
+	const hover = useHover(floating.context, hoverOptions);
 	const click = useClick(floating.context, clickOptions);
 	const dismiss = useDismiss(floating.context, dismissOptions);
 
@@ -86,9 +104,10 @@ export const useFloatingBase = ({
 		() => ({
 			role,
 			click,
+			hover,
 			dismiss,
 		}),
-		[role, click, dismiss],
+		[role, click, dismiss, hover],
 	);
 
 	const baseTriggerProps = useMemo(
@@ -116,30 +135,9 @@ export const useFloatingBase = ({
 
 	return {
 		floating,
-		portal,
-		focusTrap,
 		baseInteractions,
-		transition: transitionOptions ? transition : null,
 		baseTriggerProps,
 		baseContentProps,
+		transition: transitionOptions ? transition : null,
 	};
-};
-
-export type FloatingBaseReturn = {
-	focusTrap: boolean;
-	floating: UseFloatingReturn;
-	portal: boolean | FloatingPortalProps;
-	baseInteractions: {
-		role: ReturnType<typeof useRole>;
-		click: ReturnType<typeof useClick>;
-		dismiss: ReturnType<typeof useDismiss>;
-	};
-	baseTriggerProps: {
-		ref: UseFloatingReturn["refs"]["setReference"];
-	};
-	baseContentProps: {
-		ref: UseFloatingReturn["refs"]["setFloating"];
-		style: CSSProperties;
-	};
-	transition: ReturnType<typeof useTransitionStyles> | null;
 };
