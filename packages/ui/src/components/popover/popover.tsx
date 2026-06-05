@@ -24,7 +24,7 @@ import type { FnChildren } from "@/src/types";
 import { PopoverContext } from "./context";
 
 type PopoverProps = PropsWithChildren<
-	Pick<FloatingBaseProps, "options" | "transition">
+	Omit<FloatingBaseProps, "click" | "hover">
 >;
 
 type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
@@ -37,9 +37,9 @@ type PopoverContentProps = FnChildren<{
 	Omit<ComponentPropsWithoutRef<"section">, "style" | "children">;
 
 const Popover = ({ children, ...props }: PopoverProps) => {
-	const base = useFloatingBase({ ...props, hover: { enabled: false } });
+	const base = useFloatingBase(props);
 
-	const interactions = useInteractions(Object.values(base.baseInteractions));
+	const interactions = useInteractions(base.getInteractions("click"));
 
 	const context = { ...base, interactions };
 

@@ -23,7 +23,7 @@ import type { FnChildren } from "@/src/types";
 import { SelectContext } from "./context";
 
 type SelectProps = PropsWithChildren<
-	Pick<FloatingBaseProps, "options" | "transition"> & {
+	Omit<FloatingBaseProps, "click" | "hover"> & {
 		value: string;
 		onChange: (value: string) => void;
 	}
@@ -41,9 +41,9 @@ type SelectOptionsProps = FnChildren<{
 type SelectOptionProps = ComponentPropsWithoutRef<"div"> & { value: string };
 
 const Select = ({ value, children, onChange, ...props }: SelectProps) => {
-	const base = useFloatingBase({ ...props, hover: { enabled: false } });
+	const base = useFloatingBase(props);
 
-	const interactions = useInteractions(Object.values(base.baseInteractions));
+	const interactions = useInteractions(base.getInteractions("click"));
 
 	const context = {
 		...base,
@@ -114,18 +114,18 @@ const Option = ({ value, ...props }: SelectOptionProps) => {
 	);
 };
 
+Select.Option = Option;
 Select.Trigger = Trigger;
 Select.Options = Options;
-Select.Option = Option;
 
+Option.displayName = "Select.Option";
 Trigger.displayName = "Select.Trigger";
 Options.displayName = "Select.Options";
-Option.displayName = "Select.Option";
 
 export {
 	Select,
 	type SelectProps,
+	type SelectOptionProps,
 	type SelectTriggerProps,
 	type SelectOptionsProps,
-	type SelectOptionProps,
 };
