@@ -2,7 +2,6 @@
 
 import {
 	FloatingFocusManager,
-	FloatingPortal,
 	type UseFloatingReturn,
 	type UseInteractionsReturn,
 	useInteractions,
@@ -17,13 +16,15 @@ import {
 	type FloatingBaseProps,
 	useFloatingBase,
 } from "@/src/hooks/use-floating-base";
+import {
+	OptionalPortal,
+	type OptionalPortalProps,
+} from "@/src/primitives/optional-portal";
 import type { FnChildren } from "@/src/types";
 import { PopoverContext } from "./context";
 
 type PopoverProps = PropsWithChildren<
-	FloatingBaseProps & {
-		interactions?: UseInteractionsReturn;
-	}
+	Omit<FloatingBaseProps, "click" | "hover">
 >;
 
 type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
@@ -32,12 +33,13 @@ type PopoverContentProps = FnChildren<{
 	interactions: UseInteractionsReturn;
 	floating: UseFloatingReturn;
 }> &
+	OptionalPortalProps &
 	Omit<ComponentPropsWithoutRef<"section">, "style" | "children">;
 
 const Popover = ({ children, ...props }: PopoverProps) => {
 	const base = useFloatingBase(props);
 
-	const interactions = useInteractions(Object.values(base.baseInteractions));
+	const interactions = useInteractions(base.getInteractions("click"));
 
 	const context = { ...base, interactions };
 
@@ -55,15 +57,9 @@ const Trigger = ({ children }: PopoverTriggerProps) => {
 	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
-const Content = ({ children, ...props }: PopoverContentProps) => {
-	const {
-		portal,
-		floating,
-		focusTrap,
-		transition,
-		interactions,
-		baseContentProps,
-	} = useCtx(PopoverContext);
+const Content = ({ children, portal, ...props }: PopoverContentProps) => {
+	const { floating, transition, interactions, baseContentProps } =
+		useCtx(PopoverContext);
 
 	const shouldMount = transition ? transition.isMounted : floating.context.open;
 
@@ -72,32 +68,27 @@ const Content = ({ children, ...props }: PopoverContentProps) => {
 	if (typeof children === "function")
 		return children({ floating, interactions });
 
-	const element = (
-		<FloatingFocusManager context={floating.context} modal={focusTrap}>
-			<section
-				{...baseContentProps}
-				{...interactions.getFloatingProps()}
-				aria-hidden={!floating.context.open}
-				{...props}
-			>
-				{children}
-			</section>
-		</FloatingFocusManager>
+	return (
+		<OptionalPortal portal={portal}>
+			<FloatingFocusManager context={floating.context} modal>
+				<section
+					{...baseContentProps}
+					{...interactions.getFloatingProps()}
+					aria-hidden={!floating.context.open}
+					{...props}
+				>
+					{children}
+				</section>
+			</FloatingFocusManager>
+		</OptionalPortal>
 	);
-
-	if (portal) {
-		const portalProps = typeof portal === "boolean" ? {} : portal;
-		return <FloatingPortal {...portalProps}>{element}</FloatingPortal>;
-	}
-
-	return element;
 };
-
-Trigger.displayName = "Popover.Trigger";
-Content.displayName = "Popover.Content";
 
 Popover.Trigger = Trigger;
 Popover.Content = Content;
+
+Trigger.displayName = "Popover.Trigger";
+Content.displayName = "Popover.Content";
 
 export {
 	Popover,
