@@ -12,7 +12,9 @@ const renderTooltip = (props?: Partial<TooltipProps>) => {
 			<Tooltip.Trigger>
 				<button type="button">트리거</button>
 			</Tooltip.Trigger>
-			<Tooltip.Content><span>{TOOLTIP_TEXT}</span></Tooltip.Content>
+			<Tooltip.Content>
+				<span>{TOOLTIP_TEXT}</span>
+			</Tooltip.Content>
 		</Tooltip>,
 	);
 
