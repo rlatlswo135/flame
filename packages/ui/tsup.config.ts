@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
 	...packageBundleConfig(),
-	entry: ["src/index.ts"],
+	entry: ["core/index.ts"],
 	banner: {
 		js: "'use client'",
 	},
