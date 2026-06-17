@@ -11,7 +11,8 @@
       "funnel": "Step-based navigation wizard",
       "popover": "Floating position-aware popups",
       "select": "Dropdown select input",
-      "toast": "Imperative toast notifications"
+      "toast": "Imperative toast notifications",
+      "tooltip": "Contextual hover and focus tooltips"
     }
   },
   "header": {
@@ -185,6 +186,22 @@
         "successDescription": "Your changes have been saved successfully.",
         "infoTitle": "Info",
         "infoDescription": "This notification will dismiss in 5 seconds."
+      }
+    },
+    "tooltip": {
+      "title": "Tooltip",
+      "description": "A headless tooltip component powered by Floating UI. Shows contextual content on hover, focus, or click, with dismiss handling and CSS transitions out of the box.",
+      "props": {
+        "content": "Content to display inside the tooltip (ReactNode)",
+        "enabled": "Whether the tooltip is enabled. When false, the tooltip never opens",
+        "children": "The trigger element the tooltip is anchored to",
+        "transition": "Enable CSS transitions for open/close",
+        "dismiss": "Configure dismiss behavior (outside click, escape key)"
+      },
+      "demo": {
+        "hoverMe": "Hover me",
+        "disabled": "Disabled",
+        "tooltipText": "This is a tooltip"
       }
     }
   }

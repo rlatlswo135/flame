@@ -11,7 +11,8 @@
       "funnel": "단계별 네비게이션 마법사",
       "popover": "위치 인식 플로팅 팝업",
       "select": "드롭다운 셀렉트 입력",
-      "toast": "명령형 토스트 알림"
+      "toast": "명령형 토스트 알림",
+      "tooltip": "호버·포커스 시 표시되는 컨텍스트 툴팁"
     }
   },
   "header": {
@@ -185,6 +186,22 @@
         "successDescription": "변경사항이 성공적으로 저장되었습니다.",
         "infoTitle": "안내",
         "infoDescription": "이 알림은 5초 후에 자동으로 사라집니다."
+      }
+    },
+    "tooltip": {
+      "title": "Tooltip",
+      "description": "Floating UI 기반의 헤드리스 툴팁 컴포넌트. 호버, 포커스, 클릭 시 컨텍스트 콘텐츠를 표시하며, 닫기 처리와 CSS 전환을 기본 지원합니다.",
+      "props": {
+        "content": "툴팁 내부에 표시할 콘텐츠 (ReactNode)",
+        "enabled": "툴팁 활성화 여부. false일 경우 툴팁이 열리지 않음",
+        "children": "툴팁이 기준으로 삼는 트리거 요소",
+        "transition": "열기/닫기 CSS 전환 활성화",
+        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)"
+      },
+      "demo": {
+        "hoverMe": "마우스를 올려보세요",
+        "disabled": "비활성화됨",
+        "tooltipText": "툴팁입니다"
       }
     }
   }

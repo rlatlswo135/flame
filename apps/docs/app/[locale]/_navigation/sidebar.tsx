@@ -11,6 +11,7 @@ const COMPONENTS = [
   'Popover',
   'Select',
   'Toast',
+  'Tooltip',
 ] as const;
 
 function linkClass(isActive: boolean) {
