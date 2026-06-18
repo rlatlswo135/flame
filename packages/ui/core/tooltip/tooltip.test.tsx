@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Tooltip, type TooltipProps } from "./tooltip";
+import { Tooltip, type TooltipRootProps } from "./tooltip";
 
 const TOOLTIP_TEXT = "툴팁 내용";
 
-const renderTooltip = (props?: Partial<TooltipProps>) => {
+const renderTooltip = (props?: Partial<TooltipRootProps>) => {
 	const user = userEvent.setup();
 
 	render(

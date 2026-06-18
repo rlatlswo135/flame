@@ -15,7 +15,13 @@ function useTheme() {
   return ctx;
 }
 
-function ThemeProvider({ children, initialTheme = 'light' }: { children: ReactNode; initialTheme?: Theme }) {
+function ThemeProvider({
+  children,
+  initialTheme = 'light',
+}: {
+  children: ReactNode;
+  initialTheme?: Theme;
+}) {
   const [theme, setTheme] = useState<Theme>(initialTheme);
 
   const toggleTheme = useCallback(() => {

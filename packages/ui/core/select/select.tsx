@@ -4,13 +4,13 @@ import type {
 	UseFloatingReturn,
 	UseInteractionsReturn,
 } from "@floating-ui/react";
-import { FloatingFocusManager, useInteractions } from "@floating-ui/react";
+import { FloatingFocusManager } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
 } from "react";
-import type { FnChildren } from "@/core/types";
+import type { FnChildren, Merge, OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
@@ -22,31 +22,29 @@ import {
 } from "@/primitives/optional-portal";
 import { SelectContext } from "./context";
 
-export type SelectProps = PropsWithChildren<
-	Omit<FloatingBaseProps, "click" | "hover"> & {
-		value: string;
-		onChange: (value: string) => void;
-	}
->;
+export type SelectRootProps = {
+	value: string;
+	onChange: (value: string) => void;
+} & OmitUnion<FloatingBaseProps, "click" | "hover">;
 
-const SelectRoot = ({ value, children, onChange, ...props }: SelectProps) => {
-	const base = useFloatingBase(props);
-
-	const interactions = useInteractions(base.getInteractions("click"));
+const SelectRoot = ({
+	value,
+	children,
+	onChange,
+	...props
+}: PropsWithChildren<SelectRootProps>) => {
+	const base = useFloatingBase({ ...props, click: { enabled: true } });
 
 	const context = {
 		...base,
 		value,
 		onChange,
-		interactions,
 	};
 
 	return <SelectContext value={context}>{children}</SelectContext>;
 };
 
-export type SelectTriggerProps = PropsWithChildren;
-
-const Trigger = ({ children }: SelectTriggerProps) => {
+const Trigger = ({ children }: PropsWithChildren) => {
 	const { baseTriggerProps, floating, interactions } = useCtx(SelectContext);
 
 	const triggerProps = interactions.getReferenceProps({
@@ -57,12 +55,13 @@ const Trigger = ({ children }: SelectTriggerProps) => {
 	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
-export type SelectOptionsProps = FnChildren<{
-	floating: UseFloatingReturn;
-	interactions: UseInteractionsReturn;
-}> &
-	OptionalPortalProps &
-	Omit<ComponentPropsWithoutRef<"div">, "children">;
+export type SelectOptionsProps = Merge<
+	OptionalPortalProps & ComponentPropsWithoutRef<"div">,
+	FnChildren<{
+		floating: UseFloatingReturn;
+		interactions: UseInteractionsReturn;
+	}>
+>;
 
 const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 	const { floating, transition, interactions, baseContentProps } =

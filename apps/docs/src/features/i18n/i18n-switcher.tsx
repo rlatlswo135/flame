@@ -18,7 +18,7 @@ function I18nSwitcher() {
   }
 
   return (
-    <Popover transition>
+    <Popover hover={{ enabled: true }} transition>
       <Popover.Trigger>
         <button
           type="button"

@@ -4,14 +4,14 @@ import {
 } from "@floating-ui/react";
 import type { PropsWithChildren } from "react";
 
-export type OptionalPortalProps = PropsWithChildren<{
+export type OptionalPortalProps = {
 	portal?: boolean | BaseFloatingPortal;
-}>;
+};
 
 export const OptionalPortal = ({
 	children,
 	portal = false,
-}: OptionalPortalProps) => {
+}: PropsWithChildren<OptionalPortalProps>) => {
 	if (portal) {
 		const portalProps = typeof portal === "boolean" ? {} : portal;
 		return <FloatingPortal {...portalProps}>{children}</FloatingPortal>;

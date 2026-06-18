@@ -4,14 +4,13 @@ import {
 	FloatingFocusManager,
 	type UseFloatingReturn,
 	type UseInteractionsReturn,
-	useInteractions,
 } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
 } from "react";
-import type { FnChildren } from "@/core/types";
+import type { FnChildren, Merge } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
@@ -23,18 +22,13 @@ import {
 } from "@/primitives/optional-portal";
 import { PopoverContext } from "./context";
 
-export type PopoverProps = PropsWithChildren<
-	Omit<FloatingBaseProps, "click" | "hover">
->;
+const PopoverRoot = ({
+	children,
+	...props
+}: PropsWithChildren<FloatingBaseProps>) => {
+	const base = useFloatingBase({ click: { enabled: true }, ...props });
 
-const PopoverRoot = ({ children, ...props }: PopoverProps) => {
-	const base = useFloatingBase(props);
-
-	const interactions = useInteractions(base.getInteractions("click"));
-
-	const context = { ...base, interactions };
-
-	return <PopoverContext value={context}>{children}</PopoverContext>;
+	return <PopoverContext value={base}>{children}</PopoverContext>;
 };
 
 export type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
@@ -50,12 +44,13 @@ const Trigger = ({ children }: PopoverTriggerProps) => {
 	return cloneElement(children as React.ReactElement, triggerProps);
 };
 
-export type PopoverContentProps = FnChildren<{
-	interactions: UseInteractionsReturn;
-	floating: UseFloatingReturn;
-}> &
-	OptionalPortalProps &
-	Omit<ComponentPropsWithoutRef<"section">, "style" | "children">;
+export type PopoverContentProps = Merge<
+	OptionalPortalProps & Omit<ComponentPropsWithoutRef<"section">, "style">,
+	FnChildren<{
+		interactions: UseInteractionsReturn;
+		floating: UseFloatingReturn;
+	}>
+>;
 
 const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 	const { floating, transition, interactions, baseContentProps } =
