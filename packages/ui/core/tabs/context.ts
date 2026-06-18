@@ -1,9 +1,8 @@
 import { createContext } from "react";
 
 type TabsContextValue = {
-	value: string;
+	selected: string;
 	onChange: (value: string) => void;
-	orientation: "horizontal" | "vertical";
 };
 
 export const TabsContext = createContext<TabsContextValue | null>(null);

@@ -1,25 +1,37 @@
 "use client";
 
-import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
+import {
+	type ComponentPropsWithoutRef,
+	type PropsWithChildren,
+	useState,
+} from "react";
 import { useCtx } from "@/hooks/use-ctx";
 import { TabsContext } from "./context";
 
-export type TabsRootProps = ComponentPropsWithoutRef<"div"> & {
-	value: string;
-	onChange: (value: string) => void;
-	orientation?: "horizontal" | "vertical";
-};
+export type TabsRootProps = {
+	initialTab?: string;
+	onChange?: (value: string) => void;
+} & ComponentPropsWithoutRef<"div">;
 
 const TabsRoot = ({
-	value,
-	onChange,
-	orientation = "horizontal",
+	initialTab = "",
+	onChange: onChangeProp,
 	children,
 	...props
 }: PropsWithChildren<TabsRootProps>) => {
+	const [selected, setSelected] = useState(initialTab);
+
+	const onChange = (value: string) => {
+		setSelected(value);
+
+		if (onChangeProp) {
+			onChangeProp(value);
+		}
+	};
+
 	return (
-		<TabsContext value={{ value, onChange, orientation }}>
-			<div role="tablist" aria-orientation={orientation} {...props}>
+		<TabsContext value={{ selected, onChange }}>
+			<div role="tablist" {...props}>
 				{children}
 			</div>
 		</TabsContext>
@@ -30,20 +42,22 @@ export type TabsItemProps = ComponentPropsWithoutRef<"button"> & {
 	value: string;
 };
 
-const Item = ({ value, onClick, ...props }: TabsItemProps) => {
-	const { value: selectedValue, onChange } = useCtx(TabsContext);
-	const isSelected = value === selectedValue;
+const Item = ({ value, ...props }: TabsItemProps) => {
+	const { selected, onChange } = useCtx(TabsContext);
+
+	const isSelected = value === selected;
+
+	const onClick = () => {
+		onChange(value);
+	};
 
 	return (
 		<button
-			type="button"
 			role="tab"
+			type="button"
+			onClick={onClick}
 			aria-selected={isSelected}
-			data-state={isSelected ? "active" : "inactive"}
-			onClick={(e) => {
-				onClick?.(e);
-				onChange(value);
-			}}
+			data-selected={isSelected}
 			{...props}
 		/>
 	);
