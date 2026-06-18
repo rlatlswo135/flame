@@ -28,7 +28,7 @@ const SelectRoot = ({
 	onChange,
 	...props
 }: PropsWithChildren<SelectRootProps>) => {
-	const base = useFloatingBase({ ...props, click: { enabled: true } });
+	const base = useFloatingBase({ click: { enabled: true }, ...props });
 
 	const context = {
 		...base,
