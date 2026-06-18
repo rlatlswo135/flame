@@ -1,8 +1,16 @@
 "use client";
 
-import type {
-	UseFloatingReturn,
-	UseInteractionsReturn,
+import {
+	type FlipOptions,
+	flip,
+	type OffsetOptions,
+	offset,
+	type Placement,
+	type ShiftOptions,
+	shift,
+	type UseFloatingReturn,
+	type UseHoverProps,
+	type UseInteractionsReturn,
 } from "@floating-ui/react";
 import {
 	type CSSProperties,
@@ -20,18 +28,38 @@ import { TooltipContext } from "./context";
 
 export type TooltipRootProps = {
 	enabled?: boolean;
-} & OmitUnion<FloatingBaseProps, "hover" | "click" | "focus">;
+	placement?: Placement;
+	flip?: FlipOptions;
+	shift?: ShiftOptions;
+	offset?: OffsetOptions;
+	delay?: UseHoverProps["delay"];
+} & OmitUnion<FloatingBaseProps, "hover" | "click" | "focus" | "role">;
 
 const TooltipRoot = ({
-	children,
 	enabled = true,
-	...props
+	placement = "top",
+	flip: flipOptions,
+	shift: shiftOptions,
+	offset: offsetOptions = 8,
+	delay,
+	options,
+	children,
+	...rest
 }: PropsWithChildren<TooltipRootProps>) => {
 	const base = useFloatingBase({
-		...props,
-		role: { role: "tooltip", ...props.role },
-		hover: { enabled, move: false },
+		role: { role: "tooltip" },
+		hover: { enabled, move: false, delay },
 		focus: { enabled },
+		options: {
+			...options,
+			placement,
+			middleware: [
+				offset(offsetOptions),
+				flip(flipOptions),
+				shift(shiftOptions),
+			],
+		},
+		...rest,
 	});
 
 	return <TooltipContext value={base}>{children}</TooltipContext>;
