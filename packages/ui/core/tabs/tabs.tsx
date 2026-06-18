@@ -11,7 +11,7 @@ import { TabsContext } from "./context";
 export type TabsRootProps = {
 	initialTab?: string;
 	onChange?: (value: string) => void;
-} & ComponentPropsWithoutRef<"div">;
+} & Omit<ComponentPropsWithoutRef<"div">, "onChange">;
 
 const TabsRoot = ({
 	initialTab = "",

@@ -12,6 +12,7 @@ const COMPONENT_NAMES = [
   'Toast',
   'Tabs',
   'Tooltip',
+  'Combobox',
 ] as const;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {

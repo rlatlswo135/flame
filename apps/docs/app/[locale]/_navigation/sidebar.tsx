@@ -13,6 +13,7 @@ const COMPONENTS = [
   'Toast',
   'Tabs',
   'Tooltip',
+  'Combobox',
 ] as const;
 
 function linkClass(isActive: boolean) {
