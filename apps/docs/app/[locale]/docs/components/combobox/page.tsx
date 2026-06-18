@@ -50,18 +50,6 @@ export default async function ComboboxPage({ params }: { params: Promise<{ local
       description: t('props.onSearchChange'),
     },
     {
-      name: 'portal',
-      type: 'boolean | FloatingPortalProps',
-      defaultValue: 'false',
-      description: t('props.portal'),
-    },
-    {
-      name: 'focusTrap',
-      type: 'boolean',
-      defaultValue: 'true',
-      description: t('props.focusTrap'),
-    },
-    {
       name: 'transition',
       type: 'boolean | UseTransitionStylesProps',
       defaultValue: 'false',
@@ -79,6 +67,12 @@ export default async function ComboboxPage({ params }: { params: Promise<{ local
       name: 'children',
       type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
       description: t('props.optionsChildren'),
+    },
+    {
+      name: 'portal',
+      type: 'boolean | FloatingPortalProps',
+      defaultValue: 'false',
+      description: t('props.portal'),
     },
     {
       name: '...props',

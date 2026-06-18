@@ -9,12 +9,19 @@ const demoCode = `import { Tooltip } from '@flame/ui';
 function TooltipExample() {
   return (
     <div className="flex items-center gap-3">
-      <Tooltip content="This is a tooltip">
-        <button type="button">Hover me</button>
+      <Tooltip>
+        <Tooltip.Trigger>
+          <button type="button">Hover me</button>
+        </Tooltip.Trigger>
+        <Tooltip.Content>
+          <div>This is a tooltip</div>
+        </Tooltip.Content>
       </Tooltip>
 
-      <Tooltip enabled={false} content="This is a tooltip">
-        <button type="button">Disabled</button>
+      <Tooltip enabled={false}>
+        <Tooltip.Trigger>
+          <button type="button">Disabled</button>
+        </Tooltip.Trigger>
       </Tooltip>
     </div>
   );
@@ -27,14 +34,22 @@ export default async function TooltipPage({ params }: { params: Promise<{ locale
   const tc = await getTranslations({ locale, namespace: 'components' });
 
   const tooltipProps: PropDef[] = [
-    { name: 'content', type: 'ReactNode', description: t('props.content') },
     {
       name: 'enabled',
       type: 'boolean',
       defaultValue: 'true',
       description: t('props.enabled'),
     },
-    { name: 'children', type: 'ReactNode', description: t('props.children') },
+    {
+      name: 'placement',
+      type: 'Placement',
+      defaultValue: '"top"',
+      description: t('props.placement'),
+    },
+    { name: 'offset', type: 'OffsetOptions', defaultValue: '8', description: t('props.offset') },
+    { name: 'flip', type: 'FlipOptions', description: t('props.flip') },
+    { name: 'shift', type: 'ShiftOptions', description: t('props.shift') },
+    { name: 'delay', type: 'UseHoverProps["delay"]', description: t('props.delay') },
     {
       name: 'transition',
       type: 'boolean | UseTransitionStylesProps',
@@ -42,6 +57,19 @@ export default async function TooltipPage({ params }: { params: Promise<{ locale
       description: t('props.transition'),
     },
     { name: 'dismiss', type: 'UseDismissProps', description: t('props.dismiss') },
+    { name: 'children', type: 'ReactNode', description: t('props.children') },
+  ];
+
+  const triggerProps: PropDef[] = [
+    { name: 'children', type: 'ReactElement', description: t('props.triggerChildren') },
+  ];
+
+  const contentProps: PropDef[] = [
+    {
+      name: 'children',
+      type: 'ReactElement | ((props: { floating, interactions }) => ReactNode)',
+      description: t('props.contentChildren'),
+    },
   ];
 
   return (
@@ -59,6 +87,8 @@ export default async function TooltipPage({ params }: { params: Promise<{ locale
       <section>
         <h2 className="text-xl font-semibold mb-6">{tc('apiReference')}</h2>
         <PropsTable title="Tooltip" props={tooltipProps} />
+        <PropsTable title="Tooltip.Trigger" props={triggerProps} />
+        <PropsTable title="Tooltip.Content" props={contentProps} />
       </section>
     </div>
   );

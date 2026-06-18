@@ -126,17 +126,16 @@
     },
     "popover": {
       "title": "Popover",
-      "description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 포탈 렌더링, 포커스 트래핑, 닫기 처리, CSS 전환을 기본 지원합니다.",
+      "description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 닫기 처리, CSS 전환을 기본 지원합니다.",
       "props": {
         "children": "Popover 하위 컴포넌트 (Trigger, Content)",
-        "portal": "포탈에서 콘텐츠 렌더링",
-        "focusTrap": "팝오버 콘텐츠 내 포커스 트래핑",
         "transition": "열기/닫기 CSS 전환 활성화",
         "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
         "onOpen": "팝오버가 열릴 때 호출 (비제어 모드)",
         "onClose": "팝오버가 닫힐 때 호출 (비제어 모드)",
         "triggerChildren": "팝오버를 토글하는 클릭 가능한 요소",
         "contentChildren": "표시할 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수",
+        "portal": "포탈에서 콘텐츠 렌더링 (Popover.Content에 전달)",
         "contentProps": "모든 네이티브 section 요소 속성"
       },
       "demo": {
@@ -151,12 +150,11 @@
       "props": {
         "value": "현재 선택된 값",
         "onChange": "옵션 선택 시 콜백",
-        "portal": "포탈에서 옵션 렌더링",
-        "focusTrap": "옵션 목록 내 포커스 트래핑",
         "transition": "열기/닫기 CSS 전환 활성화",
         "children": "Select 하위 컴포넌트 (Trigger, Options)",
         "triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소",
         "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
+        "portal": "포탈에서 옵션 렌더링 (Select.Options에 전달)",
         "optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
         "optionValue": "이 옵션의 값",
         "optionProps": "모든 네이티브 div 요소 속성. role=\"option\" 및 aria-selected로 렌더링"
@@ -174,6 +172,7 @@
       "description": "명령형 토스트 알림 시스템. Toaster 컨테이너를 한 번 배치한 후, 어디서든 toast()를 호출하여 자동 해제 및 큐 관리가 포함된 알림을 표시합니다.",
       "props": {
         "placement": "화면에서 토스트 컨테이너의 위치",
+        "animation": "토스트 열기/닫기 애니메이션 설정. false로 비활성화 가능",
         "toasterProps": "모든 네이티브 section 요소 속성",
         "toastProps": "모든 네이티브 div 요소 속성. role=\"status\" 및 aria-live=\"polite\"가 자동 적용",
         "titleProps": "모든 네이티브 div 요소 속성. aria-labelledby를 통해 부모 Toast에 연결",
@@ -211,13 +210,19 @@
     },
     "tooltip": {
       "title": "Tooltip",
-      "description": "Floating UI 기반의 헤드리스 툴팁 컴포넌트. 호버, 포커스, 클릭 시 컨텍스트 콘텐츠를 표시하며, 닫기 처리와 CSS 전환을 기본 지원합니다.",
+      "description": "Floating UI 기반의 헤드리스 툴팁 컴포넌트. 호버·포커스 시 컨텍스트 콘텐츠를 표시하며, 배치, 오프셋, 닫기 처리, CSS 전환을 기본 지원합니다.",
       "props": {
-        "content": "툴팁 내부에 표시할 콘텐츠 (ReactNode)",
         "enabled": "툴팁 활성화 여부. false일 경우 툴팁이 열리지 않음",
-        "children": "툴팁이 기준으로 삼는 트리거 요소",
+        "placement": "툴팁 배치 위치 (top, bottom, left, right 및 변형)",
+        "offset": "트리거와 툴팁 사이의 픽셀 간격",
+        "flip": "공간 부족 시 반대편으로 자동 전환 여부 및 옵션",
+        "shift": "뷰포트를 벗어나지 않도록 축을 따라 이동 옵션",
+        "delay": "호버 열기/닫기 딜레이 (밀리초 또는 { open, close } 객체)",
+        "children": "Tooltip.Trigger와 Tooltip.Content 하위 컴포넌트",
         "transition": "열기/닫기 CSS 전환 활성화",
-        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)"
+        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+        "triggerChildren": "툴팁의 기준이 되는 트리거 요소",
+        "contentChildren": "표시할 툴팁 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수"
       },
       "demo": {
         "hoverMe": "마우스를 올려보세요",
@@ -233,12 +238,11 @@
         "onChange": "옵션 선택 시 콜백",
         "search": "현재 검색 입력값",
         "onSearchChange": "검색 입력값 변경 시 콜백",
-        "portal": "포탈에서 옵션 렌더링",
-        "focusTrap": "옵션 목록 내 포커스 트래핑",
         "transition": "열기/닫기 CSS 전환 활성화",
         "children": "Combobox 하위 컴포넌트 (Trigger, Options, Search)",
         "triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소. aria-haspopup, aria-expanded 자동 적용",
         "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
+        "portal": "포탈에서 옵션 렌더링 (Combobox.Options에 전달)",
         "optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
         "optionValue": "이 옵션의 값",
         "optionProps": "모든 네이티브 div 요소 속성. role=\"option\" 및 aria-selected로 렌더링",
