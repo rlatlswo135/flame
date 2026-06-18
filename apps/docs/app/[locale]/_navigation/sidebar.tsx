@@ -11,6 +11,7 @@ const COMPONENTS = [
   'Popover',
   'Select',
   'Toast',
+  'Tabs',
   'Tooltip',
 ] as const;
 

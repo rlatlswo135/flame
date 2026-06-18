@@ -10,6 +10,7 @@ const COMPONENT_NAMES = [
   'Popover',
   'Select',
   'Toast',
+  'Tabs',
   'Tooltip',
 ] as const;
 

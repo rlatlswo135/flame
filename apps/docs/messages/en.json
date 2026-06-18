@@ -12,7 +12,8 @@
       "popover": "Floating position-aware popups",
       "select": "Dropdown select input",
       "toast": "Imperative toast notifications",
-      "tooltip": "Contextual hover and focus tooltips"
+      "tooltip": "Contextual hover and focus tooltips",
+      "tabs": "Tab-based content switcher"
     }
   },
   "header": {
@@ -186,6 +187,25 @@
         "successDescription": "Your changes have been saved successfully.",
         "infoTitle": "Info",
         "infoDescription": "This notification will dismiss in 5 seconds."
+      }
+    },
+    "tabs": {
+      "title": "Tabs",
+      "description": "A headless tab component for switching between content panels. Compose with Item sub-components.",
+      "props": {
+        "initialTab": "The value of the initially selected tab",
+        "onChange": "Callback when a tab is selected. Receives the selected tab's value",
+        "rootProps": "All native div element attributes. Renders with role=\"tablist\"",
+        "itemValue": "Unique value used to identify the tab",
+        "itemProps": "All native button element attributes. Receives role=\"tab\", aria-selected, and data-selected automatically"
+      },
+      "demo": {
+        "overview": "Overview",
+        "overviewContent": "Flame is a headless React 19 design system focused on composability and accessibility.",
+        "usage": "Usage",
+        "usageContent": "Install via pnpm add @flame/ui and import the components you need.",
+        "api": "API",
+        "apiContent": "All components follow a compound component pattern with dot notation."
       }
     },
     "tooltip": {
