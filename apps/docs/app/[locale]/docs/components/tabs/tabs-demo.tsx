@@ -1,8 +1,8 @@
 'use client';
 
 import { Tabs } from '@flame/ui';
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 const TabsDemo = () => {
   const t = useTranslations('components.tabs.demo');

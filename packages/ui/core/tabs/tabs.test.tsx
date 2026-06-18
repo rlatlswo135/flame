@@ -21,10 +21,7 @@ describe("Tabs", () => {
 		it("탭 클릭 시 해당 탭이 선택된다", async () => {
 			const { user } = renderTabs();
 			await user.click(screen.getByText("탭 2"));
-			expect(screen.getByText("탭 2")).toHaveAttribute(
-				"aria-selected",
-				"true",
-			);
+			expect(screen.getByText("탭 2")).toHaveAttribute("aria-selected", "true");
 		});
 
 		it("탭 전환 시 이전 탭의 선택이 해제된다", async () => {
@@ -40,10 +37,7 @@ describe("Tabs", () => {
 			const { user } = renderTabs();
 			await user.click(screen.getByText("탭 1"));
 			await user.click(screen.getByText("탭 3"));
-			expect(screen.getByText("탭 3")).toHaveAttribute(
-				"aria-selected",
-				"true",
-			);
+			expect(screen.getByText("탭 3")).toHaveAttribute("aria-selected", "true");
 			expect(screen.getByText("탭 1")).toHaveAttribute(
 				"aria-selected",
 				"false",
@@ -54,10 +48,7 @@ describe("Tabs", () => {
 	describe("initialTab", () => {
 		it("initialTab에 해당하는 탭이 초기부터 선택된다", () => {
 			renderTabs({ initialTab: "tab2" });
-			expect(screen.getByText("탭 2")).toHaveAttribute(
-				"aria-selected",
-				"true",
-			);
+			expect(screen.getByText("탭 2")).toHaveAttribute("aria-selected", "true");
 		});
 	});
 
@@ -79,9 +70,7 @@ describe("Tabs", () => {
 
 	describe("에러 처리", () => {
 		it("Tabs.Item을 TabsRoot 외부에서 렌더링하면 에러가 발생한다", () => {
-			expect(() =>
-				render(<Tabs.Item value="tab1">탭 1</Tabs.Item>),
-			).toThrow();
+			expect(() => render(<Tabs.Item value="tab1">탭 1</Tabs.Item>)).toThrow();
 		});
 	});
 });
