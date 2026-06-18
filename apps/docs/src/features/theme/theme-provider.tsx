@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -15,20 +15,13 @@ function useTheme() {
   return ctx;
 }
 
-function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  useEffect(() => {
-    const raw = localStorage.getItem('flame-theme');
-    const stored = raw === 'light' || raw === 'dark' ? raw : 'light';
-    setTheme(stored);
-    document.documentElement.classList.toggle('dark', stored === 'dark');
-  }, []);
+function ThemeProvider({ children, initialTheme = 'light' }: { children: ReactNode; initialTheme?: Theme }) {
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
-      localStorage.setItem('flame-theme', next);
+      cookieStore.set({ name: 'flame-theme', value: next, expires: Date.now() + 34560000 * 1000 });
       document.documentElement.classList.toggle('dark', next === 'dark');
       return next;
     });
