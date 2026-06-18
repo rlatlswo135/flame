@@ -13,11 +13,14 @@ import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
 import { AccordionContext, AccordionItemContext } from "./context";
 
-export type AccordionRootProps = PropsWithChildren<{
+export type AccordionRootProps = {
 	single?: boolean;
-}>;
+};
 
-const AccordionRoot = ({ single = false, children }: AccordionRootProps) => {
+const AccordionRoot = ({
+	single = false,
+	children,
+}: PropsWithChildren<AccordionRootProps>) => {
 	const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
 	const value = { activeItemId, setActiveItemId, single };
@@ -25,11 +28,14 @@ const AccordionRoot = ({ single = false, children }: AccordionRootProps) => {
 	return <AccordionContext value={value}>{children}</AccordionContext>;
 };
 
-export type AccordionItemProps = PropsWithChildren<{
+export type AccordionItemProps = {
 	initialOpen?: boolean;
-}>;
+};
 
-const Item = ({ children, initialOpen = false }: AccordionItemProps) => {
+const Item = ({
+	children,
+	initialOpen = false,
+}: PropsWithChildren<AccordionItemProps>) => {
 	const id = useResolvedId();
 	const { single, activeItemId, setActiveItemId } = useCtx(AccordionContext);
 
@@ -71,9 +77,7 @@ const Trigger = ({ children }: AccordionTriggerProps) => {
 	});
 };
 
-export type AccordionContentProps = PropsWithChildren<
-	ComponentPropsWithRef<"div">
->;
+export type AccordionContentProps = ComponentPropsWithRef<"div">;
 
 const Content = ({ children, ...props }: AccordionContentProps) => {
 	const { isExpanded, contentId } = useCtx(AccordionItemContext);

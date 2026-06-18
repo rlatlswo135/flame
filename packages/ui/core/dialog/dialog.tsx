@@ -4,6 +4,7 @@ import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
+	type SyntheticEvent,
 	useRef,
 	useState,
 } from "react";
@@ -12,16 +13,16 @@ import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
 import { DialogContext } from "./context";
 
-export type DialogRootProps = PropsWithChildren<{
+export type DialogRootProps = {
 	closeOutside?: boolean;
 	keepMounted?: boolean;
-}>;
+};
 
 const DialogRoot = ({
 	children,
 	closeOutside = false,
 	keepMounted = false,
-}: DialogRootProps) => {
+}: PropsWithChildren<DialogRootProps>) => {
 	const contentId = useResolvedId();
 	const dialog = useRef<HTMLDialogElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
@@ -78,7 +79,7 @@ export type DialogContentProps = ComponentPropsWithoutRef<"dialog">;
 const Content = ({ children, ...props }: DialogContentProps) => {
 	const ctx = useCtx(DialogContext);
 
-	const onClose = (e: React.SyntheticEvent<HTMLDialogElement>) => {
+	const onClose = (e: SyntheticEvent<HTMLDialogElement>) => {
 		if (!ctx.keepMounted) ctx.setIsOpen(false);
 		props?.onClose?.(e);
 	};

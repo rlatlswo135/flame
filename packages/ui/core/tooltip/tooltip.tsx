@@ -1,39 +1,32 @@
 "use client";
 
-import {
-	type UseFloatingReturn,
-	type UseInteractionsReturn,
-	useInteractions,
+import type {
+	UseFloatingReturn,
+	UseInteractionsReturn,
 } from "@floating-ui/react";
 import {
 	type CSSProperties,
 	cloneElement,
 	type PropsWithChildren,
-	type ReactElement,
 } from "react";
-import type { ElementFnChildren } from "@/core/types";
+import type { ElementFnChildren, OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
 import { TooltipContext } from "./context";
 
-type TooltipProps = PropsWithChildren<{
+export type TooltipRootProps = {
 	enabled?: boolean;
-}> &
-	Omit<FloatingBaseProps, "hover" | "click" | "focus">;
+} & OmitUnion<FloatingBaseProps, "hover" | "click" | "focus">;
 
-type TooltipTriggerProps = {
-	children: ReactElement;
-};
-
-type TooltipContentProps = ElementFnChildren<{
-	interactions: UseInteractionsReturn;
-	floating: UseFloatingReturn;
-}>;
-
-const Tooltip = ({ children, enabled = true, ...props }: TooltipProps) => {
+const TooltipRoot = ({
+	children,
+	enabled = true,
+	...props
+}: PropsWithChildren<TooltipRootProps>) => {
 	const base = useFloatingBase({
 		...props,
 		role: { role: "tooltip", ...props.role },
@@ -41,14 +34,10 @@ const Tooltip = ({ children, enabled = true, ...props }: TooltipProps) => {
 		focus: { enabled },
 	});
 
-	const interactions = useInteractions(base.getInteractions("hover", "focus"));
-
-	return (
-		<TooltipContext value={{ ...base, interactions }}>
-			{children}
-		</TooltipContext>
-	);
+	return <TooltipContext value={base}>{children}</TooltipContext>;
 };
+
+export type TooltipTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: TooltipTriggerProps) => {
 	const { baseTriggerProps, interactions } = useCtx(TooltipContext);
@@ -58,6 +47,11 @@ const Trigger = ({ children }: TooltipTriggerProps) => {
 		interactions.getReferenceProps(baseTriggerProps),
 	);
 };
+
+export type TooltipContentProps = ElementFnChildren<{
+	interactions: UseInteractionsReturn;
+	floating: UseFloatingReturn;
+}>;
 
 const Content = ({ children }: TooltipContentProps) => {
 	const { floating, transition, interactions, baseContentProps } =
@@ -82,15 +76,7 @@ const Content = ({ children }: TooltipContentProps) => {
 	);
 };
 
-Tooltip.Trigger = Trigger;
-Tooltip.Content = Content;
-
-Trigger.displayName = "Tooltip.Trigger";
-Content.displayName = "Tooltip.Content";
-
-export {
-	Tooltip,
-	type TooltipProps,
-	type TooltipTriggerProps,
-	type TooltipContentProps,
-};
+export const Tooltip = Object.assign(TooltipRoot, {
+	Trigger,
+	Content,
+});

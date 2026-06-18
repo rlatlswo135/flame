@@ -22,12 +22,12 @@ type Placement = "top" | "right" | "bottom" | "left";
 
 let globalZIndex = 0;
 
-export type DrawerProps = PropsWithChildren<{
+export type DrawerProps = {
 	contentId?: string;
 	placement?: Placement;
 	onOpen?: () => void;
 	onClose?: () => void;
-}>;
+};
 
 const DrawerRoot = ({
 	placement = "right",
@@ -35,7 +35,7 @@ const DrawerRoot = ({
 	onClose,
 	children,
 	contentId,
-}: DrawerProps) => {
+}: PropsWithChildren<DrawerProps>) => {
 	const resolvedId = useResolvedId(contentId);
 
 	const [baseZIndex, setBaseZIndex] = useState(0);

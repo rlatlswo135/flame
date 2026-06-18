@@ -1,50 +1,45 @@
 "use client";
 
-import type {
-	UseFloatingReturn,
-	UseInteractionsReturn,
-} from "@floating-ui/react";
-import { FloatingFocusManager, useInteractions } from "@floating-ui/react";
+import { FloatingFocusManager } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
 } from "react";
-import type { FnChildren } from "@/core/types";
+import type { OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingContentProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
-import {
-	OptionalPortal,
-	type OptionalPortalProps,
-} from "@/primitives/optional-portal";
+import { OptionalPortal } from "@/primitives/optional-portal";
 import { SelectContext } from "./context";
 
-export type SelectProps = PropsWithChildren<
-	Omit<FloatingBaseProps, "click" | "hover"> & {
-		value: string;
-		onChange: (value: string) => void;
-	}
->;
+export type SelectRootProps = {
+	value: string;
+	onChange: (value: string) => void;
+} & OmitUnion<FloatingBaseProps, "click" | "hover">;
 
-const SelectRoot = ({ value, children, onChange, ...props }: SelectProps) => {
-	const base = useFloatingBase(props);
-
-	const interactions = useInteractions(base.getInteractions("click"));
+const SelectRoot = ({
+	value,
+	children,
+	onChange,
+	...props
+}: PropsWithChildren<SelectRootProps>) => {
+	const base = useFloatingBase({ ...props, click: { enabled: true } });
 
 	const context = {
 		...base,
 		value,
 		onChange,
-		interactions,
 	};
 
 	return <SelectContext value={context}>{children}</SelectContext>;
 };
 
-export type SelectTriggerProps = PropsWithChildren;
+export type SelectTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: SelectTriggerProps) => {
 	const { baseTriggerProps, floating, interactions } = useCtx(SelectContext);
@@ -54,15 +49,10 @@ const Trigger = ({ children }: SelectTriggerProps) => {
 		"aria-expanded": floating.context.open,
 	});
 
-	return cloneElement(children as React.ReactElement, triggerProps);
+	return cloneElement(children, triggerProps);
 };
 
-export type SelectOptionsProps = FnChildren<{
-	floating: UseFloatingReturn;
-	interactions: UseInteractionsReturn;
-}> &
-	OptionalPortalProps &
-	Omit<ComponentPropsWithoutRef<"div">, "children">;
+export type SelectOptionsProps = FloatingContentProps<"div">;
 
 const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 	const { floating, transition, interactions, baseContentProps } =
@@ -79,9 +69,8 @@ const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 		<OptionalPortal portal={portal}>
 			<FloatingFocusManager context={floating.context} modal>
 				<div
+					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
-					{...interactions.getFloatingProps()}
-					{...props}
 					role="listbox"
 					aria-hidden={!floating.context.open}
 				>

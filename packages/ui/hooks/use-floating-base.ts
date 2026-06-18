@@ -4,22 +4,32 @@ import type {
 	UseFloatingOptions,
 	UseFocusProps,
 	UseHoverProps,
+	UseInteractionsReturn,
 	UseRoleProps,
 	UseTransitionStylesProps,
 } from "@floating-ui/react";
 
 import {
+	safePolygon,
 	useClick,
 	useDismiss,
 	useFloating,
 	useFocus,
 	useHover,
+	useInteractions,
 	useRole,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { type CSSProperties, useMemo, useState } from "react";
-
-type Interaction = "hover" | "click" | "focus";
+import {
+	type ComponentPropsWithoutRef,
+	type CSSProperties,
+	type ElementType,
+	type ReactElement,
+	useMemo,
+	useState,
+} from "react";
+import type { FnChildren, Merge } from "@/core/types";
+import type { OptionalPortalProps } from "@/primitives/optional-portal";
 
 type BaseProps = {
 	role?: UseRoleProps;
@@ -55,7 +65,21 @@ export type FloatingBaseReturn = {
 		style: CSSProperties;
 	};
 	transition: ReturnType<typeof useTransitionStyles> | null;
-	getInteractions: (...action: Interaction[]) => ReturnType<typeof useRole>[];
+	interactions: UseInteractionsReturn;
+};
+
+export type FloatingRenderProps = Pick<
+	FloatingBaseReturn,
+	"floating" | "interactions"
+>;
+
+export type FloatingContentProps<El extends ElementType> = Merge<
+	OptionalPortalProps & Omit<ComponentPropsWithoutRef<El>, "style">,
+	FnChildren<FloatingRenderProps>
+>;
+
+export type FloatingTriggerProps = {
+	children: ReactElement;
 };
 
 export const useFloatingBase = ({
@@ -92,9 +116,13 @@ export const useFloatingBase = ({
 	});
 
 	const role = useRole(floating.context, roleOptions);
-	const hover = useHover(floating.context, hoverOptions);
-	const click = useClick(floating.context, clickOptions);
-	const focus = useFocus(floating.context, focusOptions);
+	const hover = useHover(floating.context, {
+		enabled: false,
+		handleClose: safePolygon(),
+		...hoverOptions,
+	});
+	const click = useClick(floating.context, { enabled: false, ...clickOptions });
+	const focus = useFocus(floating.context, { enabled: false, ...focusOptions });
 	const dismiss = useDismiss(floating.context, dismissOptions);
 
 	const transition = useTransitionStyles(
@@ -102,10 +130,7 @@ export const useFloatingBase = ({
 		typeof transitionOptions === "object" ? transitionOptions : undefined,
 	);
 
-	const getInteractions = (...actions: Interaction[]) => {
-		const interactions = { hover, click, focus };
-		return [dismiss, role, ...actions.map((action) => interactions[action])];
-	};
+	const interactions = useInteractions([dismiss, role, hover, click, focus]);
 
 	const baseTriggerProps = useMemo(
 		() => ({
@@ -134,7 +159,7 @@ export const useFloatingBase = ({
 		floating,
 		baseTriggerProps,
 		baseContentProps,
-		getInteractions,
+		interactions,
 		transition: transitionOptions ? transition : null,
 	};
 };

@@ -16,9 +16,7 @@ import type {
 import { useCtx } from "@/hooks/use-ctx";
 import { FunnelContext } from "./context";
 
-export type FunnelProps = PropsWithChildren;
-
-const FunnelRoot = ({ children }: FunnelProps) => {
+const FunnelRoot = ({ children }: PropsWithChildren) => {
 	const [step, setStep] = useState(0);
 
 	const childrenArray = Children.toArray(children);

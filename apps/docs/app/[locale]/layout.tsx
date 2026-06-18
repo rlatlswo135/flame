@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { cookies } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import '../globals.css';
@@ -36,20 +37,17 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages({ locale });
 
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get('flame-theme')?.value;
+  const initialTheme = themeCookie === 'dark' ? 'dark' : 'light';
+
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('flame-theme');if(t==='dark')document.documentElement.classList.add('dark')}catch(e){}})()`,
-          }}
-        />
-      </head>
+    <html lang={locale} className={initialTheme === 'dark' ? 'dark' : ''}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-flame-bg text-flame-text`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider>
+          <ThemeProvider initialTheme={initialTheme}>
             <Toaster placement="bottom-right" className="flex flex-col gap-2 p-4" />
             {children}
           </ThemeProvider>

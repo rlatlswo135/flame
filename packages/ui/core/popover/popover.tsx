@@ -1,43 +1,27 @@
 "use client";
 
-import {
-	FloatingFocusManager,
-	type UseFloatingReturn,
-	type UseInteractionsReturn,
-	useInteractions,
-} from "@floating-ui/react";
-import {
-	type ComponentPropsWithoutRef,
-	cloneElement,
-	type PropsWithChildren,
-} from "react";
-import type { FnChildren } from "@/core/types";
+import { FloatingFocusManager } from "@floating-ui/react";
+import { cloneElement, type PropsWithChildren } from "react";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingContentProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
-import {
-	OptionalPortal,
-	type OptionalPortalProps,
-} from "@/primitives/optional-portal";
+import { OptionalPortal } from "@/primitives/optional-portal";
 import { PopoverContext } from "./context";
 
-export type PopoverProps = PropsWithChildren<
-	Omit<FloatingBaseProps, "click" | "hover">
->;
+const PopoverRoot = ({
+	children,
+	...props
+}: PropsWithChildren<FloatingBaseProps>) => {
+	const base = useFloatingBase({ click: { enabled: true }, ...props });
 
-const PopoverRoot = ({ children, ...props }: PopoverProps) => {
-	const base = useFloatingBase(props);
-
-	const interactions = useInteractions(base.getInteractions("click"));
-
-	const context = { ...base, interactions };
-
-	return <PopoverContext value={context}>{children}</PopoverContext>;
+	return <PopoverContext value={base}>{children}</PopoverContext>;
 };
 
-export type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
+export type PopoverTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: PopoverTriggerProps) => {
 	const { baseTriggerProps, floating, interactions } = useCtx(PopoverContext);
@@ -47,15 +31,10 @@ const Trigger = ({ children }: PopoverTriggerProps) => {
 		"aria-expanded": floating.context.open,
 	});
 
-	return cloneElement(children as React.ReactElement, triggerProps);
+	return cloneElement(children, triggerProps);
 };
 
-export type PopoverContentProps = FnChildren<{
-	interactions: UseInteractionsReturn;
-	floating: UseFloatingReturn;
-}> &
-	OptionalPortalProps &
-	Omit<ComponentPropsWithoutRef<"section">, "style" | "children">;
+export type PopoverContentProps = FloatingContentProps<"section">;
 
 const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 	const { floating, transition, interactions, baseContentProps } =
@@ -72,10 +51,9 @@ const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 		<OptionalPortal portal={portal}>
 			<FloatingFocusManager context={floating.context} modal>
 				<section
+					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
-					{...interactions.getFloatingProps()}
 					aria-hidden={!floating.context.open}
-					{...props}
 				>
 					{children}
 				</section>
