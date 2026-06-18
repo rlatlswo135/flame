@@ -1,25 +1,20 @@
 "use client";
 
-import type {
-	UseFloatingReturn,
-	UseInteractionsReturn,
-} from "@floating-ui/react";
 import { FloatingFocusManager } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
 	cloneElement,
 	type PropsWithChildren,
 } from "react";
-import type { FnChildren, Merge, OmitUnion } from "@/core/types";
+import type { OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingContentProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
-import {
-	OptionalPortal,
-	type OptionalPortalProps,
-} from "@/primitives/optional-portal";
+import { OptionalPortal } from "@/primitives/optional-portal";
 import { SelectContext } from "./context";
 
 export type SelectRootProps = {
@@ -44,7 +39,9 @@ const SelectRoot = ({
 	return <SelectContext value={context}>{children}</SelectContext>;
 };
 
-const Trigger = ({ children }: PropsWithChildren) => {
+export type SelectTriggerProps = FloatingTriggerProps;
+
+const Trigger = ({ children }: SelectTriggerProps) => {
 	const { baseTriggerProps, floating, interactions } = useCtx(SelectContext);
 
 	const triggerProps = interactions.getReferenceProps({
@@ -52,16 +49,10 @@ const Trigger = ({ children }: PropsWithChildren) => {
 		"aria-expanded": floating.context.open,
 	});
 
-	return cloneElement(children as React.ReactElement, triggerProps);
+	return cloneElement(children, triggerProps);
 };
 
-export type SelectOptionsProps = Merge<
-	OptionalPortalProps & ComponentPropsWithoutRef<"div">,
-	FnChildren<{
-		floating: UseFloatingReturn;
-		interactions: UseInteractionsReturn;
-	}>
->;
+export type SelectOptionsProps = FloatingContentProps<"div">;
 
 const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 	const { floating, transition, interactions, baseContentProps } =
@@ -78,9 +69,8 @@ const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 		<OptionalPortal portal={portal}>
 			<FloatingFocusManager context={floating.context} modal>
 				<div
+					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
-					{...interactions.getFloatingProps()}
-					{...props}
 					role="listbox"
 					aria-hidden={!floating.context.open}
 				>

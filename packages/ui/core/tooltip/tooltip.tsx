@@ -8,12 +8,12 @@ import {
 	type CSSProperties,
 	cloneElement,
 	type PropsWithChildren,
-	type ReactElement,
 } from "react";
 import type { ElementFnChildren, OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
 import { TooltipContext } from "./context";
@@ -37,9 +37,7 @@ const TooltipRoot = ({
 	return <TooltipContext value={base}>{children}</TooltipContext>;
 };
 
-export type TooltipTriggerProps = {
-	children: ReactElement;
-};
+export type TooltipTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: TooltipTriggerProps) => {
 	const { baseTriggerProps, interactions } = useCtx(TooltipContext);

@@ -1,25 +1,15 @@
 "use client";
 
-import {
-	FloatingFocusManager,
-	type UseFloatingReturn,
-	type UseInteractionsReturn,
-} from "@floating-ui/react";
-import {
-	type ComponentPropsWithoutRef,
-	cloneElement,
-	type PropsWithChildren,
-} from "react";
-import type { FnChildren, Merge } from "@/core/types";
+import { FloatingFocusManager } from "@floating-ui/react";
+import { cloneElement, type PropsWithChildren } from "react";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
+	type FloatingContentProps,
+	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
-import {
-	OptionalPortal,
-	type OptionalPortalProps,
-} from "@/primitives/optional-portal";
+import { OptionalPortal } from "@/primitives/optional-portal";
 import { PopoverContext } from "./context";
 
 const PopoverRoot = ({
@@ -31,7 +21,7 @@ const PopoverRoot = ({
 	return <PopoverContext value={base}>{children}</PopoverContext>;
 };
 
-export type PopoverTriggerProps = ComponentPropsWithoutRef<"div">;
+export type PopoverTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: PopoverTriggerProps) => {
 	const { baseTriggerProps, floating, interactions } = useCtx(PopoverContext);
@@ -41,16 +31,10 @@ const Trigger = ({ children }: PopoverTriggerProps) => {
 		"aria-expanded": floating.context.open,
 	});
 
-	return cloneElement(children as React.ReactElement, triggerProps);
+	return cloneElement(children, triggerProps);
 };
 
-export type PopoverContentProps = Merge<
-	OptionalPortalProps & Omit<ComponentPropsWithoutRef<"section">, "style">,
-	FnChildren<{
-		interactions: UseInteractionsReturn;
-		floating: UseFloatingReturn;
-	}>
->;
+export type PopoverContentProps = FloatingContentProps<"section">;
 
 const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 	const { floating, transition, interactions, baseContentProps } =
@@ -67,10 +51,9 @@ const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 		<OptionalPortal portal={portal}>
 			<FloatingFocusManager context={floating.context} modal>
 				<section
+					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
-					{...interactions.getFloatingProps()}
 					aria-hidden={!floating.context.open}
-					{...props}
 				>
 					{children}
 				</section>

@@ -20,7 +20,16 @@ import {
 	useRole,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { type CSSProperties, useMemo, useState } from "react";
+import {
+	type ComponentPropsWithoutRef,
+	type CSSProperties,
+	type ElementType,
+	type ReactElement,
+	useMemo,
+	useState,
+} from "react";
+import type { FnChildren, Merge } from "@/core/types";
+import type { OptionalPortalProps } from "@/primitives/optional-portal";
 
 type BaseProps = {
 	role?: UseRoleProps;
@@ -57,6 +66,20 @@ export type FloatingBaseReturn = {
 	};
 	transition: ReturnType<typeof useTransitionStyles> | null;
 	interactions: UseInteractionsReturn;
+};
+
+export type FloatingRenderProps = Pick<
+	FloatingBaseReturn,
+	"floating" | "interactions"
+>;
+
+export type FloatingContentProps<El extends ElementType> = Merge<
+	OptionalPortalProps & Omit<ComponentPropsWithoutRef<El>, "style">,
+	FnChildren<FloatingRenderProps>
+>;
+
+export type FloatingTriggerProps = {
+	children: ReactElement;
 };
 
 export const useFloatingBase = ({
