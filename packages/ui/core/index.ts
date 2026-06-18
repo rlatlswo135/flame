@@ -8,4 +8,5 @@ export * from "./popover/popover";
 export * from "./select/select";
 export { type ToastAnimation, toast } from "./toast/store";
 export * from "./toast/toast";
+export * from "./tabs/tabs";
 export * from "./tooltip/tooltip";
