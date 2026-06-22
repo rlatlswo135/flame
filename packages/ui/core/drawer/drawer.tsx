@@ -15,6 +15,7 @@ import type { ClickableElement, ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useResolvedId } from "@/hooks/use-resolved-id";
+import { cloneSingleElement } from "../utils";
 import { DrawerContext } from "./context";
 
 type Placement = "top" | "right" | "bottom" | "left";
@@ -107,7 +108,7 @@ const Trigger = ({ children }: DrawerTriggerProps) => {
 
 	if (typeof children === "function") return children({ open });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children as ClickableElement, {
 		onClick: open,
 		"aria-expanded": isOpen,
 		"aria-controls": contentId,

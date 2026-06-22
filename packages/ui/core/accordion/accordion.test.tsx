@@ -133,6 +133,38 @@ describe("Accordion", () => {
 				"false",
 			);
 		});
+
+		it("여러 Item이 initialOpen이면 DOM 순서 상 마지막 Item만 열린다", () => {
+			render(
+				<Accordion single>
+					<Accordion.Item initialOpen>
+						<Accordion.Trigger>
+							<button type="button">항목 1</button>
+						</Accordion.Trigger>
+						<Accordion.Content data-testid="content-1">
+							<p>내용 1</p>
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item initialOpen>
+						<Accordion.Trigger>
+							<button type="button">항목 2</button>
+						</Accordion.Trigger>
+						<Accordion.Content data-testid="content-2">
+							<p>내용 2</p>
+						</Accordion.Content>
+					</Accordion.Item>
+				</Accordion>,
+			);
+
+			expect(screen.getByTestId("content-1")).toHaveAttribute(
+				"data-expanded",
+				"false",
+			);
+			expect(screen.getByTestId("content-2")).toHaveAttribute(
+				"data-expanded",
+				"true",
+			);
+		});
 	});
 
 	describe("에러 처리", () => {
