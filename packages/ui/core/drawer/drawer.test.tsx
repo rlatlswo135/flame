@@ -8,9 +8,7 @@ beforeEach(() => {
 	) {
 		this.setAttribute("open", "");
 	});
-	HTMLDialogElement.prototype.close = vi.fn(function (
-		this: HTMLDialogElement,
-	) {
+	HTMLDialogElement.prototype.close = vi.fn(function (this: HTMLDialogElement) {
 		this.removeAttribute("open");
 		this.dispatchEvent(new Event("close"));
 	});
@@ -212,9 +210,7 @@ describe("Drawer", () => {
 			const innerDrawer = screen.getByTestId("inner-drawer");
 			// cancel은 bubbles:false인 native 이벤트다 — 외부 drawer로 전파되지 않는다
 			await act(async () => {
-				innerDrawer.dispatchEvent(
-					new Event("cancel", { cancelable: true }),
-				);
+				innerDrawer.dispatchEvent(new Event("cancel", { cancelable: true }));
 			});
 			expect(innerDrawer.hasAttribute("open")).toBe(false);
 			expect(screen.getByTestId("outer-drawer").hasAttribute("open")).toBe(
