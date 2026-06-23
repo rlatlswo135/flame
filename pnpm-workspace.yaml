@@ -3,6 +3,11 @@ packages:
   - "packages/*"
   - "configs"
 
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
+
 catalog:
   react: ^19.2.3
   react-dom: ^19.2.3

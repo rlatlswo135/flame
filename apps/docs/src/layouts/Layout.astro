@@ -1,0 +1,32 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/globals.css';
+import { Toaster } from '@flame/ui';
+
+interface Props {
+  title?: string;
+  locale: string;
+}
+
+const { title = 'Flame Design System', locale } = Astro.props;
+---
+
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content="A headless React component library for building accessible UIs" />
+    <script is:inline>
+      (function () {
+        const match = document.cookie.match(/(?:^|;\s*)flame-theme=([^;]+)/);
+        if (match?.[1] === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+  </head>
+  <body class="antialiased min-h-screen bg-flame-bg text-flame-text">
+    <slot />
+    <Toaster client:load placement="bottom-right" className="flex flex-col gap-2 p-4" />
+  </body>
+</html>

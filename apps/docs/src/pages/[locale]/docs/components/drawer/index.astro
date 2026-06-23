@@ -1,0 +1,72 @@
+---
+import { DrawerSection } from '../../../../../components/demos/drawer-demo';
+import { PropsTable } from '../../../../../components/props-table';
+import DocsLayout from '../../../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../../../lib/highlight';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../../../messages/${locale}.json`)).default;
+const t = messages.components.drawer;
+const tc = messages.components;
+
+const demoCode = `import { Drawer } from '@flame/ui';
+
+function DrawerExample() {
+  return (
+    <Drawer placement="right">
+      <Drawer.Trigger>
+        <button type="button">right</button>
+      </Drawer.Trigger>
+      <Drawer.Content className="fixed top-0 right-0 h-full w-80 bg-white">
+        <Drawer.Closer>
+          <button type="button">Close</button>
+        </Drawer.Closer>
+      </Drawer.Content>
+    </Drawer>
+  );
+}`;
+
+const codeHtml = await highlight(demoCode);
+
+const drawerProps = [
+  { name: 'placement', type: '"top" | "right" | "bottom" | "left"', defaultValue: '"right"', description: t.props.placement },
+  { name: 'contentId', type: 'string', description: t.props.contentId },
+  { name: 'onOpen', type: '() => void', description: t.props.onOpen },
+  { name: 'onClose', type: '() => void', description: t.props.onClose },
+  { name: 'children', type: 'ReactNode', description: t.props.children },
+];
+const triggerProps = [
+  { name: 'children', type: 'ReactElement | ((props: { open: () => void }) => ReactNode)', description: t.props.triggerChildren },
+];
+const contentProps = [
+  { name: 'ref', type: 'RefObject<HTMLDivElement | null>', description: t.props.contentRef },
+  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.contentProps },
+];
+const closerProps = [
+  { name: 'children', type: 'ReactElement | ((props: { close: () => void }) => ReactNode)', description: t.props.closerChildren },
+];
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div>
+    <h1 class="text-3xl font-bold mb-3">{t.title}</h1>
+    <p class="text-flame-text-secondary mb-8 text-lg leading-relaxed">{t.description}</p>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">{tc.demo}</h2>
+      <DrawerSection client:load t={t.demo} code={demoCode} codeHtml={codeHtml} />
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
+      <PropsTable title="Drawer" props={drawerProps} />
+      <PropsTable title="Drawer.Trigger" props={triggerProps} />
+      <PropsTable title="Drawer.Content" props={contentProps} />
+      <PropsTable title="Drawer.Closer" props={closerProps} />
+    </section>
+  </div>
+</DocsLayout>

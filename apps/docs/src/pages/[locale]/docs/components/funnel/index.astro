@@ -1,0 +1,76 @@
+---
+import { FunnelSection } from '../../../../../components/demos/funnel-demo';
+import { PropsTable } from '../../../../../components/props-table';
+import DocsLayout from '../../../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../../../lib/highlight';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../../../messages/${locale}.json`)).default;
+const t = messages.components.funnel;
+const tc = messages.components;
+
+const demoCode = `import { Funnel } from '@flame/ui';
+
+function FunnelExample() {
+  return (
+    <Funnel>
+      <Funnel.Step>
+        {({ jump }) => (
+          <div>
+            <h3>Step 1</h3>
+            <Funnel.Next><button>Next</button></Funnel.Next>
+          </div>
+        )}
+      </Funnel.Step>
+      <Funnel.Step>
+        {({ jump }) => (
+          <div>
+            <h3>Step 2</h3>
+            <Funnel.Prev><button>Back</button></Funnel.Prev>
+            <button onClick={() => jump(0)}>Start Over</button>
+          </div>
+        )}
+      </Funnel.Step>
+    </Funnel>
+  );
+}`;
+
+const codeHtml = await highlight(demoCode);
+
+const funnelProps = [
+  { name: 'children', type: 'ReactNode', description: t.props.children },
+];
+const stepProps = [
+  { name: 'children', type: '((props: { jump }) => ReactNode)', description: t.props.stepChildren },
+];
+const nextProps = [
+  { name: 'children', type: 'ReactElement | ((props: { next }) => ReactNode)', description: t.props.nextChildren },
+];
+const prevProps = [
+  { name: 'children', type: 'ReactElement | ((props: { prev }) => ReactNode)', description: t.props.prevChildren },
+];
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div>
+    <h1 class="text-3xl font-bold mb-3">{t.title}</h1>
+    <p class="text-flame-text-secondary mb-8 text-lg leading-relaxed">{t.description}</p>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">{tc.demo}</h2>
+      <FunnelSection client:load t={t.demo} code={demoCode} codeHtml={codeHtml} />
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
+      <PropsTable title="Funnel" props={funnelProps} />
+      <PropsTable title="Funnel.Step" props={stepProps} />
+      <PropsTable title="Funnel.Next" props={nextProps} />
+      <PropsTable title="Funnel.Prev" props={prevProps} />
+    </section>
+  </div>
+</DocsLayout>

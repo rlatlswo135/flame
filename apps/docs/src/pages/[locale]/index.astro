@@ -1,0 +1,48 @@
+---
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../messages/${locale}.json`)).default;
+const t = messages.home;
+
+const COMPONENT_NAMES = [
+  'Accordion', 'Dialog', 'Drawer', 'Funnel', 'Popover',
+  'Select', 'Toast', 'Tabs', 'Tooltip', 'Combobox',
+] as const;
+---
+
+<Layout locale={locale}>
+  <div class="min-h-screen flex flex-col">
+    <Header locale={locale} />
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-20">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold mb-4">
+          <span class="text-flame-accent">{t.title}</span> {t.titleSuffix}
+        </h1>
+        <p class="text-xl text-flame-text-secondary max-w-lg mx-auto">{t.description}</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl w-full">
+        {COMPONENT_NAMES.map((name) => (
+          <a
+            href={`/${locale}/docs/components/${name.toLowerCase()}`}
+            class="group p-5 rounded-xl border border-flame-border hover:border-flame-accent/40 bg-flame-bg-secondary hover:bg-flame-accent-soft transition-all"
+          >
+            <h3 class="font-semibold mb-1 group-hover:text-flame-accent transition-colors">{name}</h3>
+            <p class="text-sm text-flame-text-secondary">{t.components[name.toLowerCase()]}</p>
+          </a>
+        ))}
+      </div>
+      <a
+        href={`/${locale}/docs`}
+        class="mt-10 px-6 py-3 rounded-lg text-white font-medium transition-colors bg-flame-accent hover:bg-flame-accent-hover"
+      >
+        {t.getStarted}
+      </a>
+    </main>
+  </div>
+</Layout>

@@ -3,28 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "clear": "rm -rf node_modules .next"
+    "dev": "astro dev --port 3001",
+    "build": "astro build",
+    "start": "astro preview",
+    "lint": "biome check .",
+    "clear": "rm -rf node_modules dist .astro",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/react": "^4.0.0",
     "@flame/table": "workspace:*",
     "@flame/ui": "workspace:*",
-    "next": "16.1.6",
-    "next-intl": "^4.9.0",
+    "@fontsource-variable/geist": "^5.0.0",
+    "@fontsource-variable/geist-mono": "^5.0.0",
+    "astro": "^5.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.103.0"
   }
 }
