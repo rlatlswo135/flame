@@ -45,15 +45,29 @@ const comboboxProps = [
   { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
   { name: 'search', type: 'string', description: t.props.search },
   { name: 'onSearchChange', type: '(search: string) => void', description: t.props.onSearchChange },
-  { name: 'transition', type: 'boolean | UseTransitionStylesProps', defaultValue: 'false', description: t.props.transition },
+  {
+    name: 'transition',
+    type: 'boolean | UseTransitionStylesProps',
+    defaultValue: 'false',
+    description: t.props.transition,
+  },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
 const triggerProps = [
   { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
 ];
 const optionsProps = [
-  { name: 'children', type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)', description: t.props.optionsChildren },
-  { name: 'portal', type: 'boolean | FloatingPortalProps', defaultValue: 'false', description: t.props.portal },
+  {
+    name: 'children',
+    type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
+    description: t.props.optionsChildren,
+  },
+  {
+    name: 'portal',
+    type: 'boolean | FloatingPortalProps',
+    defaultValue: 'false',
+    description: t.props.portal,
+  },
   { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionsProps },
 ];
 const optionProps = [

@@ -39,7 +39,12 @@ const tooltipProps = [
   { name: 'flip', type: 'FlipOptions', description: t.props.flip },
   { name: 'shift', type: 'ShiftOptions', description: t.props.shift },
   { name: 'delay', type: 'UseHoverProps["delay"]', description: t.props.delay },
-  { name: 'transition', type: 'boolean | UseTransitionStylesProps', defaultValue: 'false', description: t.props.transition },
+  {
+    name: 'transition',
+    type: 'boolean | UseTransitionStylesProps',
+    defaultValue: 'false',
+    description: t.props.transition,
+  },
   { name: 'dismiss', type: 'UseDismissProps', description: t.props.dismiss },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
@@ -47,7 +52,11 @@ const triggerProps = [
   { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
 ];
 const contentProps = [
-  { name: 'children', type: 'ReactElement | ((props: { floating, interactions }) => ReactNode)', description: t.props.contentChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { floating, interactions }) => ReactNode)',
+    description: t.props.contentChildren,
+  },
 ];
 ---
 

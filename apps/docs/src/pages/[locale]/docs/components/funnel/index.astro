@@ -41,17 +41,23 @@ function FunnelExample() {
 
 const codeHtml = await highlight(demoCode);
 
-const funnelProps = [
-  { name: 'children', type: 'ReactNode', description: t.props.children },
-];
+const funnelProps = [{ name: 'children', type: 'ReactNode', description: t.props.children }];
 const stepProps = [
   { name: 'children', type: '((props: { jump }) => ReactNode)', description: t.props.stepChildren },
 ];
 const nextProps = [
-  { name: 'children', type: 'ReactElement | ((props: { next }) => ReactNode)', description: t.props.nextChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { next }) => ReactNode)',
+    description: t.props.nextChildren,
+  },
 ];
 const prevProps = [
-  { name: 'children', type: 'ReactElement | ((props: { prev }) => ReactNode)', description: t.props.prevChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { prev }) => ReactNode)',
+    description: t.props.prevChildren,
+  },
 ];
 ---
 

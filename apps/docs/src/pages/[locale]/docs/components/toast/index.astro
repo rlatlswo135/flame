@@ -38,7 +38,12 @@ function App() {
 const codeHtml = await highlight(demoCode);
 
 const toasterProps = [
-  { name: 'placement', type: '"top-left" | "top-right" | "bottom-left" | "bottom-right"', defaultValue: '"bottom-left"', description: t.props.placement },
+  {
+    name: 'placement',
+    type: '"top-left" | "top-right" | "bottom-left" | "bottom-right"',
+    defaultValue: '"bottom-left"',
+    description: t.props.placement,
+  },
   { name: 'animation', type: 'ToastAnimation | false', description: t.props.animation },
   { name: '...props', type: 'ComponentPropsWithRef<"section">', description: t.props.toasterProps },
 ];

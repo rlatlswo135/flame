@@ -33,7 +33,12 @@ const codeHtml = await highlight(demoCode);
 
 const popoverProps = [
   { name: 'children', type: 'ReactNode', description: t.props.children },
-  { name: 'transition', type: 'boolean | UseTransitionStylesProps', defaultValue: 'false', description: t.props.transition },
+  {
+    name: 'transition',
+    type: 'boolean | UseTransitionStylesProps',
+    defaultValue: 'false',
+    description: t.props.transition,
+  },
   { name: 'dismiss', type: 'UseDismissProps', description: t.props.dismiss },
   { name: 'onOpen', type: '() => void', description: t.props.onOpen },
   { name: 'onClose', type: '() => void', description: t.props.onClose },
@@ -42,9 +47,22 @@ const triggerProps = [
   { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
 ];
 const contentProps = [
-  { name: 'children', type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)', description: t.props.contentChildren },
-  { name: 'portal', type: 'boolean | FloatingPortalProps', defaultValue: 'false', description: t.props.portal },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"section">', description: t.props.contentProps },
+  {
+    name: 'children',
+    type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
+    description: t.props.contentChildren,
+  },
+  {
+    name: 'portal',
+    type: 'boolean | FloatingPortalProps',
+    defaultValue: 'false',
+    description: t.props.portal,
+  },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"section">',
+    description: t.props.contentProps,
+  },
 ];
 ---
 

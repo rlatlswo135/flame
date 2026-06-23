@@ -12,7 +12,13 @@ function ComboboxDemo({ t }: { t: Record<string, string> }) {
   const selectedLabel = value ? t[value] : undefined;
 
   return (
-    <Combobox value={value} onChange={setValue} search={search} onSearchChange={setSearch} transition>
+    <Combobox
+      value={value}
+      onChange={setValue}
+      search={search}
+      onSearchChange={setSearch}
+      transition
+    >
       <Combobox.Trigger>
         <button
           type="button"

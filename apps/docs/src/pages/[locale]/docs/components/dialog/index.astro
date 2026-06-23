@@ -35,17 +35,34 @@ const codeHtml = await highlight(demoCode);
 
 const dialogProps = [
   { name: 'children', type: 'ReactNode', description: t.props.children },
-  { name: 'closeOutside', type: 'boolean', defaultValue: 'false', description: t.props.closeOutside },
+  {
+    name: 'closeOutside',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: t.props.closeOutside,
+  },
   { name: 'keepMounted', type: 'boolean', defaultValue: 'false', description: t.props.keepMounted },
 ];
 const triggerProps = [
-  { name: 'children', type: 'ReactElement | ((props: { open }) => ReactNode)', description: t.props.triggerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { open }) => ReactNode)',
+    description: t.props.triggerChildren,
+  },
 ];
 const contentProps = [
-  { name: '...props', type: 'ComponentPropsWithoutRef<"dialog">', description: t.props.contentProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"dialog">',
+    description: t.props.contentProps,
+  },
 ];
 const closerProps = [
-  { name: 'children', type: 'ReactElement | ((props: { close }) => ReactNode)', description: t.props.closerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { close }) => ReactNode)',
+    description: t.props.closerChildren,
+  },
 ];
 ---
 

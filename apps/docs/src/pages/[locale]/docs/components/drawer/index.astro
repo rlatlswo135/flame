@@ -33,21 +33,34 @@ function DrawerExample() {
 const codeHtml = await highlight(demoCode);
 
 const drawerProps = [
-  { name: 'placement', type: '"top" | "right" | "bottom" | "left"', defaultValue: '"right"', description: t.props.placement },
+  {
+    name: 'placement',
+    type: '"top" | "right" | "bottom" | "left"',
+    defaultValue: '"right"',
+    description: t.props.placement,
+  },
   { name: 'contentId', type: 'string', description: t.props.contentId },
   { name: 'onOpen', type: '() => void', description: t.props.onOpen },
   { name: 'onClose', type: '() => void', description: t.props.onClose },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
 const triggerProps = [
-  { name: 'children', type: 'ReactElement | ((props: { open: () => void }) => ReactNode)', description: t.props.triggerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { open: () => void }) => ReactNode)',
+    description: t.props.triggerChildren,
+  },
 ];
 const contentProps = [
   { name: 'ref', type: 'RefObject<HTMLDivElement | null>', description: t.props.contentRef },
   { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.contentProps },
 ];
 const closerProps = [
-  { name: 'children', type: 'ReactElement | ((props: { close: () => void }) => ReactNode)', description: t.props.closerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { close: () => void }) => ReactNode)',
+    description: t.props.closerChildren,
+  },
 ];
 ---
 

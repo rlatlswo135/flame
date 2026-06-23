@@ -8,10 +8,7 @@ export async function highlight(code: string, lang = 'tsx'): Promise<string> {
       defaultColor: false,
     });
   } catch {
-    const escaped = String(code)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    const escaped = String(code).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return `<pre><code>${escaped}</code></pre>`;
   }
 }
