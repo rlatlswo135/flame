@@ -8,7 +8,7 @@
     "start": "astro preview",
     "lint": "biome check .",
     "clear": "rm -rf node_modules dist .astro",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
     "@astrojs/react": "^4.0.0",
