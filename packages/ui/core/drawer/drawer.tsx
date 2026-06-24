@@ -4,7 +4,6 @@ import {
 	type ComponentPropsWithoutRef,
 	type ComponentPropsWithRef,
 	type CSSProperties,
-	cloneElement,
 	type MouseEvent,
 	type PropsWithChildren,
 	type SyntheticEvent,
@@ -12,7 +11,7 @@ import {
 	useRef,
 	useState,
 } from "react";
-import type { ClickableElement, ElementFnChildren } from "@/core/types";
+import type { ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useResolvedId } from "@/hooks/use-resolved-id";
@@ -94,7 +93,7 @@ const Trigger = ({ children }: DrawerTriggerProps) => {
 
 	if (typeof children === "function") return children({ open });
 
-	return cloneSingleElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: open,
 		"aria-expanded": isOpen,
 		"aria-controls": contentId,
@@ -108,7 +107,7 @@ const Closer = ({ children }: DrawerCloserProps) => {
 
 	if (typeof children === "function") return children({ close });
 
-	return cloneElement(children as ClickableElement, { onClick: close });
+	return cloneSingleElement(children, { onClick: close });
 };
 
 export type DrawerContentProps = ComponentPropsWithoutRef<"dialog">;

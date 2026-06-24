@@ -2,13 +2,12 @@
 
 import {
 	type ComponentPropsWithoutRef,
-	cloneElement,
 	type PropsWithChildren,
 	type SyntheticEvent,
 	useRef,
 	useState,
 } from "react";
-import type { ClickableElement, ElementFnChildren } from "@/core/types";
+import type { ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
 import { cloneSingleElement } from "../utils";
@@ -73,7 +72,7 @@ const Closer = ({ children }: DialogCloserProps) => {
 
 	if (typeof children === "function") return children({ close });
 
-	return cloneElement(children as ClickableElement, { onClick: close });
+	return cloneSingleElement(children, { onClick: close });
 };
 
 export type DialogContentProps = ComponentPropsWithoutRef<"dialog">;

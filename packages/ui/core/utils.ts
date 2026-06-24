@@ -1,4 +1,5 @@
-import { cloneElement, Fragment } from "react";
+import { cloneElement, Fragment, type ReactElement } from "react";
+import type { Dict } from "./types";
 
 export const objectAssign = <
 	T extends Record<string, unknown>,
@@ -8,11 +9,10 @@ export const objectAssign = <
 	source: U,
 ) => Object.assign(root, source) as T & U;
 
-export const cloneSingleElement = <T>(
-	...props: Parameters<typeof cloneElement<T>>
+export const cloneSingleElement = <T extends Dict>(
+	element: ReactElement,
+	props: T,
 ) => {
-	const [element, ...rest] = props;
-
 	if (element.type === Fragment) {
 		console.error(
 			"cloneSingleElement: Cannot clone a Fragment element. Please provide a single React element instead.",
@@ -20,5 +20,5 @@ export const cloneSingleElement = <T>(
 		return element;
 	}
 
-	return cloneElement(element, ...rest);
+	return cloneElement(element, props) as ReactElement<T>;
 };

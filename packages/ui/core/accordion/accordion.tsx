@@ -3,14 +3,14 @@
 import {
 	type ComponentPropsWithRef,
 	type CSSProperties,
-	cloneElement,
 	type PropsWithChildren,
 	useEffect,
 	useState,
 } from "react";
-import type { ClickableElement, ElementFnChildren } from "@/core/types";
+import type { ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
+import { cloneSingleElement } from "../utils";
 import { AccordionContext, AccordionItemContext } from "./context";
 
 export type AccordionRootProps = {
@@ -70,7 +70,7 @@ const Trigger = ({ children }: AccordionTriggerProps) => {
 
 	if (typeof children === "function") return children({ toggle });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: toggle,
 		"aria-expanded": isExpanded,
 		"aria-controls": contentId,
