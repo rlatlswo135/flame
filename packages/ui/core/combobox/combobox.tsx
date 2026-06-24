@@ -46,6 +46,7 @@ const Trigger = ({ children }: ComboboxTriggerProps) => {
 
 	const triggerProps = interactions.getReferenceProps({
 		...baseTriggerProps,
+		...(children.props as Record<string, unknown>),
 		"aria-haspopup": "listbox",
 		"aria-expanded": floating.context.open,
 	});
@@ -63,20 +64,21 @@ const Options = ({ children, portal, ...props }: ComboboxOptionsProps) => {
 
 	if (!shouldMount) return null;
 
-	if (typeof children === "function")
-		return children({ floating, interactions });
-
 	return (
 		<OptionalPortal portal={portal}>
 			<FloatingFocusManager context={floating.context} modal>
-				<div
-					{...interactions.getFloatingProps(props)}
-					{...baseContentProps}
-					role="listbox"
-					aria-hidden={!floating.context.open}
-				>
-					{children}
-				</div>
+				{typeof children === "function" ? (
+					<>{children({ floating, interactions })}</>
+				) : (
+					<div
+						{...interactions.getFloatingProps(props)}
+						{...baseContentProps}
+						role="listbox"
+						aria-hidden={!floating.context.open}
+					>
+						{children}
+					</div>
+				)}
 			</FloatingFocusManager>
 		</OptionalPortal>
 	);
@@ -86,7 +88,7 @@ export type ComboboxOptionProps = ComponentPropsWithoutRef<"div"> & {
 	value: string;
 };
 
-const Option = ({ value, children, ...props }: ComboboxOptionProps) => {
+const Option = ({ value, children, onClick, onChange: onChangeProp, ...props }: ComboboxOptionProps) => {
 	const { value: selectedValue, onChange, floating } = useCtx(ComboboxContext);
 
 	return (
@@ -95,7 +97,13 @@ const Option = ({ value, children, ...props }: ComboboxOptionProps) => {
 			role="option"
 			aria-selected={value === selectedValue}
 			data-value={value}
-			onClick={() => {
+			onClick={(e) => {
+				onClick?.(e);
+				onChange(value);
+				floating.context.onOpenChange(false);
+			}}
+			onChange={(e) => {
+				onChangeProp?.(e);
 				onChange(value);
 				floating.context.onOpenChange(false);
 			}}

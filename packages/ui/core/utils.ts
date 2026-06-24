@@ -17,6 +17,7 @@ export const cloneSingleElement = <T>(
 		console.error(
 			"cloneSingleElement: Cannot clone a Fragment element. Please provide a single React element instead.",
 		);
+		return element;
 	}
 
 	return cloneElement(element, ...rest);

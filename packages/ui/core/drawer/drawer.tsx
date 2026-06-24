@@ -59,6 +59,7 @@ const DrawerRoot = ({
 	const [entered, setEntered] = useState(false);
 
 	const open = () => {
+		if (dialog.current?.open) return;
 		dialog.current?.showModal();
 		setIsOpen(true);
 		// showModal()은 display:none→block 전환이라, 슬라이드-아웃 위치가 한 번 그려진 뒤

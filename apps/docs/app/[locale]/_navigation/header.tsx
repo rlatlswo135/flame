@@ -33,7 +33,7 @@ function Header() {
         <span>Flame</span>
       </Link>
       <div className="flex items-center gap-1">
-        <I18nSwitcher />
+        <I18nSwitcher locale={locale} currentPath={pathname} />
         <ThemeToggle />
       </div>
     </header>

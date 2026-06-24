@@ -7,7 +7,7 @@ const StepIndicator = ({ current, total }: { current: number; total: number }) =
   <div className="flex items-center gap-2 mb-4">
     {Array.from({ length: total }, (_, i) => (
       <div
-        key={`step-${i + 1}`}
+        key={i}
         className={`h-2 flex-1 rounded-full transition-colors ${
           i <= current ? 'bg-flame-accent' : 'bg-flame-border'
         }`}

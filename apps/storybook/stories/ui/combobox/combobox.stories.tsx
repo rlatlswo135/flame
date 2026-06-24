@@ -47,24 +47,6 @@ const meta = {
 				type: { summary: "(search: string) => void" },
 			},
 		},
-		portal: {
-			control: "boolean",
-			description:
-				"Render content in a portal. Pass `true` for default or `FloatingPortalProps` for custom.",
-			table: {
-				type: { summary: "boolean | FloatingPortalProps" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		focusTrap: {
-			control: "boolean",
-			description:
-				"Enable focus trap and outside interaction blocking via `FloatingFocusManager` modal prop.",
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "true" },
-			},
-		},
 		transition: {
 			control: "boolean",
 			description:

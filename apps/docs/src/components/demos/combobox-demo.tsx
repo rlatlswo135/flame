@@ -8,7 +8,7 @@ function ComboboxDemo({ t }: { t: Record<string, string> }) {
   const [value, setValue] = useState('');
   const [search, setSearch] = useState('');
 
-  const filtered = FRUIT_KEYS.filter((key) => t[key].toLowerCase().includes(search.toLowerCase()));
+  const filtered = FRUIT_KEYS.filter((key) => t[key] && t[key].toLowerCase().includes(search.toLowerCase()));
   const selectedLabel = value ? t[value] : undefined;
 
   return (
