@@ -85,7 +85,7 @@ export type SelectOptionProps = ComponentPropsWithoutRef<"div"> & {
 	value: string;
 };
 
-const Option = ({ value, ...props }: SelectOptionProps) => {
+const Option = ({ value, children, ...props }: SelectOptionProps) => {
 	const { value: selectedValue, onChange, floating } = useCtx(SelectContext);
 
 	const onClick = () => {
@@ -101,7 +101,9 @@ const Option = ({ value, ...props }: SelectOptionProps) => {
 			data-value={value}
 			onClick={onClick}
 			{...props}
-		/>
+		>
+			{children}
+		</div>
 	);
 };
 

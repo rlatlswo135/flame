@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Header } from './_navigation/header';
 
+// TODO: Codeblock 내부 컨텐츠도 다국어 처리 되도록 가능한지 체크
+
 const COMPONENT_NAMES = [
   'Accordion',
   'Dialog',
@@ -12,6 +14,7 @@ const COMPONENT_NAMES = [
   'Toast',
   'Tabs',
   'Tooltip',
+  'Combobox',
 ] as const;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {

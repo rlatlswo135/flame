@@ -65,4 +65,49 @@ describe("Dialog", () => {
 			expect(screen.getByText("다이얼로그 내용")).toBeInTheDocument();
 		});
 	});
+
+	describe("render function children", () => {
+		it("Trigger의 render function이 open 핸들러를 받아 열 수 있다", async () => {
+			const user = userEvent.setup();
+			render(
+				<Dialog>
+					<Dialog.Trigger>
+						{({ open }) => (
+							<button type="button" onClick={open}>
+								custom open
+							</button>
+						)}
+					</Dialog.Trigger>
+					<Dialog.Content data-testid="dialog">
+						<p>다이얼로그 내용</p>
+					</Dialog.Content>
+				</Dialog>,
+			);
+			await user.click(screen.getByText("custom open"));
+			expect(screen.getByTestId("dialog").hasAttribute("open")).toBe(true);
+		});
+
+		it("Closer의 render function이 close 핸들러를 받아 닫을 수 있다", async () => {
+			const user = userEvent.setup();
+			render(
+				<Dialog>
+					<Dialog.Trigger>
+						<button type="button">열기</button>
+					</Dialog.Trigger>
+					<Dialog.Content data-testid="dialog">
+						<Dialog.Closer>
+							{({ close }) => (
+								<button type="button" onClick={close}>
+									custom close
+								</button>
+							)}
+						</Dialog.Closer>
+					</Dialog.Content>
+				</Dialog>,
+			);
+			await user.click(screen.getByText("열기"));
+			await user.click(screen.getByText("custom close"));
+			expect(screen.getByTestId("dialog").hasAttribute("open")).toBe(false);
+		});
+	});
 });

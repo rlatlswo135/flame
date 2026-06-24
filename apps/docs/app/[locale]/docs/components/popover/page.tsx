@@ -29,18 +29,6 @@ export default async function PopoverPage({ params }: { params: Promise<{ locale
   const popoverProps: PropDef[] = [
     { name: 'children', type: 'ReactNode', description: t('props.children') },
     {
-      name: 'portal',
-      type: 'boolean | FloatingPortalProps',
-      defaultValue: 'false',
-      description: t('props.portal'),
-    },
-    {
-      name: 'focusTrap',
-      type: 'boolean',
-      defaultValue: 'true',
-      description: t('props.focusTrap'),
-    },
-    {
       name: 'transition',
       type: 'boolean | UseTransitionStylesProps',
       defaultValue: 'false',
@@ -60,6 +48,12 @@ export default async function PopoverPage({ params }: { params: Promise<{ locale
       name: 'children',
       type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
       description: t('props.contentChildren'),
+    },
+    {
+      name: 'portal',
+      type: 'boolean | FloatingPortalProps',
+      defaultValue: 'false',
+      description: t('props.portal'),
     },
     {
       name: '...props',

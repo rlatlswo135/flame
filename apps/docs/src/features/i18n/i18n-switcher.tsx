@@ -1,20 +1,13 @@
-'use client';
-
 import { Popover } from '@flame/ui';
-import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
 
 const LOCALES = [
   { code: 'ko', label: '한국어' },
   { code: 'en', label: 'English' },
 ] as const;
 
-function I18nSwitcher() {
-  const { locale } = useParams<{ locale: string }>();
-  const pathname = usePathname();
-
+function I18nSwitcher({ locale, currentPath }: { locale: string; currentPath: string }) {
   function buildHref(targetLocale: string) {
-    return pathname.replace(`/${locale}`, `/${targetLocale}`);
+    return currentPath.replace(`/${locale}`, `/${targetLocale}`);
   }
 
   return (
@@ -44,9 +37,8 @@ function I18nSwitcher() {
       </Popover.Trigger>
       <Popover.Content className="rounded-xl border border-flame-border shadow-lg bg-flame-bg p-1 min-w-30">
         {LOCALES.map(({ code, label }) => (
-          <Link
+          <a
             key={code}
-            scroll={false}
             href={buildHref(code)}
             className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
               code === locale
@@ -55,7 +47,7 @@ function I18nSwitcher() {
             }`}
           >
             {label}
-          </Link>
+          </a>
         ))}
       </Popover.Content>
     </Popover>

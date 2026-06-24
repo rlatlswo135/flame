@@ -52,5 +52,45 @@ describe("Select", () => {
 			await user.click(screen.getByText("사과"));
 			expect(onChange).toHaveBeenCalledOnce();
 		});
+
+		it("Option 클릭 시 Options가 닫힌다", async () => {
+			const { user } = renderSelect();
+			await user.click(screen.getByText("선택"));
+			await user.click(screen.getByText("바나나"));
+			expect(screen.queryByTestId("options")).not.toBeInTheDocument();
+		});
+	});
+
+	describe("dismiss", () => {
+		it("외부 클릭 시 Options가 닫힌다", async () => {
+			const { user } = renderSelect();
+			await user.click(screen.getByText("선택"));
+			await user.click(document.body);
+			expect(screen.queryByTestId("options")).not.toBeInTheDocument();
+		});
+
+		it("Escape 키로 Options가 닫힌다", async () => {
+			const { user } = renderSelect();
+			await user.click(screen.getByText("선택"));
+			await user.keyboard("{Escape}");
+			expect(screen.queryByTestId("options")).not.toBeInTheDocument();
+		});
+	});
+
+	describe("콜백", () => {
+		it("열릴 때 onOpen이 호출된다", async () => {
+			const onOpen = vi.fn();
+			const { user } = renderSelect({ onOpen });
+			await user.click(screen.getByText("선택"));
+			expect(onOpen).toHaveBeenCalledOnce();
+		});
+
+		it("닫힐 때 onClose가 호출된다", async () => {
+			const onClose = vi.fn();
+			const { user } = renderSelect({ onClose });
+			await user.click(screen.getByText("선택"));
+			await user.click(screen.getByText("바나나"));
+			expect(onClose).toHaveBeenCalledOnce();
+		});
 	});
 });

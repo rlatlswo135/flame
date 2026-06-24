@@ -2,22 +2,9 @@
   "extends": "../../configs/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
-    "noEmit": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.astro"]
 }

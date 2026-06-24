@@ -1,0 +1,56 @@
+---
+const COMPONENTS = [
+  'Accordion',
+  'Dialog',
+  'Drawer',
+  'Funnel',
+  'Popover',
+  'Select',
+  'Toast',
+  'Tabs',
+  'Tooltip',
+  'Combobox',
+] as const;
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+
+function linkClass(isActive: boolean) {
+  return `block px-3 py-1.5 rounded-md text-sm transition-colors ${
+    isActive
+      ? 'bg-flame-accent-soft text-flame-accent font-medium'
+      : 'text-flame-text-secondary hover:text-flame-text hover:bg-flame-bg-tertiary'
+  }`;
+}
+---
+
+<nav class="w-60 shrink-0 border-r border-flame-border p-4 overflow-y-auto">
+  <div class="mb-4">
+    <h3 class="text-xs font-semibold uppercase tracking-wider text-flame-text-tertiary mb-2">
+      Overview
+    </h3>
+    <a href={`/${locale}/docs`} class={linkClass(pathname === `/${locale}/docs`)}>
+      Getting Started
+    </a>
+  </div>
+  <div>
+    <h3 class="text-xs font-semibold uppercase tracking-wider text-flame-text-tertiary mb-2">
+      Components
+    </h3>
+    <ul class="space-y-0.5">
+      {COMPONENTS.map((name) => {
+        const slug = name.toLowerCase();
+        const href = `/${locale}/docs/components/${slug}`;
+        return (
+          <li>
+            <a href={href} class={linkClass(pathname === href)}>{name}</a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,57 @@
+---
+import { TabsSection } from '../../../../../components/demos/tabs-demo';
+import { PropsTable } from '../../../../../components/props-table';
+import DocsLayout from '../../../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../../../lib/highlight';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../../../messages/${locale}.json`)).default;
+const t = messages.components.tabs;
+const tc = messages.components;
+
+const demoCode = `import { Tabs } from '@flame/ui';
+
+function TabsExample() {
+  return (
+    <Tabs initialTab="overview">
+      <Tabs.Item value="overview">Overview</Tabs.Item>
+      <Tabs.Item value="usage">Usage</Tabs.Item>
+      <Tabs.Item value="api">API</Tabs.Item>
+    </Tabs>
+  );
+}`;
+
+const codeHtml = await highlight(demoCode);
+
+const rootProps = [
+  { name: 'initialTab', type: 'string', defaultValue: '""', description: t.props.initialTab },
+  { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
+  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.rootProps },
+];
+const itemProps = [
+  { name: 'value', type: 'string', description: t.props.itemValue },
+  { name: '...props', type: 'ComponentPropsWithoutRef<"button">', description: t.props.itemProps },
+];
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div>
+    <h1 class="text-3xl font-bold mb-3">{t.title}</h1>
+    <p class="text-flame-text-secondary mb-8 text-lg leading-relaxed">{t.description}</p>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">{tc.demo}</h2>
+      <TabsSection client:load t={t.demo} code={demoCode} codeHtml={codeHtml} />
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
+      <PropsTable title="Tabs" props={rootProps} />
+      <PropsTable title="Tabs.Item" props={itemProps} />
+    </section>
+  </div>
+</DocsLayout>

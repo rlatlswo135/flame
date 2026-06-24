@@ -1,0 +1,53 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../messages/${locale}.json`)).default;
+const t = messages.docs;
+
+const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'react19', 'typescript'] as const;
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div class="space-y-10">
+    <section>
+      <h1 class="text-3xl font-bold mb-2">{t.title}</h1>
+      <p class="text-lg text-flame-text-secondary">{t.subtitle}</p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-semibold">{t.installTitle}</h2>
+      <p class="text-flame-text-secondary">{t.installDescription}</p>
+      <pre class="px-4 py-3 rounded-lg bg-flame-bg-secondary border border-flame-border text-sm font-mono">{t.installCommand}</pre>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-semibold">{t.usageTitle}</h2>
+      <p class="text-flame-text-secondary">{t.usageDescription}</p>
+      <pre class="px-4 py-3 rounded-lg bg-flame-bg-secondary border border-flame-border text-sm font-mono overflow-x-auto">{`import { Accordion } from '@flame/ui';
+
+<Accordion>
+  <Accordion.Item>
+    <Accordion.Trigger>Click me</Accordion.Trigger>
+    <Accordion.Content>Hello!</Accordion.Content>
+  </Accordion.Item>
+</Accordion>`}</pre>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-semibold">{t.featuresTitle}</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {FEATURE_KEYS.map((key) => (
+          <li class="flex items-start gap-2 p-3 rounded-lg border border-flame-border bg-flame-bg-secondary">
+            <span class="text-flame-accent font-bold">*</span>
+            <span class="text-sm">{t.features[key]}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</DocsLayout>

@@ -1,0 +1,78 @@
+---
+import { AccordionSection } from '../../../../../components/demos/accordion-demo';
+import { PropsTable } from '../../../../../components/props-table';
+import DocsLayout from '../../../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../../../lib/highlight';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../../../messages/${locale}.json`)).default;
+const t = messages.components.accordion;
+const tc = messages.components;
+
+const demoCode = `import { Accordion } from '@flame/ui';
+
+function AccordionExample() {
+  return (
+    <Accordion single>
+      <Accordion.Item>
+        <Accordion.Trigger>
+          <button>What is Flame?</button>
+        </Accordion.Trigger>
+        <Accordion.Content>
+          <p>Flame is a headless React component library.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion>
+  );
+}`;
+
+const codeHtml = await highlight(demoCode);
+
+const accordionProps = [
+  { name: 'single', type: 'boolean', defaultValue: 'false', description: t.props.single },
+  { name: 'children', type: 'ReactNode', description: 'Accordion.Item elements' },
+];
+const itemProps = [
+  {
+    name: 'initialOpen',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: t.props.itemInitialOpen,
+  },
+  { name: 'children', type: 'ReactNode', description: t.props.itemChildren },
+];
+const triggerProps = [
+  {
+    name: 'children',
+    type: 'ReactElement | ((props: { toggle }) => ReactNode)',
+    description: t.props.triggerChildren,
+  },
+];
+const contentProps = [
+  { name: '...props', type: 'ComponentPropsWithRef<"section">', description: t.props.contentProps },
+];
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div>
+    <h1 class="text-3xl font-bold mb-3">{t.title}</h1>
+    <p class="text-flame-text-secondary mb-8 text-lg leading-relaxed">{t.description}</p>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">{tc.demo}</h2>
+      <AccordionSection client:load t={t.demo} code={demoCode} codeHtml={codeHtml} />
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
+      <PropsTable title="Accordion" props={accordionProps} />
+      <PropsTable title="Accordion.Item" props={itemProps} />
+      <PropsTable title="Accordion.Trigger" props={triggerProps} />
+      <PropsTable title="Accordion.Content" props={contentProps} />
+    </section>
+  </div>
+</DocsLayout>

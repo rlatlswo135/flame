@@ -35,18 +35,6 @@ export default async function SelectPage({ params }: { params: Promise<{ locale:
     { name: 'value', type: 'string', description: t('props.value') },
     { name: 'onChange', type: '(value: string) => void', description: t('props.onChange') },
     {
-      name: 'portal',
-      type: 'boolean | FloatingPortalProps',
-      defaultValue: 'false',
-      description: t('props.portal'),
-    },
-    {
-      name: 'focusTrap',
-      type: 'boolean',
-      defaultValue: 'true',
-      description: t('props.focusTrap'),
-    },
-    {
       name: 'transition',
       type: 'boolean | UseTransitionStylesProps',
       defaultValue: 'false',
@@ -64,6 +52,12 @@ export default async function SelectPage({ params }: { params: Promise<{ locale:
       name: 'children',
       type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
       description: t('props.optionsChildren'),
+    },
+    {
+      name: 'portal',
+      type: 'boolean | FloatingPortalProps',
+      defaultValue: 'false',
+      description: t('props.portal'),
     },
     {
       name: '...props',

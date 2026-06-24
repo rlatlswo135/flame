@@ -1,6 +1,7 @@
 // TODO: all component have to be think about SSR environment
 
 export * from "./accordion/accordion";
+export * from "./combobox/combobox";
 export * from "./dialog/dialog";
 export * from "./drawer/drawer";
 export * from "./funnel/funnel";

@@ -43,6 +43,11 @@ export default async function ToastPage({ params }: { params: Promise<{ locale: 
       description: t('props.placement'),
     },
     {
+      name: 'animation',
+      type: 'ToastAnimation | false',
+      description: t('props.animation'),
+    },
+    {
       name: '...props',
       type: 'ComponentPropsWithRef<"section">',
       description: t('props.toasterProps'),

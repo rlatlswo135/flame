@@ -1,0 +1,89 @@
+---
+import { SelectSection } from '../../../../../components/demos/select-demo';
+import { PropsTable } from '../../../../../components/props-table';
+import DocsLayout from '../../../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../../../lib/highlight';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params;
+const messages = (await import(`../../../../../../messages/${locale}.json`)).default;
+const t = messages.components.select;
+const tc = messages.components;
+
+const demoCode = `import { Select } from '@flame/ui';
+import { useState } from 'react';
+
+function SelectExample() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Select value={value} onChange={setValue} transition>
+      <Select.Trigger>
+        <button>{value || 'Choose a fruit'}</button>
+      </Select.Trigger>
+      <Select.Options>
+        <Select.Option value="apple">Apple</Select.Option>
+        <Select.Option value="banana">Banana</Select.Option>
+      </Select.Options>
+    </Select>
+  );
+}`;
+
+const codeHtml = await highlight(demoCode);
+
+const selectProps = [
+  { name: 'value', type: 'string', description: t.props.value },
+  { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
+  {
+    name: 'transition',
+    type: 'boolean | UseTransitionStylesProps',
+    defaultValue: 'false',
+    description: t.props.transition,
+  },
+  { name: 'children', type: 'ReactNode', description: t.props.children },
+];
+const triggerProps = [
+  { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
+];
+const optionsProps = [
+  {
+    name: 'children',
+    type: 'ReactNode | ((props: { floating, interactions }) => ReactNode)',
+    description: t.props.optionsChildren,
+  },
+  {
+    name: 'portal',
+    type: 'boolean | FloatingPortalProps',
+    defaultValue: 'false',
+    description: t.props.portal,
+  },
+  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionsProps },
+];
+const optionProps = [
+  { name: 'value', type: 'string', description: t.props.optionValue },
+  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionProps },
+];
+---
+
+<DocsLayout locale={locale} title={`${t.title} — Flame`}>
+  <div>
+    <h1 class="text-3xl font-bold mb-3">{t.title}</h1>
+    <p class="text-flame-text-secondary mb-8 text-lg leading-relaxed">{t.description}</p>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">{tc.demo}</h2>
+      <SelectSection client:load t={t.demo} code={demoCode} codeHtml={codeHtml} />
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
+      <PropsTable title="Select" props={selectProps} />
+      <PropsTable title="Select.Trigger" props={triggerProps} />
+      <PropsTable title="Select.Options" props={optionsProps} />
+      <PropsTable title="Select.Option" props={optionProps} />
+    </section>
+  </div>
+</DocsLayout>
