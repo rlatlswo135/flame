@@ -18,6 +18,7 @@ export type DialogRootProps = {
 	keepMounted?: boolean;
 } & ComponentPropsWithoutRef<"dialog">;
 
+// TODO: close가 뭔가 content와 root등 흩뿌려진 느낌 잡기
 const DialogRoot = ({
 	closeOutside = false,
 	keepMounted = false,
@@ -36,6 +37,7 @@ const DialogRoot = ({
 
 	const close = () => {
 		dialog.current?.close();
+		if (!keepMounted) setIsOpen(false);
 	};
 
 	const context = {
