@@ -38,6 +38,7 @@
 		"@testing-library/react": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
+		"@types/node": "^25.5.0",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"tsup": "catalog:",
