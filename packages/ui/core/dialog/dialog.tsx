@@ -11,19 +11,22 @@ import {
 import type { ClickableElement, ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
+import { cloneSingleElement } from "../utils";
 import { DialogContext } from "./context";
 
 export type DialogRootProps = {
 	closeOutside?: boolean;
 	keepMounted?: boolean;
-};
+} & ComponentPropsWithoutRef<"dialog">;
 
 const DialogRoot = ({
-	children,
 	closeOutside = false,
 	keepMounted = false,
+	id,
+	children,
+	...props
 }: PropsWithChildren<DialogRootProps>) => {
-	const contentId = useResolvedId();
+	const contentId = useResolvedId(id);
 	const dialog = useRef<HTMLDialogElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -53,14 +56,13 @@ const DialogRoot = ({
 export type DialogTriggerProps = ElementFnChildren<{ open: () => void }>;
 
 const Trigger = ({ children }: DialogTriggerProps) => {
-	const { open, isOpen, contentId } = useCtx(DialogContext);
+	const { open } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ open });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: open,
-		"aria-expanded": isOpen,
-		"aria-controls": contentId,
+		"aria-haspopup": "dialog",
 	});
 };
 

@@ -2,6 +2,7 @@
 
 import {
 	type ComponentPropsWithoutRef,
+	type ComponentPropsWithRef,
 	type CSSProperties,
 	cloneElement,
 	type MouseEvent,
@@ -21,35 +22,19 @@ import { DrawerContext } from "./context";
 type Placement = "top" | "right" | "bottom" | "left";
 
 export type DrawerProps = {
-	contentId?: string;
 	placement?: Placement;
 	onOpen?: () => void;
 	onClose?: () => void;
-};
+} & ComponentPropsWithRef<"dialog">;
 
-/**
- * 네이티브 <dialog> + showModal() 기반 구현.
- *
- * [변경 이유] 기존엔 Portal + 수동 focus-trap + 전역 z-index 카운터 + dim <div>로
- * 모달 동작을 직접 구현했으나, showModal()이 아래를 네이티브로 제공하므로 모두 제거했다.
- *  - 포커스 트랩 + 배경 inert + 닫을 때 포커스 복원       → useFocusTrap 제거
- *  - top layer 자동 스택(중첩 drawer 포함)                → globalZIndex / MODAL_Z_BASE 제거
- *  - stacking/overflow context 탈출(SSR도 Portal 불필요)  → Portal 제거
- *  - 모달 시맨틱(role/aria-modal) + Escape 닫기            → 수동 부여/키 핸들러 제거
- *  - 배경 딤(backdrop)                                    → dim <div> 제거, ::backdrop 사용
- *
- * [유지] 패널 슬라이드 애니메이션은 인라인 transform으로 그대로 둔다(open/close 참고).
- * 단, showModal/close는 display:none↔block 토글이라 close 타이밍만 JS로 제어한다.
- */
 const DrawerRoot = ({
 	placement = "right",
+	id,
 	onOpen,
 	onClose,
 	children,
-	contentId,
 }: PropsWithChildren<DrawerProps>) => {
-	const resolvedId = useResolvedId(contentId);
-	// showModal()/close()를 호출할 네이티브 dialog 엘리먼트 ref (기존엔 div + Portal).
+	const resolvedId = useResolvedId(id);
 	const dialog = useRef<HTMLDialogElement>(null);
 	const reducedMotion = usePrefersReducedMotion();
 

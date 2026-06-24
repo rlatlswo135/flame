@@ -20,17 +20,12 @@ const FRUITS = ['apple', 'banana', 'cherry', 'grape', 'mango'];
 
 function ComboboxExample() {
   const [value, setValue] = useState('');
-  const [search, setSearch] = useState('');
-  const filtered = FRUITS.filter((f) => f.includes(search));
 
   return (
-    <Combobox value={value} onChange={setValue} search={search} onSearchChange={setSearch} transition>
-      <Combobox.Trigger>
-        <button>{value || 'Search for a fruit'}</button>
-      </Combobox.Trigger>
+    <Combobox value={value} onChange={setValue} transition>
+      <Combobox.Search placeholder="Search..." />
       <Combobox.Options>
-        <Combobox.Search placeholder="Search..." />
-        {filtered.map((fruit) => (
+        {FRUITS.map((fruit) => (
           <Combobox.Option key={fruit} value={fruit}>{fruit}</Combobox.Option>
         ))}
       </Combobox.Options>
@@ -43,8 +38,6 @@ const codeHtml = await highlight(demoCode);
 const comboboxProps = [
   { name: 'value', type: 'string', description: t.props.value },
   { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
-  { name: 'search', type: 'string', description: t.props.search },
-  { name: 'onSearchChange', type: '(search: string) => void', description: t.props.onSearchChange },
   {
     name: 'transition',
     type: 'boolean | UseTransitionStylesProps',
@@ -53,8 +46,8 @@ const comboboxProps = [
   },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
-const triggerProps = [
-  { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
+const searchProps = [
+  { name: '...props', type: 'ComponentPropsWithoutRef<"input">', description: t.props.searchProps },
 ];
 const optionsProps = [
   {
@@ -72,10 +65,8 @@ const optionsProps = [
 ];
 const optionProps = [
   { name: 'value', type: 'string', description: t.props.optionValue },
+  { name: 'label', type: 'string', description: t.props.optionLabel },
   { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionProps },
-];
-const searchProps = [
-  { name: '...props', type: 'ComponentPropsWithoutRef<"input">', description: t.props.searchProps },
 ];
 ---
 
@@ -92,10 +83,9 @@ const searchProps = [
     <section>
       <h2 class="text-xl font-semibold mb-6">{tc.apiReference}</h2>
       <PropsTable title="Combobox" props={comboboxProps} />
-      <PropsTable title="Combobox.Trigger" props={triggerProps} />
+      <PropsTable title="Combobox.Search" props={searchProps} />
       <PropsTable title="Combobox.Options" props={optionsProps} />
       <PropsTable title="Combobox.Option" props={optionProps} />
-      <PropsTable title="Combobox.Search" props={searchProps} />
     </section>
   </div>
 </DocsLayout>

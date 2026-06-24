@@ -1,11 +1,16 @@
-import { createContext } from "react";
+import { createContext, type KeyboardEvent } from "react";
 import type { FloatingBaseReturn } from "@/hooks/use-floating-base";
 
-type ComboboxContextValue = FloatingBaseReturn & {
+export type ComboboxContextValue = FloatingBaseReturn & {
 	value: string;
-	onChange: (value: string) => void;
-	search: string;
-	onSearchChange: (search: string) => void;
+	listId: string;
+	inputValue: string;
+	activeId: string | null;
+	matches: (label: string) => boolean;
+	onInputChange: (value: string) => void;
+	onSearchKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+	setActiveId: (id: string | null) => void;
+	selectOption: (value: string, label: string) => void;
 };
 
 export const ComboboxContext = createContext<ComboboxContextValue | null>(null);

@@ -1,145 +1,268 @@
 "use client";
 
-import { FloatingFocusManager } from "@floating-ui/react";
 import {
 	type ComponentPropsWithoutRef,
-	cloneElement,
+	type KeyboardEvent,
 	type PropsWithChildren,
+	useEffect,
+	useRef,
+	useState,
 } from "react";
 import type { OmitUnion } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import {
 	type FloatingBaseProps,
 	type FloatingContentProps,
-	type FloatingTriggerProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
+import { useResolvedId } from "@/hooks/use-resolved-id";
 import { OptionalPortal } from "@/primitives/optional-portal";
 import { ComboboxContext } from "./context";
 
 export type ComboboxRootProps = {
 	value: string;
 	onChange: (value: string) => void;
-	search: string;
-	onSearchChange: (search: string) => void;
-} & OmitUnion<FloatingBaseProps, "click" | "hover">;
+} & OmitUnion<FloatingBaseProps, "click" | "hover" | "focus">;
 
+/*
+TODO
+- Trigger와 Popover의 width가 상이함 => default는 Trigger사이즈와 동일하게. className 주입이 content에 있으면 그거 우선으로
+- keyboard navigation 별도 hooks로 빼서 select에도 optional하게 주입 가능하게 하는거에대해 어떻게생각하는지 솔직한 피드백
+*/
 const ComboboxRoot = ({
 	value,
 	onChange,
-	search,
-	onSearchChange,
 	children,
 	...props
 }: PropsWithChildren<ComboboxRootProps>) => {
-	const base = useFloatingBase({ click: { enabled: true }, ...props });
+	// keyboardHandlers를 끄지 않으면 useClick이 input의 Enter/Space를 가로채
+	// 옵션 선택/공백 입력을 막는다.
+	const base = useFloatingBase({
+		click: { enabled: true, keyboardHandlers: false },
+		...props,
+	});
+	const { floating } = base;
+	const { open, onOpenChange } = floating.context;
 
-	const context = { ...base, value, onChange, search, onSearchChange };
+	const listId = useResolvedId();
+
+	const [inputValue, setInputValue] = useState("");
+	const [activeId, setActiveId] = useState<string | null>(null);
+	// 선택된 항목의 레이블 — 닫힐 때 입력값 복원에만 쓰여 렌더와 무관하므로 ref로 둔다.
+	const selectedLabelRef = useRef("");
+
+	const matches = (label: string) => {
+		const keyword = inputValue.trim().toLowerCase();
+		if (!keyword) return true;
+		return label.toLowerCase().includes(keyword);
+	};
+
+	const selectOption = (nextValue: string, label: string) => {
+		onChange(nextValue);
+		selectedLabelRef.current = label;
+		setInputValue(label);
+		setActiveId(null);
+		onOpenChange(false);
+	};
+
+	const onInputChange = (next: string) => {
+		setInputValue(next);
+		setActiveId(null);
+		if (!open) onOpenChange(true);
+	};
+
+	const onSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+		const listEl = floating.refs.floating.current;
+		const options = listEl
+			? Array.from(listEl.querySelectorAll<HTMLElement>('[role="option"]'))
+			: [];
+
+		switch (event.key) {
+			case "ArrowDown": {
+				event.preventDefault();
+				if (!open) {
+					onOpenChange(true);
+					return;
+				}
+				if (options.length === 0) return;
+				const index = options.findIndex((el) => el.id === activeId);
+				const next = options[(index + 1) % options.length];
+				setActiveId(next.id);
+				next.scrollIntoView?.({ block: "nearest" });
+				return;
+			}
+			case "ArrowUp": {
+				event.preventDefault();
+				if (!open) {
+					onOpenChange(true);
+					return;
+				}
+				if (options.length === 0) return;
+				const index = options.findIndex((el) => el.id === activeId);
+				const prev = options[(index <= 0 ? options.length : index) - 1];
+				setActiveId(prev.id);
+				prev.scrollIntoView?.({ block: "nearest" });
+				return;
+			}
+			case "Enter": {
+				const active = options.find((el) => el.id === activeId);
+				if (!active) return;
+				event.preventDefault();
+				selectOption(
+					active.dataset.value ?? "",
+					active.dataset.label ?? active.textContent ?? "",
+				);
+				return;
+			}
+		}
+	};
+
+	// Escape · 외부 클릭 · 선택 등 어떤 이유로 닫히든 입력값을 선택된 레이블로 복원한다.
+	const prevOpenRef = useRef(open);
+	useEffect(() => {
+		if (prevOpenRef.current && !open) {
+			setInputValue(selectedLabelRef.current);
+			setActiveId(null);
+		}
+		prevOpenRef.current = open;
+	}, [open]);
+
+	const context = {
+		...base,
+		value,
+		listId,
+		inputValue,
+		activeId,
+		matches,
+		onInputChange,
+		onSearchKeyDown,
+		setActiveId,
+		selectOption,
+	};
 
 	return <ComboboxContext value={context}>{children}</ComboboxContext>;
 };
 
-export type ComboboxTriggerProps = FloatingTriggerProps;
+export type ComboboxSearchProps = ComponentPropsWithoutRef<"input">;
 
-const Trigger = ({ children }: ComboboxTriggerProps) => {
-	const { baseTriggerProps, floating, interactions } = useCtx(ComboboxContext);
+const Search = ({ onChange, onKeyDown, ...props }: ComboboxSearchProps) => {
+	const {
+		baseTriggerProps,
+		interactions,
+		floating,
+		listId,
+		inputValue,
+		activeId,
+		onInputChange,
+		onSearchKeyDown,
+	} = useCtx(ComboboxContext);
 
-	const triggerProps = interactions.getReferenceProps({
-		...baseTriggerProps,
-		...(children.props as Record<string, unknown>),
-		"aria-haspopup": "listbox",
-		"aria-expanded": floating.context.open,
-	});
-
-	return cloneElement(children, triggerProps);
+	return (
+		<input
+			{...interactions.getReferenceProps({ ...baseTriggerProps, ...props })}
+			role="combobox"
+			aria-autocomplete="list"
+			aria-haspopup="listbox"
+			aria-expanded={floating.context.open}
+			aria-controls={listId}
+			aria-activedescendant={activeId ?? undefined}
+			value={inputValue}
+			onChange={(event) => {
+				onChange?.(event);
+				onInputChange(event.target.value);
+			}}
+			onKeyDown={(event) => {
+				onKeyDown?.(event);
+				onSearchKeyDown(event);
+			}}
+		/>
+	);
 };
 
 export type ComboboxOptionsProps = FloatingContentProps<"div">;
 
 const Options = ({ children, portal, ...props }: ComboboxOptionsProps) => {
-	const { floating, transition, interactions, baseContentProps } =
+	const { floating, transition, interactions, baseContentProps, listId } =
 		useCtx(ComboboxContext);
 
 	const shouldMount = transition ? transition.isMounted : floating.context.open;
 
 	if (!shouldMount) return null;
 
+	if (typeof children === "function")
+		return children({ floating, interactions });
+
 	return (
 		<OptionalPortal portal={portal}>
-			<FloatingFocusManager context={floating.context} modal>
-				{typeof children === "function" ? (
-					<>{children({ floating, interactions })}</>
-				) : (
-					<div
-						{...interactions.getFloatingProps(props)}
-						{...baseContentProps}
-						role="listbox"
-						aria-hidden={!floating.context.open}
-					>
-						{children}
-					</div>
-				)}
-			</FloatingFocusManager>
+			<div
+				{...interactions.getFloatingProps(props)}
+				{...baseContentProps}
+				id={listId}
+				role="listbox"
+				aria-hidden={!floating.context.open}
+			>
+				{children}
+			</div>
 		</OptionalPortal>
 	);
 };
 
 export type ComboboxOptionProps = ComponentPropsWithoutRef<"div"> & {
 	value: string;
+	/** 필터링·입력값 표시에 쓰일 레이블. 생략하면 문자열 children을 사용한다. */
+	label?: string;
 };
 
 const Option = ({
 	value,
+	label,
 	children,
+	id: idProp,
 	onClick,
-	onChange: onChangeProp,
+	onPointerMove,
 	...props
 }: ComboboxOptionProps) => {
-	const { value: selectedValue, onChange, floating } = useCtx(ComboboxContext);
+	const {
+		value: selectedValue,
+		activeId,
+		matches,
+		selectOption,
+		setActiveId,
+	} = useCtx(ComboboxContext);
+	const id = useResolvedId(idProp);
+
+	const resolvedLabel = label ?? (typeof children === "string" ? children : "");
+
+	if (!matches(resolvedLabel)) return null;
+
+	const isActive = id === activeId;
 
 	return (
 		<div
-			tabIndex={0}
+			{...props}
+			id={id}
 			role="option"
+			tabIndex={-1}
 			aria-selected={value === selectedValue}
 			data-value={value}
-			onClick={(e) => {
-				onClick?.(e);
-				onChange(value);
-				floating.context.onOpenChange(false);
+			data-label={resolvedLabel}
+			data-active={isActive ? "true" : undefined}
+			onClick={(event) => {
+				onClick?.(event);
+				selectOption(value, resolvedLabel);
 			}}
-			onChange={(e) => {
-				onChangeProp?.(e);
-				onChange(value);
-				floating.context.onOpenChange(false);
+			onPointerMove={(event) => {
+				onPointerMove?.(event);
+				setActiveId(id);
 			}}
-			{...props}
 		>
 			{children}
 		</div>
 	);
 };
 
-export type ComboboxSearchProps = ComponentPropsWithoutRef<"input">;
-
-const Search = ({ ...props }: ComboboxSearchProps) => {
-	const { search, onSearchChange, floating } = useCtx(ComboboxContext);
-
-	return (
-		<input
-			role="combobox"
-			aria-autocomplete="list"
-			aria-expanded={floating.context.open}
-			value={search}
-			onChange={(e) => onSearchChange(e.target.value)}
-			{...props}
-		/>
-	);
-};
-
 export const Combobox = Object.assign(ComboboxRoot, {
-	Trigger,
+	Search,
 	Options,
 	Option,
-	Search,
 });
