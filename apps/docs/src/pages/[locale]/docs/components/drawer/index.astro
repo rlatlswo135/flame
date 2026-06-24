@@ -53,7 +53,11 @@ const triggerProps = [
 ];
 const contentProps = [
   { name: 'ref', type: 'RefObject<HTMLDialogElement | null>', description: t.props.contentRef },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"dialog">', description: t.props.contentProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"dialog">',
+    description: t.props.contentProps,
+  },
 ];
 const closerProps = [
   {
