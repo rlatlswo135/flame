@@ -88,7 +88,13 @@ export type ComboboxOptionProps = ComponentPropsWithoutRef<"div"> & {
 	value: string;
 };
 
-const Option = ({ value, children, onClick, onChange: onChangeProp, ...props }: ComboboxOptionProps) => {
+const Option = ({
+	value,
+	children,
+	onClick,
+	onChange: onChangeProp,
+	...props
+}: ComboboxOptionProps) => {
 	const { value: selectedValue, onChange, floating } = useCtx(ComboboxContext);
 
 	return (
