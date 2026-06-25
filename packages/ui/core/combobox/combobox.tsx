@@ -2,7 +2,6 @@
 
 import {
 	type ComponentPropsWithoutRef,
-	type KeyboardEvent,
 	type PropsWithChildren,
 	useEffect,
 	useRef,
@@ -15,6 +14,7 @@ import {
 	type FloatingContentProps,
 	useFloatingBase,
 } from "@/hooks/use-floating-base";
+import { useListNavigation } from "@/hooks/use-list-navigation";
 import { useResolvedId } from "@/hooks/use-resolved-id";
 import { OptionalPortal } from "@/primitives/optional-portal";
 import { ComboboxContext } from "./context";
@@ -24,11 +24,6 @@ export type ComboboxRootProps = {
 	onChange: (value: string) => void;
 } & OmitUnion<FloatingBaseProps, "click" | "hover" | "focus">;
 
-/*
-TODO
-- Trigger와 Popover의 width가 상이함 => default는 Trigger사이즈와 동일하게. className 주입이 content에 있으면 그거 우선으로
-- keyboard navigation 별도 hooks로 빼서 select에도 optional하게 주입 가능하게 하는거에대해 어떻게생각하는지 솔직한 피드백
-*/
 const ComboboxRoot = ({
 	value,
 	onChange,
@@ -41,13 +36,10 @@ const ComboboxRoot = ({
 		click: { enabled: true, keyboardHandlers: false },
 		...props,
 	});
-	const { floating } = base;
-	const { open, onOpenChange } = floating.context;
+	const { open, onOpenChange } = base.floating.context;
 
 	const listId = useResolvedId();
-
 	const [inputValue, setInputValue] = useState("");
-	const [activeId, setActiveId] = useState<string | null>(null);
 	// 선택된 항목의 레이블 — 닫힐 때 입력값 복원에만 쓰여 렌더와 무관하므로 ref로 둔다.
 	const selectedLabelRef = useRef("");
 
@@ -56,6 +48,17 @@ const ComboboxRoot = ({
 		if (!keyword) return true;
 		return label.toLowerCase().includes(keyword);
 	};
+
+	const { activeId, setActiveId, onKeyDown } = useListNavigation({
+		open,
+		onOpenChange,
+		listRef: base.floating.refs.floating,
+		onSelect: (option) =>
+			selectOption(
+				option.dataset.value ?? "",
+				option.dataset.label ?? option.textContent ?? "",
+			),
+	});
 
 	const selectOption = (nextValue: string, label: string) => {
 		onChange(nextValue);
@@ -71,52 +74,6 @@ const ComboboxRoot = ({
 		if (!open) onOpenChange(true);
 	};
 
-	const onSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-		const listEl = floating.refs.floating.current;
-		const options = listEl
-			? Array.from(listEl.querySelectorAll<HTMLElement>('[role="option"]'))
-			: [];
-
-		switch (event.key) {
-			case "ArrowDown": {
-				event.preventDefault();
-				if (!open) {
-					onOpenChange(true);
-					return;
-				}
-				if (options.length === 0) return;
-				const index = options.findIndex((el) => el.id === activeId);
-				const next = options[(index + 1) % options.length];
-				setActiveId(next.id);
-				next.scrollIntoView?.({ block: "nearest" });
-				return;
-			}
-			case "ArrowUp": {
-				event.preventDefault();
-				if (!open) {
-					onOpenChange(true);
-					return;
-				}
-				if (options.length === 0) return;
-				const index = options.findIndex((el) => el.id === activeId);
-				const prev = options[(index <= 0 ? options.length : index) - 1];
-				setActiveId(prev.id);
-				prev.scrollIntoView?.({ block: "nearest" });
-				return;
-			}
-			case "Enter": {
-				const active = options.find((el) => el.id === activeId);
-				if (!active) return;
-				event.preventDefault();
-				selectOption(
-					active.dataset.value ?? "",
-					active.dataset.label ?? active.textContent ?? "",
-				);
-				return;
-			}
-		}
-	};
-
 	// Escape · 외부 클릭 · 선택 등 어떤 이유로 닫히든 입력값을 선택된 레이블로 복원한다.
 	const prevOpenRef = useRef(open);
 	useEffect(() => {
@@ -125,7 +82,7 @@ const ComboboxRoot = ({
 			setActiveId(null);
 		}
 		prevOpenRef.current = open;
-	}, [open]);
+	}, [open, setActiveId]);
 
 	const context = {
 		...base,
@@ -135,7 +92,7 @@ const ComboboxRoot = ({
 		activeId,
 		matches,
 		onInputChange,
-		onSearchKeyDown,
+		onSearchKeyDown: onKeyDown,
 		setActiveId,
 		selectOption,
 	};
@@ -199,7 +156,6 @@ const Options = ({ children, portal, ...props }: ComboboxOptionsProps) => {
 				{...baseContentProps}
 				id={listId}
 				role="listbox"
-				aria-hidden={!floating.context.open}
 			>
 				{children}
 			</div>
