@@ -13,8 +13,7 @@
       "select": "드롭다운 셀렉트 입력",
       "toast": "명령형 토스트 알림",
       "tooltip": "호버·포커스 시 표시되는 컨텍스트 툴팁",
-      "tabs": "탭 기반 콘텐츠 전환 컴포넌트",
-      "combobox": "검색 가능한 드롭다운 셀렉트"
+      "tabs": "탭 기반 콘텐츠 전환 컴포넌트"
     }
   },
   "header": {
@@ -228,31 +227,6 @@
         "hoverMe": "마우스를 올려보세요",
         "disabled": "비활성화됨",
         "tooltipText": "툴팁입니다"
-      }
-    },
-    "combobox": {
-      "title": "Combobox",
-      "description": "Floating UI 기반의 헤드리스 검색 가능 셀렉트 컴포넌트. 입력값 기반 필터링과 키보드 네비게이션을 내장하며, 포탈 렌더링과 CSS 전환을 지원합니다.",
-      "props": {
-        "value": "현재 선택된 값",
-        "onChange": "옵션 선택 시 콜백",
-        "transition": "열기/닫기 CSS 전환 활성화",
-        "children": "Combobox 하위 컴포넌트 (Search, Options)",
-        "searchProps": "모든 네이티브 input 요소 속성. Combobox의 기준(reference) 요소이며, 입력값·열림 상태는 내부에서 관리됩니다. role=\"combobox\", aria-autocomplete=\"list\", aria-activedescendant 자동 적용",
-        "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수. 입력값과 매칭되지 않는 Option은 자동으로 숨겨집니다",
-        "portal": "포탈에서 옵션 렌더링 (Combobox.Options에 전달)",
-        "optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
-        "optionValue": "이 옵션의 값",
-        "optionLabel": "필터링·입력값 표시에 사용할 레이블. 생략하면 문자열 children을 사용",
-        "optionProps": "모든 네이티브 div 요소 속성. role=\"option\", aria-selected, data-active(키보드 활성 시)로 렌더링"
-      },
-      "demo": {
-        "searchPlaceholder": "검색...",
-        "apple": "사과",
-        "banana": "바나나",
-        "cherry": "체리",
-        "grape": "포도",
-        "mango": "망고"
       }
     }
   }

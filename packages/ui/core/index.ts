@@ -1,5 +1,4 @@
 export * from "./accordion/accordion";
-export * from "./combobox/combobox";
 export * from "./dialog/dialog";
 export * from "./drawer/drawer";
 export * from "./funnel/funnel";
