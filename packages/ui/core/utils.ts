@@ -26,3 +26,7 @@ export const cloneSingleElement = <T extends Dict>(
 export const cn = (...classes: (string | undefined | null | false)[]) => {
 	return classes.filter(Boolean).join(" ");
 };
+
+export const prefersReducedMotion = () =>
+	typeof window !== "undefined" &&
+	window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;

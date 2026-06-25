@@ -3,22 +3,30 @@
 import {
 	type ComponentPropsWithoutRef,
 	type PropsWithChildren,
+	type SyntheticEvent,
 	useRef,
 	useState,
 } from "react";
 import type { ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
-import { cloneSingleElement } from "../utils";
+import { cloneSingleElement, prefersReducedMotion } from "../utils";
 import { DrawerContext } from "./context";
 
 type Placement = "top" | "right" | "bottom" | "left";
+
+type DrawerAnimation = {
+	enter: Keyframe[];
+	exit: Keyframe[];
+	options?: KeyframeAnimationOptions;
+};
 
 export type DrawerProps = {
 	id?: string;
 	placement?: Placement;
 	closeOutside?: boolean;
 	keepMounted?: boolean;
+	animation?: DrawerAnimation | false;
 	onOpen?: () => void;
 	onClose?: () => void;
 };
@@ -27,6 +35,7 @@ const DrawerRoot = ({
 	keepMounted = true,
 	closeOutside = false,
 	placement = "right",
+	animation,
 	id,
 	onOpen,
 	onClose,
@@ -37,15 +46,37 @@ const DrawerRoot = ({
 
 	const [isOpen, setIsOpen] = useState(false);
 
+	const resolvedAnimation =
+		animation === false ? null : (animation ?? getDefaultAnimation(placement));
+
+	const animate = (keyframes: Keyframe[]) => {
+		if (!resolvedAnimation || !dialog.current || prefersReducedMotion())
+			return null;
+
+		const currentAnimations = dialog.current.getAnimations();
+		currentAnimations.forEach((a) => {
+			a.cancel();
+		});
+
+		return dialog.current.animate(keyframes, resolvedAnimation.options);
+	};
+
 	const open = () => {
 		if (!keepMounted) setIsOpen(true);
 
 		dialog.current?.showModal();
+		animate(resolvedAnimation?.enter ?? []);
 		onOpen?.();
 	};
 
 	const close = () => {
-		dialog.current?.close();
+		const exiting = animate(resolvedAnimation?.exit ?? []);
+
+		if (exiting) {
+			exiting.finished.then(() => dialog.current?.close()).catch(() => {});
+		} else {
+			dialog.current?.close();
+		}
 	};
 
 	return (
@@ -93,7 +124,7 @@ export type DrawerContentProps = Omit<
 	"onClose" | "onClick"
 >;
 
-const Content = ({ children, ...props }: DrawerContentProps) => {
+const Content = ({ children, style, ...props }: DrawerContentProps) => {
 	const ctx = useCtx(DrawerContext);
 
 	const handleClose = () => {
@@ -103,6 +134,14 @@ const Content = ({ children, ...props }: DrawerContentProps) => {
 
 	const handleClick = () => {
 		if (!ctx.closeOutside) return;
+		ctx.close();
+	};
+
+	// ESC는 native dialog를 즉시 닫아 exit 애니를 건너뛴다 — 가로채 ctx.close()로 위임한다.
+	// 중첩 시 cancel이 React 트리를 타고 부모 Drawer까지 버블되므로 전파를 끊는다.
+	const handleCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
 		ctx.close();
 	};
 
@@ -123,8 +162,10 @@ const Content = ({ children, ...props }: DrawerContentProps) => {
 				maxHeight: "100%",
 				maxWidth: "100%",
 				...placementStyle[ctx.placement],
+				...style,
 			}}
 			{...props}
+			onCancel={handleCancel}
 			onClose={handleClose}
 		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: need to outside-click */}
@@ -140,3 +181,20 @@ export const Drawer = Object.assign(DrawerRoot, {
 	Content,
 	Closer,
 });
+
+const getDefaultAnimation = (placement: Placement): DrawerAnimation => {
+	const fromTo = {
+		left: "translateX(-100%) translateX(0)",
+		right: "translateX(100%) translateX(0)",
+		top: "translateY(-100%) translateY(0)",
+		bottom: "translateY(100%) translateY(0)",
+	};
+
+	const [hidden, shown] = fromTo[placement].split(" ");
+
+	return {
+		enter: [{ transform: hidden }, { transform: shown }],
+		exit: [{ transform: shown }, { transform: hidden }],
+		options: { duration: 250, easing: "ease-out" },
+	};
+};
