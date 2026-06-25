@@ -12,28 +12,13 @@ const FRUITS = [
 
 export const DefaultExample = () => {
 	const [value, setValue] = useState("");
-	const [search, setSearch] = useState("");
-
-	const filtered = FRUITS.filter((f) =>
-		f.label.toLowerCase().includes(search.toLowerCase()),
-	);
-
-	const selectedLabel = FRUITS.find((f) => f.value === value)?.label;
 
 	return (
-		<Combobox
-			value={value}
-			onChange={setValue}
-			search={search}
-			onSearchChange={setSearch}
-		>
-			<Combobox.Trigger>
-				<button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-			</Combobox.Trigger>
+		<Combobox value={value} onChange={setValue}>
+			<Combobox.Search placeholder="검색..." />
 			<Combobox.Options>
-				<Combobox.Search placeholder="검색..." />
-				{filtered.map((f) => (
-					<Combobox.Option key={f.value} value={f.value}>
+				{FRUITS.map((f) => (
+					<Combobox.Option key={f.value} value={f.value} label={f.label}>
 						{f.label}
 					</Combobox.Option>
 				))}
@@ -44,29 +29,13 @@ export const DefaultExample = () => {
 
 export const WithTransitionExample = () => {
 	const [value, setValue] = useState("");
-	const [search, setSearch] = useState("");
-
-	const filtered = FRUITS.filter((f) =>
-		f.label.toLowerCase().includes(search.toLowerCase()),
-	);
-
-	const selectedLabel = FRUITS.find((f) => f.value === value)?.label;
 
 	return (
-		<Combobox
-			value={value}
-			onChange={setValue}
-			search={search}
-			onSearchChange={setSearch}
-			transition
-		>
-			<Combobox.Trigger>
-				<button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-			</Combobox.Trigger>
+		<Combobox value={value} onChange={setValue} transition>
+			<Combobox.Search placeholder="검색..." />
 			<Combobox.Options>
-				<Combobox.Search placeholder="검색..." />
-				{filtered.map((f) => (
-					<Combobox.Option key={f.value} value={f.value}>
+				{FRUITS.map((f) => (
+					<Combobox.Option key={f.value} value={f.value} label={f.label}>
 						{f.label}
 					</Combobox.Option>
 				))}
@@ -77,24 +46,10 @@ export const WithTransitionExample = () => {
 
 export const FullCustomExample = () => {
 	const [value, setValue] = useState("");
-	const [search, setSearch] = useState("");
-
-	const filtered = FRUITS.filter((f) =>
-		f.label.toLowerCase().includes(search.toLowerCase()),
-	);
-
-	const selectedLabel = FRUITS.find((f) => f.value === value)?.label;
 
 	return (
-		<Combobox
-			value={value}
-			onChange={setValue}
-			search={search}
-			onSearchChange={setSearch}
-		>
-			<Combobox.Trigger>
-				<button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-			</Combobox.Trigger>
+		<Combobox value={value} onChange={setValue}>
+			<Combobox.Search placeholder="검색..." />
 			<Combobox.Options>
 				{({ floating, interactions }) => (
 					<div
@@ -102,9 +57,8 @@ export const FullCustomExample = () => {
 						style={floating.floatingStyles}
 						{...interactions.getFloatingProps()}
 					>
-						<Combobox.Search placeholder="검색..." />
-						{filtered.map((f) => (
-							<Combobox.Option key={f.value} value={f.value}>
+						{FRUITS.map((f) => (
+							<Combobox.Option key={f.value} value={f.value} label={f.label}>
 								{f.label}
 							</Combobox.Option>
 						))}

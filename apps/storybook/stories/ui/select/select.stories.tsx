@@ -33,24 +33,6 @@ const meta = {
 				type: { summary: "(value: string) => void" },
 			},
 		},
-		portal: {
-			control: "boolean",
-			description:
-				"Render content in a portal. Pass `true` for default or `FloatingPortalProps` for custom.",
-			table: {
-				type: { summary: "boolean | FloatingPortalProps" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		focusTrap: {
-			control: "boolean",
-			description:
-				"Enable focus trap and outside interaction blocking via `FloatingFocusManager` modal prop.",
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "true" },
-			},
-		},
 		transition: {
 			control: "boolean",
 			description:
@@ -65,12 +47,6 @@ const meta = {
 				"Forwarded to `useFloating()`. Controls placement, middleware, strategy, etc.",
 			table: {
 				type: { summary: "UseFloatingOptions" },
-			},
-		},
-		click: {
-			description: "Options for `useClick()` interaction hook.",
-			table: {
-				type: { summary: "UseClickProps" },
 			},
 		},
 		dismiss: {

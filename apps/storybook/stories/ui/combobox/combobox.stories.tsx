@@ -16,7 +16,7 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					"A searchable select built on `@floating-ui/react` (peer dependency). Fully controlled — manages `value`/`onChange` for selection and `search`/`onSearchChange` for the search input separately. Use `Combobox.Search` inside `Combobox.Options` to render the input. Filter options in the parent. Use function children on `Combobox.Options` for full custom rendering. See [Floating UI docs](https://floating-ui.com) for positioning options.",
+					"A searchable select built on `@floating-ui/react` (peer dependency). Controlled for selection via `value`/`onChange`. The search input is managed internally — render `Combobox.Search` (which doubles as the floating anchor) as a direct child, then `Combobox.Options` containing `Combobox.Option`s. Each `Combobox.Option` self-filters by its `label` (or string children) as the user types, so no parent-side filtering is needed. Use function children on `Combobox.Options` for full custom rendering. See [Floating UI docs](https://floating-ui.com) for positioning options.",
 			},
 		},
 	},
@@ -32,19 +32,6 @@ const meta = {
 			description: "Callback fired when an option is selected.",
 			table: {
 				type: { summary: "(value: string) => void" },
-			},
-		},
-		search: {
-			control: "text",
-			description: "Current search input value.",
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		onSearchChange: {
-			description: "Callback fired when the search input changes.",
-			table: {
-				type: { summary: "(search: string) => void" },
 			},
 		},
 		transition: {
@@ -80,36 +67,20 @@ const meta = {
 	args: {
 		value: "",
 		onChange: () => {},
-		search: "",
-		onSearchChange: () => {},
 	},
 	render: (props) => {
 		const [value, setValue] = useState("");
-		const [search, setSearch] = useState("");
 		const fruits = [
 			{ value: "apple", label: "사과" },
 			{ value: "banana", label: "바나나" },
 			{ value: "cherry", label: "체리" },
 		];
-		const filtered = fruits.filter((f) =>
-			f.label.toLowerCase().includes(search.toLowerCase()),
-		);
-		const selectedLabel = fruits.find((f) => f.value === value)?.label;
 		return (
-			<Combobox
-				{...props}
-				value={value}
-				onChange={setValue}
-				search={search}
-				onSearchChange={setSearch}
-			>
-				<Combobox.Trigger>
-					<button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-				</Combobox.Trigger>
+			<Combobox {...props} value={value} onChange={setValue}>
+				<Combobox.Search placeholder="검색..." />
 				<Combobox.Options>
-					<Combobox.Search placeholder="검색..." />
-					{filtered.map((f) => (
-						<Combobox.Option key={f.value} value={f.value}>
+					{fruits.map((f) => (
+						<Combobox.Option key={f.value} value={f.value} label={f.label}>
 							{f.label}
 						</Combobox.Option>
 					))}
@@ -125,20 +96,12 @@ export const Default: Story = {
 			source: {
 				code: `
 const [value, setValue] = useState("");
-const [search, setSearch] = useState("");
 
-const filtered = FRUITS.filter((f) =>
-  f.label.toLowerCase().includes(search.toLowerCase()),
-);
-
-<Combobox value={value} onChange={setValue} search={search} onSearchChange={setSearch}>
-  <Combobox.Trigger>
-    <button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-  </Combobox.Trigger>
+<Combobox value={value} onChange={setValue}>
+  <Combobox.Search placeholder="검색..." />
   <Combobox.Options>
-    <Combobox.Search placeholder="검색..." />
-    {filtered.map((f) => (
-      <Combobox.Option key={f.value} value={f.value}>
+    {FRUITS.map((f) => (
+      <Combobox.Option key={f.value} value={f.value} label={f.label}>
         {f.label}
       </Combobox.Option>
     ))}
@@ -160,16 +123,12 @@ export const WithTransition: Story = {
 			source: {
 				code: `
 const [value, setValue] = useState("");
-const [search, setSearch] = useState("");
 
-<Combobox value={value} onChange={setValue} search={search} onSearchChange={setSearch} transition>
-  <Combobox.Trigger>
-    <button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-  </Combobox.Trigger>
+<Combobox value={value} onChange={setValue} transition>
+  <Combobox.Search placeholder="검색..." />
   <Combobox.Options>
-    <Combobox.Search placeholder="검색..." />
-    {filtered.map((f) => (
-      <Combobox.Option key={f.value} value={f.value}>
+    {FRUITS.map((f) => (
+      <Combobox.Option key={f.value} value={f.value} label={f.label}>
         {f.label}
       </Combobox.Option>
     ))}
@@ -186,17 +145,14 @@ export const FullCustom: Story = {
 		docs: {
 			description: {
 				story:
-					"Use function children on `Combobox.Options` for full control over rendering. Receives `floating` and `interactions` from Floating UI.",
+					"Use function children on `Combobox.Options` for full control over rendering. Receives `floating` and `interactions` from Floating UI. Keep `Combobox.Search` outside `Combobox.Options` — it is the floating anchor.",
 			},
 			source: {
 				code: `
 const [value, setValue] = useState("");
-const [search, setSearch] = useState("");
 
-<Combobox value={value} onChange={setValue} search={search} onSearchChange={setSearch}>
-  <Combobox.Trigger>
-    <button type="button">{selectedLabel || "과일을 선택하세요"}</button>
-  </Combobox.Trigger>
+<Combobox value={value} onChange={setValue}>
+  <Combobox.Search placeholder="검색..." />
   <Combobox.Options>
     {({ floating, interactions }) => (
       <div
@@ -204,9 +160,8 @@ const [search, setSearch] = useState("");
         style={floating.floatingStyles}
         {...interactions.getFloatingProps()}
       >
-        <Combobox.Search placeholder="검색..." />
-        {filtered.map((f) => (
-          <Combobox.Option key={f.value} value={f.value}>
+        {FRUITS.map((f) => (
+          <Combobox.Option key={f.value} value={f.value} label={f.label}>
             {f.label}
           </Combobox.Option>
         ))}
