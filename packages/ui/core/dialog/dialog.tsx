@@ -2,34 +2,42 @@
 
 import {
 	type ComponentPropsWithoutRef,
-	cloneElement,
 	type PropsWithChildren,
-	type SyntheticEvent,
 	useRef,
 	useState,
 } from "react";
-import type { ClickableElement, ElementFnChildren } from "@/core/types";
+import type { ElementFnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
 import { useResolvedId } from "@/hooks/use-resolved-id";
+import { cloneSingleElement } from "../utils";
 import { DialogContext } from "./context";
 
 export type DialogRootProps = {
+	id?: string;
 	closeOutside?: boolean;
 	keepMounted?: boolean;
+	onOpen?: () => void;
+	onClose?: () => void;
 };
 
 const DialogRoot = ({
-	children,
 	closeOutside = false,
 	keepMounted = false,
+	id,
+	onOpen,
+	onClose,
+	children,
 }: PropsWithChildren<DialogRootProps>) => {
-	const contentId = useResolvedId();
+	const contentId = useResolvedId(id);
 	const dialog = useRef<HTMLDialogElement>(null);
+
 	const [isOpen, setIsOpen] = useState(false);
 
 	const open = () => {
-		dialog.current?.showModal();
 		if (!keepMounted) setIsOpen(true);
+
+		dialog.current?.showModal();
+		onOpen?.();
 	};
 
 	const close = () => {
@@ -41,6 +49,7 @@ const DialogRoot = ({
 		dialog,
 		close,
 		isOpen,
+		onClose,
 		setIsOpen,
 		closeOutside,
 		keepMounted,
@@ -53,14 +62,13 @@ const DialogRoot = ({
 export type DialogTriggerProps = ElementFnChildren<{ open: () => void }>;
 
 const Trigger = ({ children }: DialogTriggerProps) => {
-	const { open, isOpen, contentId } = useCtx(DialogContext);
+	const { open } = useCtx(DialogContext);
 
 	if (typeof children === "function") return children({ open });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: open,
-		"aria-expanded": isOpen,
-		"aria-controls": contentId,
+		"aria-haspopup": "dialog",
 	});
 };
 
@@ -71,27 +79,34 @@ const Closer = ({ children }: DialogCloserProps) => {
 
 	if (typeof children === "function") return children({ close });
 
-	return cloneElement(children as ClickableElement, { onClick: close });
+	return cloneSingleElement(children, { onClick: close });
 };
 
-export type DialogContentProps = ComponentPropsWithoutRef<"dialog">;
+export type DialogContentProps = Omit<
+	ComponentPropsWithoutRef<"dialog">,
+	"onClose"
+>;
 
 const Content = ({ children, ...props }: DialogContentProps) => {
 	const ctx = useCtx(DialogContext);
 
-	const onClose = (e: SyntheticEvent<HTMLDialogElement>) => {
+	const handleClose = () => {
 		if (!ctx.keepMounted) ctx.setIsOpen(false);
-		props?.onClose?.(e);
+		ctx?.onClose?.();
+	};
+
+	const handleClick = () => {
+		if (!ctx.closeOutside) return;
+		ctx.close();
 	};
 
 	return (
 		<dialog
 			id={ctx.contentId}
 			ref={ctx.dialog}
-			onClick={ctx.closeOutside ? ctx.close : undefined}
-			aria-hidden={!ctx.isOpen}
+			onClick={handleClick}
 			{...props}
-			onClose={onClose}
+			onClose={handleClose}
 		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: need to outside-click */}
 			<section onClick={(e) => e.stopPropagation()}>

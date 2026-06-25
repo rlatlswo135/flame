@@ -2,18 +2,14 @@
 
 import {
 	Children,
-	cloneElement,
 	isValidElement,
 	type PropsWithChildren,
 	useEffect,
 	useState,
 } from "react";
-import type {
-	ClickableElement,
-	ElementFnChildren,
-	FnChildren,
-} from "@/core/types";
+import type { ElementFnChildren, FnChildren } from "@/core/types";
 import { useCtx } from "@/hooks/use-ctx";
+import { cloneSingleElement } from "../utils";
 import { FunnelContext } from "./context";
 
 const FunnelRoot = ({ children }: PropsWithChildren) => {
@@ -24,7 +20,7 @@ const FunnelRoot = ({ children }: PropsWithChildren) => {
 	const total = childrenArray.length;
 
 	const next = () => {
-		if (step === childrenArray.length - 1) return;
+		if (step === total - 1) return;
 		setStep(step + 1);
 	};
 
@@ -71,7 +67,7 @@ const Next = ({ children }: FunnelNextProps) => {
 
 	if (typeof children === "function") return children({ next });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: next,
 		"aria-disabled": isLast,
 	});
@@ -85,7 +81,7 @@ const Prev = ({ children }: FunnelPrevProps) => {
 
 	if (typeof children === "function") return children({ prev });
 
-	return cloneElement(children as ClickableElement, {
+	return cloneSingleElement(children, {
 		onClick: prev,
 		"aria-disabled": isFirst,
 	});

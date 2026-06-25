@@ -24,12 +24,9 @@ const PopoverRoot = ({
 export type PopoverTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: PopoverTriggerProps) => {
-	const { baseTriggerProps, floating, interactions } = useCtx(PopoverContext);
+	const { baseTriggerProps, interactions } = useCtx(PopoverContext);
 
-	const triggerProps = interactions.getReferenceProps({
-		...baseTriggerProps,
-		"aria-expanded": floating.context.open,
-	});
+	const triggerProps = interactions.getReferenceProps(baseTriggerProps);
 
 	return cloneElement(children, triggerProps);
 };
@@ -53,7 +50,6 @@ const Content = ({ children, portal, ...props }: PopoverContentProps) => {
 				<section
 					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
-					aria-hidden={!floating.context.open}
 				>
 					{children}
 				</section>

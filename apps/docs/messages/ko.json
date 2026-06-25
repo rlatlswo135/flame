@@ -13,8 +13,7 @@
       "select": "드롭다운 셀렉트 입력",
       "toast": "명령형 토스트 알림",
       "tooltip": "호버·포커스 시 표시되는 컨텍스트 툴팁",
-      "tabs": "탭 기반 콘텐츠 전환 컴포넌트",
-      "combobox": "검색 가능한 드롭다운 셀렉트"
+      "tabs": "탭 기반 콘텐츠 전환 컴포넌트"
     }
   },
   "header": {
@@ -228,35 +227,6 @@
         "hoverMe": "마우스를 올려보세요",
         "disabled": "비활성화됨",
         "tooltipText": "툴팁입니다"
-      }
-    },
-    "combobox": {
-      "title": "Combobox",
-      "description": "Floating UI 기반의 헤드리스 검색 가능 셀렉트 컴포넌트. 제어 값과 검색어를 함께 관리하며, 포탈 렌더링과 CSS 전환을 지원합니다.",
-      "props": {
-        "value": "현재 선택된 값",
-        "onChange": "옵션 선택 시 콜백",
-        "search": "현재 검색 입력값",
-        "onSearchChange": "검색 입력값 변경 시 콜백",
-        "transition": "열기/닫기 CSS 전환 활성화",
-        "children": "Combobox 하위 컴포넌트 (Trigger, Options, Search)",
-        "triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소. aria-haspopup, aria-expanded 자동 적용",
-        "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
-        "portal": "포탈에서 옵션 렌더링 (Combobox.Options에 전달)",
-        "optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
-        "optionValue": "이 옵션의 값",
-        "optionProps": "모든 네이티브 div 요소 속성. role=\"option\" 및 aria-selected로 렌더링",
-        "searchProps": "모든 네이티브 input 요소 속성. value·onChange는 root에서 주입되며, role=\"combobox\", aria-autocomplete=\"list\" 자동 적용"
-      },
-      "demo": {
-        "placeholder": "과일을 검색하세요",
-        "searchPlaceholder": "검색...",
-        "apple": "사과",
-        "banana": "바나나",
-        "cherry": "체리",
-        "grape": "포도",
-        "mango": "망고",
-        "noResults": "검색 결과가 없습니다"
       }
     }
   }

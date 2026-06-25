@@ -13,8 +13,7 @@
       "select": "Dropdown select input",
       "toast": "Imperative toast notifications",
       "tooltip": "Contextual hover and focus tooltips",
-      "tabs": "Tab-based content switcher",
-      "combobox": "Searchable dropdown select"
+      "tabs": "Tab-based content switcher"
     }
   },
   "header": {
@@ -228,35 +227,6 @@
         "hoverMe": "Hover me",
         "disabled": "Disabled",
         "tooltipText": "This is a tooltip"
-      }
-    },
-    "combobox": {
-      "title": "Combobox",
-      "description": "A headless searchable select component powered by Floating UI. Manages controlled value and search state together, with portal rendering and CSS transitions.",
-      "props": {
-        "value": "Currently selected value",
-        "onChange": "Callback when an option is selected",
-        "search": "Current search input value",
-        "onSearchChange": "Callback when the search input changes",
-        "transition": "Enable CSS transitions for open/close",
-        "children": "Combobox sub-components (Trigger, Options, Search)",
-        "triggerChildren": "A clickable element that toggles the options list. Receives aria-haspopup and aria-expanded automatically",
-        "optionsChildren": "Option elements or a render function with floating context",
-        "portal": "Render options in a portal (passed to Combobox.Options)",
-        "optionsProps": "All native div element attributes. Renders with role=\"listbox\"",
-        "optionValue": "The value for this option",
-        "optionProps": "All native div element attributes. Renders with role=\"option\" and aria-selected",
-        "searchProps": "All native input element attributes. value and onChange are injected from root; receives role=\"combobox\" and aria-autocomplete=\"list\" automatically"
-      },
-      "demo": {
-        "placeholder": "Search for a fruit",
-        "searchPlaceholder": "Search...",
-        "apple": "Apple",
-        "banana": "Banana",
-        "cherry": "Cherry",
-        "grape": "Grape",
-        "mango": "Mango",
-        "noResults": "No results found"
       }
     }
   }
