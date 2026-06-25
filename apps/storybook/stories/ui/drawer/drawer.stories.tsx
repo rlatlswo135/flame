@@ -51,10 +51,10 @@ const meta = {
 				type: { summary: "() => void" },
 			},
 		},
-		contentId: {
+		id: {
 			control: "text",
 			description:
-				"Custom id for the content element. Auto-generated if omitted.",
+				"Custom id for the dialog element. Auto-generated if omitted.",
 			table: {
 				type: { summary: "string" },
 			},
