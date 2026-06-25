@@ -23,10 +23,7 @@ const TabsRoot = ({
 
 	const onChange = (value: string) => {
 		setSelected(value);
-
-		if (onChangeProp) {
-			onChangeProp(value);
-		}
+		onChangeProp?.(value);
 	};
 
 	return (

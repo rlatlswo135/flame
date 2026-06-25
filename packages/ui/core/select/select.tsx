@@ -42,12 +42,9 @@ const SelectRoot = ({
 export type SelectTriggerProps = FloatingTriggerProps;
 
 const Trigger = ({ children }: SelectTriggerProps) => {
-	const { baseTriggerProps, floating, interactions } = useCtx(SelectContext);
+	const { baseTriggerProps, interactions } = useCtx(SelectContext);
 
-	const triggerProps = interactions.getReferenceProps({
-		...baseTriggerProps,
-		"aria-expanded": floating.context.open,
-	});
+	const triggerProps = interactions.getReferenceProps(baseTriggerProps);
 
 	return cloneElement(children, triggerProps);
 };
@@ -72,7 +69,6 @@ const Options = ({ children, portal, ...props }: SelectOptionsProps) => {
 					{...interactions.getFloatingProps(props)}
 					{...baseContentProps}
 					role="listbox"
-					aria-hidden={!floating.context.open}
 				>
 					{children}
 				</div>

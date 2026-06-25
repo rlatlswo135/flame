@@ -20,7 +20,7 @@ const FunnelRoot = ({ children }: PropsWithChildren) => {
 	const total = childrenArray.length;
 
 	const next = () => {
-		if (step === childrenArray.length - 1) return;
+		if (step === total - 1) return;
 		setStep(step + 1);
 	};
 
