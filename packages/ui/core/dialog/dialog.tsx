@@ -3,7 +3,6 @@
 import {
 	type ComponentPropsWithoutRef,
 	type PropsWithChildren,
-	type SyntheticEvent,
 	useRef,
 	useState,
 } from "react";
@@ -14,30 +13,35 @@ import { cloneSingleElement } from "../utils";
 import { DialogContext } from "./context";
 
 export type DialogRootProps = {
+	id?: string;
 	closeOutside?: boolean;
 	keepMounted?: boolean;
-} & ComponentPropsWithoutRef<"dialog">;
+	onOpen?: () => void;
+	onClose?: () => void;
+};
 
-// TODO: close가 뭔가 content와 root등 흩뿌려진 느낌 잡기
 const DialogRoot = ({
 	closeOutside = false,
 	keepMounted = false,
 	id,
+	onOpen,
+	onClose,
 	children,
-	...props
 }: PropsWithChildren<DialogRootProps>) => {
 	const contentId = useResolvedId(id);
 	const dialog = useRef<HTMLDialogElement>(null);
+
 	const [isOpen, setIsOpen] = useState(false);
 
 	const open = () => {
-		dialog.current?.showModal();
 		if (!keepMounted) setIsOpen(true);
+
+		dialog.current?.showModal();
+		onOpen?.();
 	};
 
 	const close = () => {
 		dialog.current?.close();
-		if (!keepMounted) setIsOpen(false);
 	};
 
 	const context = {
@@ -45,6 +49,7 @@ const DialogRoot = ({
 		dialog,
 		close,
 		isOpen,
+		onClose,
 		setIsOpen,
 		closeOutside,
 		keepMounted,
@@ -77,24 +82,31 @@ const Closer = ({ children }: DialogCloserProps) => {
 	return cloneSingleElement(children, { onClick: close });
 };
 
-export type DialogContentProps = ComponentPropsWithoutRef<"dialog">;
+export type DialogContentProps = Omit<
+	ComponentPropsWithoutRef<"dialog">,
+	"onClose"
+>;
 
 const Content = ({ children, ...props }: DialogContentProps) => {
 	const ctx = useCtx(DialogContext);
 
-	const onClose = (e: SyntheticEvent<HTMLDialogElement>) => {
+	const handleClose = () => {
 		if (!ctx.keepMounted) ctx.setIsOpen(false);
-		props?.onClose?.(e);
+		ctx?.onClose?.();
+	};
+
+	const handleClick = () => {
+		if (!ctx.closeOutside) return;
+		ctx.close();
 	};
 
 	return (
 		<dialog
 			id={ctx.contentId}
 			ref={ctx.dialog}
-			onClick={ctx.closeOutside ? ctx.close : undefined}
-			aria-hidden={!ctx.isOpen}
+			onClick={handleClick}
 			{...props}
-			onClose={onClose}
+			onClose={handleClose}
 		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: need to outside-click */}
 			<section onClick={(e) => e.stopPropagation()}>
