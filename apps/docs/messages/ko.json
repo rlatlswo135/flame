@@ -1,252 +1,252 @@
 {
-  "home": {
-    "title": "Flame",
-    "titleSuffix": "Design System",
-    "description": "접근 가능한 사용자 인터페이스를 구축하기 위한 헤드리스 React 컴포넌트 라이브러리.",
-    "getStarted": "시작하기",
-    "components": {
-      "accordion": "확장/축소 가능한 콘텐츠 섹션",
-      "dialog": "네이티브 <dialog /> 기반 모달 다이얼로그",
-      "drawer": "화면 가장자리에서 슬라이드되는 사이드 패널",
-      "funnel": "단계별 네비게이션 마법사",
-      "popover": "위치 인식 플로팅 팝업",
-      "select": "드롭다운 셀렉트 입력",
-      "toast": "명령형 토스트 알림",
-      "tooltip": "호버·포커스 시 표시되는 컨텍스트 툴팁",
-      "tabs": "탭 기반 콘텐츠 전환 컴포넌트"
-    }
-  },
-  "header": {
-    "brand": "Flame"
-  },
-  "sidebar": {
-    "overview": "개요",
-    "gettingStarted": "시작하기",
-    "components": "컴포넌트"
-  },
-  "docs": {
-    "title": "시작하기",
-    "subtitle": "Flame 디자인 시스템을 프로젝트에 도입하는 방법을 알아보세요.",
-    "installTitle": "설치",
-    "installDescription": "pnpm으로 패키지를 설치합니다.",
-    "installCommand": "pnpm add @anthropic/flame-ui",
-    "usageTitle": "기본 사용법",
-    "usageDescription": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다. 스타일이 포함되지 않은 헤드리스 컴포넌트이므로 자유롭게 스타일링할 수 있습니다.",
-    "featuresTitle": "주요 특징",
-    "features": {
-      "headless": "헤드리스 — 기본 스타일 없이 완전한 기능 제공",
-      "compound": "복합 컴포넌트 — 도트 표기법으로 직관적 조합",
-      "treeshake": "트리 셰이킹 — 사용하는 컴포넌트만 번들에 포함",
-      "react19": "React 19 — 최신 React 기능 활용",
-      "typescript": "TypeScript — 완전한 타입 지원"
-    }
-  },
-  "components": {
-    "demo": "데모",
-    "apiReference": "API 레퍼런스",
-    "accordion": {
-      "title": "Accordion",
-      "description": "싱글/멀티 확장 모드를 지원하는 헤드리스 아코디언 컴포넌트. Item, Trigger, Content 하위 컴포넌트로 구성합니다.",
-      "props": {
-        "single": "true일 때 한 번에 하나의 아이템만 확장 가능",
-        "itemChildren": "Trigger와 Content 하위 컴포넌트",
-        "itemInitialOpen": "아이템의 초기 확장 상태",
-        "triggerChildren": "클릭 가능한 요소 또는 toggle 핸들러를 받는 렌더 함수. aria-controls 자동 적용",
-        "contentProps": "네이티브 div 요소 속성을 받아 자동 생성된 id와 함께 <section />으로 렌더링"
-      },
-      "demo": {
-        "whatIsFlame": "Flame이란?",
-        "whatIsFlameContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다. 디자인에 맞게 스타일링할 수 있는 비스타일 완전 기능 컴포넌트를 제공합니다.",
-        "gettingStarted": "시작하기",
-        "gettingStartedContent": "pnpm add @flame/ui로 설치하고 필요한 컴포넌트를 가져오세요. 모든 컴포넌트는 완전한 트리 셰이킹을 지원하며 기본 스타일 없이 제공됩니다.",
-        "components": "컴포넌트",
-        "componentsContent": "Flame에는 Accordion, Dialog, Funnel, Popover, Select, Toast 등이 포함됩니다. 모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
-      }
-    },
-    "dialog": {
-      "title": "Dialog",
-      "description": "네이티브 <dialog /> 요소 기반의 헤드리스 모달 다이얼로그 컴포넌트. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
-      "props": {
-        "children": "Dialog 하위 컴포넌트 (Trigger, Content, Closer)",
-        "id": "콘텐츠(dialog) 요소의 커스텀 id. 생략 시 자동 생성. Trigger의 aria-controls가 참조",
-        "closeOutside": "콘텐츠 영역 외부 클릭 시 다이얼로그 닫기",
-        "keepMounted": "다이얼로그가 닫힌 상태에서도 DOM에 콘텐츠 유지",
-        "onOpen": "다이얼로그가 열릴 때 호출",
-        "onClose": "다이얼로그가 닫힐 때 호출",
-        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수. aria-haspopup 자동 적용",
-        "contentProps": "네이티브 dialog 요소 속성 (onClose 제외). 자동 생성된 id 적용",
-        "closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
-      },
-      "demo": {
-        "openDialog": "다이얼로그 열기",
-        "welcomeTitle": "Flame에 오신 것을 환영합니다",
-        "welcomeDescription": "네이티브 <dialog /> 요소 기반의 헤드리스 다이얼로그입니다. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
-        "cancel": "취소",
-        "confirm": "확인"
-      }
-    },
-    "drawer": {
-      "title": "Drawer",
-      "description": "화면 가장자리에서 슬라이드되어 나타나는 헤드리스 드로어 컴포넌트. 네이티브 <dialog>의 top layer를 사용해 포커스 트랩, ESC 키 처리, 중첩 드로어 스태킹을 제공합니다. Trigger, Content, Closer 하위 컴포넌트로 구성합니다.",
-      "props": {
-        "placement": "드로어가 슬라이드되어 나올 화면 가장자리",
-        "id": "콘텐츠 요소의 커스텀 id. 생략 시 자동 생성",
-        "closeOutside": "콘텐츠 영역 외부(백드롭) 클릭 시 드로어 닫기",
-        "keepMounted": "드로어가 닫힌 상태에서도 DOM에 콘텐츠 유지",
-        "animation": "슬라이드 애니메이션 설정 (Web Animations API). false로 비활성화 가능하며 prefers-reduced-motion을 따름",
-        "onOpen": "드로어가 열릴 때 호출",
-        "onClose": "드로어가 닫힐 때 호출",
-        "children": "Drawer 하위 컴포넌트 (Trigger, Content, Closer)",
-        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수",
-        "contentProps": "네이티브 dialog 요소 속성 (onClose/onClick 제외). showModal로 top layer에 렌더링되어 포커스 트랩 적용",
-        "closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
-      },
-      "demo": {
-        "title": "Drawer 패널",
-        "description": "이 드로어는 네이티브 <dialog> top layer 기반으로 포커스 트랩, ESC 키 처리, 중첩 스태킹을 제공합니다.",
-        "close": "닫기"
-      }
-    },
-    "funnel": {
-      "title": "Funnel",
-      "description": "단계별 마법사 컴포넌트. Step, Next, Prev 하위 컴포넌트로 다단계 플로우를 구성합니다.",
-      "props": {
-        "children": "Funnel.Step 요소들",
-        "stepChildren": "특정 단계로 이동하는 jump 콜백을 받는 렌더 함수",
-        "nextChildren": "클릭 가능한 요소 또는 next 핸들러를 받는 렌더 함수. 마지막 단계에서 aria-disabled 적용",
-        "prevChildren": "클릭 가능한 요소 또는 prev 핸들러를 받는 렌더 함수. 첫 번째 단계에서 aria-disabled 적용"
-      },
-      "demo": {
-        "enterInfo": "정보 입력",
-        "enterInfoDescription": "시작하려면 세부 정보를 입력하세요.",
-        "confirm": "확인",
-        "confirmDescription": "입력한 정보를 검토하세요.",
-        "complete": "완료",
-        "completeDescription": "모든 준비가 완료되었습니다!",
-        "back": "뒤로",
-        "next": "다음",
-        "startOver": "처음부터"
-      }
-    },
-    "popover": {
-      "title": "Popover",
-      "description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 닫기 처리, CSS 전환을 기본 지원합니다.",
-      "props": {
-        "children": "Popover 하위 컴포넌트 (Trigger, Content)",
-        "transition": "열기/닫기 CSS 전환 활성화",
-        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
-        "onOpen": "팝오버가 열릴 때 호출 (비제어 모드)",
-        "onClose": "팝오버가 닫힐 때 호출 (비제어 모드)",
-        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
-        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
-        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
-        "triggerChildren": "팝오버를 토글하는 클릭 가능한 요소",
-        "contentChildren": "표시할 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수",
-        "portal": "포탈에서 콘텐츠 렌더링 (Popover.Content에 전달)",
-        "contentProps": "모든 네이티브 section 요소 속성"
-      },
-      "demo": {
-        "openPopover": "팝오버 열기",
-        "popoverTitle": "팝오버 제목",
-        "popoverDescription": "Floating UI 기반의 헤드리스 팝오버입니다. 포탈 렌더링, 포커스 트래핑, CSS 전환을 지원합니다."
-      }
-    },
-    "select": {
-      "title": "Select",
-      "description": "Floating UI 기반의 헤드리스 셀렉트/드롭다운 컴포넌트. 제어 값, 포탈 렌더링, CSS 전환을 지원합니다.",
-      "props": {
-        "value": "현재 선택된 값",
-        "onChange": "옵션 선택 시 콜백",
-        "transition": "열기/닫기 CSS 전환 활성화",
-        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
-        "onOpen": "옵션 목록이 열릴 때 호출 (비제어 모드)",
-        "onClose": "옵션 목록이 닫힐 때 호출 (비제어 모드)",
-        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
-        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
-        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
-        "children": "Select 하위 컴포넌트 (Trigger, Options)",
-        "triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소",
-        "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
-        "portal": "포탈에서 옵션 렌더링 (Select.Options에 전달)",
-        "optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
-        "optionValue": "이 옵션의 값",
-        "optionProps": "모든 네이티브 div 요소 속성. role=\"option\" 및 aria-selected로 렌더링"
-      },
-      "demo": {
-        "placeholder": "과일을 선택하세요",
-        "apple": "사과",
-        "banana": "바나나",
-        "cherry": "체리",
-        "grape": "포도"
-      }
-    },
-    "toast": {
-      "title": "Toast",
-      "description": "명령형 토스트 알림 시스템. Toaster 컨테이너를 한 번 배치한 후, 어디서든 toast()를 호출하여 자동 해제 및 큐 관리가 포함된 알림을 표시합니다.",
-      "props": {
-        "placement": "화면에서 토스트 컨테이너의 위치",
-        "animation": "토스트 열기/닫기 애니메이션 설정. false로 비활성화 가능",
-        "toasterProps": "모든 네이티브 section 요소 속성",
-        "toastProps": "모든 네이티브 div 요소 속성. role=\"status\" 및 aria-live=\"polite\"가 자동 적용",
-        "titleProps": "모든 네이티브 div 요소 속성. aria-labelledby를 통해 부모 Toast에 연결",
-        "descriptionProps": "모든 네이티브 div 요소 속성. aria-describedby를 통해 부모 Toast에 연결",
-        "fnContent": "표시할 토스트 콘텐츠 (ReactNode)",
-        "fnTimeout": "자동 해제 시간 (밀리초)"
-      },
-      "demo": {
-        "showSuccess": "성공 알림",
-        "showInfo": "정보 알림",
-        "successTitle": "저장 완료",
-        "successDescription": "변경사항이 성공적으로 저장되었습니다.",
-        "infoTitle": "안내",
-        "infoDescription": "이 알림은 5초 후에 자동으로 사라집니다."
-      }
-    },
-    "tabs": {
-      "title": "Tabs",
-      "description": "탭을 클릭해 콘텐츠를 전환하는 헤드리스 탭 컴포넌트. Item 하위 컴포넌트로 구성합니다.",
-      "props": {
-        "initialTab": "초기 선택 탭의 value",
-        "onChange": "탭 선택 시 호출되는 콜백. 선택된 탭의 value를 인자로 받음",
-        "rootProps": "모든 네이티브 div 요소 속성. role=\"tablist\"로 렌더링",
-        "itemValue": "탭 식별에 사용되는 고유 값",
-        "itemProps": "모든 네이티브 button 요소 속성. role=\"tab\", aria-selected, data-selected 자동 적용"
-      },
-      "demo": {
-        "overview": "개요",
-        "overviewContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다.",
-        "usage": "사용법",
-        "usageContent": "pnpm add @flame/ui로 설치 후 필요한 컴포넌트를 가져와 사용하세요.",
-        "api": "API",
-        "apiContent": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
-      }
-    },
-    "tooltip": {
-      "title": "Tooltip",
-      "description": "Floating UI 기반의 헤드리스 툴팁 컴포넌트. 호버·포커스 시 컨텍스트 콘텐츠를 표시하며, 배치, 오프셋, 닫기 처리, CSS 전환을 기본 지원합니다.",
-      "props": {
-        "enabled": "툴팁 활성화 여부. false일 경우 툴팁이 열리지 않음",
-        "placement": "툴팁 배치 위치 (top, bottom, left, right 및 변형)",
-        "offset": "트리거와 툴팁 사이의 픽셀 간격",
-        "flip": "공간 부족 시 반대편으로 자동 전환 여부 및 옵션",
-        "shift": "뷰포트를 벗어나지 않도록 축을 따라 이동 옵션",
-        "delay": "호버 열기/닫기 딜레이 (밀리초 또는 { open, close } 객체)",
-        "children": "Tooltip.Trigger와 Tooltip.Content 하위 컴포넌트",
-        "transition": "열기/닫기 CSS 전환 활성화",
-        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
-        "onOpen": "툴팁이 열릴 때 호출 (비제어 모드)",
-        "onClose": "툴팁이 닫힐 때 호출 (비제어 모드)",
-        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
-        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
-        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
-        "triggerChildren": "툴팁의 기준이 되는 트리거 요소",
-        "contentChildren": "표시할 툴팁 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수"
-      },
-      "demo": {
-        "hoverMe": "마우스를 올려보세요",
-        "disabled": "비활성화됨",
-        "tooltipText": "툴팁입니다"
-      }
-    }
-  }
+	"home": {
+		"title": "Flame",
+		"titleSuffix": "Design System",
+		"description": "접근 가능한 사용자 인터페이스를 구축하기 위한 헤드리스 React 컴포넌트 라이브러리.",
+		"getStarted": "시작하기",
+		"components": {
+			"accordion": "확장/축소 가능한 콘텐츠 섹션",
+			"dialog": "네이티브 <dialog /> 기반 모달 다이얼로그",
+			"drawer": "화면 가장자리에서 슬라이드되는 사이드 패널",
+			"funnel": "단계별 네비게이션 마법사",
+			"popover": "위치 인식 플로팅 팝업",
+			"select": "드롭다운 셀렉트 입력",
+			"toast": "명령형 토스트 알림",
+			"tooltip": "호버·포커스 시 표시되는 컨텍스트 툴팁",
+			"tabs": "탭 기반 콘텐츠 전환 컴포넌트"
+		}
+	},
+	"header": {
+		"brand": "Flame"
+	},
+	"sidebar": {
+		"overview": "개요",
+		"gettingStarted": "시작하기",
+		"components": "컴포넌트"
+	},
+	"docs": {
+		"title": "시작하기",
+		"subtitle": "Flame 디자인 시스템을 프로젝트에 도입하는 방법을 알아보세요.",
+		"installTitle": "설치",
+		"installDescription": "pnpm으로 패키지를 설치합니다.",
+		"installCommand": "pnpm add @anthropic/flame-ui",
+		"usageTitle": "기본 사용법",
+		"usageDescription": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다. 스타일이 포함되지 않은 헤드리스 컴포넌트이므로 자유롭게 스타일링할 수 있습니다.",
+		"featuresTitle": "주요 특징",
+		"features": {
+			"headless": "헤드리스 — 기본 스타일 없이 완전한 기능 제공",
+			"compound": "복합 컴포넌트 — 도트 표기법으로 직관적 조합",
+			"treeshake": "트리 셰이킹 — 사용하는 컴포넌트만 번들에 포함",
+			"react19": "React 19 — 최신 React 기능 활용",
+			"typescript": "TypeScript — 완전한 타입 지원"
+		}
+	},
+	"components": {
+		"demo": "데모",
+		"apiReference": "API 레퍼런스",
+		"accordion": {
+			"title": "Accordion",
+			"description": "싱글/멀티 확장 모드를 지원하는 헤드리스 아코디언 컴포넌트. Item, Trigger, Content 하위 컴포넌트로 구성합니다.",
+			"props": {
+				"single": "true일 때 한 번에 하나의 아이템만 확장 가능",
+				"itemChildren": "Trigger와 Content 하위 컴포넌트",
+				"itemInitialOpen": "아이템의 초기 확장 상태",
+				"triggerChildren": "클릭 가능한 요소 또는 toggle 핸들러를 받는 렌더 함수. aria-controls 자동 적용",
+				"contentProps": "네이티브 div 요소 속성을 받아 자동 생성된 id와 함께 <section />으로 렌더링"
+			},
+			"demo": {
+				"whatIsFlame": "Flame이란?",
+				"whatIsFlameContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다. 디자인에 맞게 스타일링할 수 있는 비스타일 완전 기능 컴포넌트를 제공합니다.",
+				"gettingStarted": "시작하기",
+				"gettingStartedContent": "pnpm add @flame/ui로 설치하고 필요한 컴포넌트를 가져오세요. 모든 컴포넌트는 완전한 트리 셰이킹을 지원하며 기본 스타일 없이 제공됩니다.",
+				"components": "컴포넌트",
+				"componentsContent": "Flame에는 Accordion, Dialog, Funnel, Popover, Select, Toast 등이 포함됩니다. 모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
+			}
+		},
+		"dialog": {
+			"title": "Dialog",
+			"description": "네이티브 <dialog /> 요소 기반의 헤드리스 모달 다이얼로그 컴포넌트. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
+			"props": {
+				"children": "Dialog 하위 컴포넌트 (Trigger, Content, Closer)",
+				"id": "콘텐츠(dialog) 요소의 커스텀 id. 생략 시 자동 생성. Trigger의 aria-controls가 참조",
+				"closeOutside": "콘텐츠 영역 외부 클릭 시 다이얼로그 닫기",
+				"keepMounted": "다이얼로그가 닫힌 상태에서도 DOM에 콘텐츠 유지",
+				"onOpen": "다이얼로그가 열릴 때 호출",
+				"onClose": "다이얼로그가 닫힐 때 호출",
+				"triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수. aria-haspopup 자동 적용",
+				"contentProps": "네이티브 dialog 요소 속성 (onClose 제외). 자동 생성된 id 적용",
+				"closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
+			},
+			"demo": {
+				"openDialog": "다이얼로그 열기",
+				"welcomeTitle": "Flame에 오신 것을 환영합니다",
+				"welcomeDescription": "네이티브 <dialog /> 요소 기반의 헤드리스 다이얼로그입니다. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
+				"cancel": "취소",
+				"confirm": "확인"
+			}
+		},
+		"drawer": {
+			"title": "Drawer",
+			"description": "화면 가장자리에서 슬라이드되어 나타나는 헤드리스 드로어 컴포넌트. 네이티브 <dialog>의 top layer를 사용해 포커스 트랩, ESC 키 처리, 중첩 드로어 스태킹을 제공합니다. Trigger, Content, Closer 하위 컴포넌트로 구성합니다.",
+			"props": {
+				"placement": "드로어가 슬라이드되어 나올 화면 가장자리",
+				"id": "콘텐츠 요소의 커스텀 id. 생략 시 자동 생성",
+				"closeOutside": "콘텐츠 영역 외부(백드롭) 클릭 시 드로어 닫기",
+				"keepMounted": "드로어가 닫힌 상태에서도 DOM에 콘텐츠 유지",
+				"animation": "슬라이드 애니메이션 설정 (Web Animations API). false로 비활성화 가능하며 prefers-reduced-motion을 따름",
+				"onOpen": "드로어가 열릴 때 호출",
+				"onClose": "드로어가 닫힐 때 호출",
+				"children": "Drawer 하위 컴포넌트 (Trigger, Content, Closer)",
+				"triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수",
+				"contentProps": "네이티브 dialog 요소 속성 (onClose/onClick 제외). showModal로 top layer에 렌더링되어 포커스 트랩 적용",
+				"closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
+			},
+			"demo": {
+				"title": "Drawer 패널",
+				"description": "이 드로어는 네이티브 <dialog> top layer 기반으로 포커스 트랩, ESC 키 처리, 중첩 스태킹을 제공합니다.",
+				"close": "닫기"
+			}
+		},
+		"funnel": {
+			"title": "Funnel",
+			"description": "단계별 마법사 컴포넌트. Step, Next, Prev 하위 컴포넌트로 다단계 플로우를 구성합니다.",
+			"props": {
+				"children": "Funnel.Step 요소들",
+				"stepChildren": "특정 단계로 이동하는 jump 콜백을 받는 렌더 함수",
+				"nextChildren": "클릭 가능한 요소 또는 next 핸들러를 받는 렌더 함수. 마지막 단계에서 aria-disabled 적용",
+				"prevChildren": "클릭 가능한 요소 또는 prev 핸들러를 받는 렌더 함수. 첫 번째 단계에서 aria-disabled 적용"
+			},
+			"demo": {
+				"enterInfo": "정보 입력",
+				"enterInfoDescription": "시작하려면 세부 정보를 입력하세요.",
+				"confirm": "확인",
+				"confirmDescription": "입력한 정보를 검토하세요.",
+				"complete": "완료",
+				"completeDescription": "모든 준비가 완료되었습니다!",
+				"back": "뒤로",
+				"next": "다음",
+				"startOver": "처음부터"
+			}
+		},
+		"popover": {
+			"title": "Popover",
+			"description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 닫기 처리, CSS 전환을 기본 지원합니다.",
+			"props": {
+				"children": "Popover 하위 컴포넌트 (Trigger, Content)",
+				"transition": "열기/닫기 CSS 전환 활성화",
+				"dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+				"onOpen": "팝오버가 열릴 때 호출 (비제어 모드)",
+				"onClose": "팝오버가 닫힐 때 호출 (비제어 모드)",
+				"open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+				"onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+				"options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
+				"triggerChildren": "팝오버를 토글하는 클릭 가능한 요소",
+				"contentChildren": "표시할 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수",
+				"portal": "포탈에서 콘텐츠 렌더링 (Popover.Content에 전달)",
+				"contentProps": "모든 네이티브 section 요소 속성"
+			},
+			"demo": {
+				"openPopover": "팝오버 열기",
+				"popoverTitle": "팝오버 제목",
+				"popoverDescription": "Floating UI 기반의 헤드리스 팝오버입니다. 포탈 렌더링, 포커스 트래핑, CSS 전환을 지원합니다."
+			}
+		},
+		"select": {
+			"title": "Select",
+			"description": "Floating UI 기반의 헤드리스 셀렉트/드롭다운 컴포넌트. 제어 값, 포탈 렌더링, CSS 전환을 지원합니다.",
+			"props": {
+				"value": "현재 선택된 값",
+				"onChange": "옵션 선택 시 콜백",
+				"transition": "열기/닫기 CSS 전환 활성화",
+				"dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+				"onOpen": "옵션 목록이 열릴 때 호출 (비제어 모드)",
+				"onClose": "옵션 목록이 닫힐 때 호출 (비제어 모드)",
+				"open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+				"onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+				"options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
+				"children": "Select 하위 컴포넌트 (Trigger, Options)",
+				"triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소",
+				"optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
+				"portal": "포탈에서 옵션 렌더링 (Select.Options에 전달)",
+				"optionsProps": "모든 네이티브 div 요소 속성. role=\"listbox\"로 렌더링",
+				"optionValue": "이 옵션의 값",
+				"optionProps": "모든 네이티브 div 요소 속성. role=\"option\" 및 aria-selected로 렌더링"
+			},
+			"demo": {
+				"placeholder": "과일을 선택하세요",
+				"apple": "사과",
+				"banana": "바나나",
+				"cherry": "체리",
+				"grape": "포도"
+			}
+		},
+		"toast": {
+			"title": "Toast",
+			"description": "명령형 토스트 알림 시스템. Toaster 컨테이너를 한 번 배치한 후, 어디서든 toast()를 호출하여 자동 해제 및 큐 관리가 포함된 알림을 표시합니다.",
+			"props": {
+				"placement": "화면에서 토스트 컨테이너의 위치",
+				"animation": "토스트 열기/닫기 애니메이션 설정. false로 비활성화 가능",
+				"toasterProps": "모든 네이티브 section 요소 속성",
+				"toastProps": "모든 네이티브 div 요소 속성. role=\"status\" 및 aria-live=\"polite\"가 자동 적용",
+				"titleProps": "모든 네이티브 div 요소 속성. aria-labelledby를 통해 부모 Toast에 연결",
+				"descriptionProps": "모든 네이티브 div 요소 속성. aria-describedby를 통해 부모 Toast에 연결",
+				"fnContent": "표시할 토스트 콘텐츠 (ReactNode)",
+				"fnTimeout": "자동 해제 시간 (밀리초)"
+			},
+			"demo": {
+				"showSuccess": "성공 알림",
+				"showInfo": "정보 알림",
+				"successTitle": "저장 완료",
+				"successDescription": "변경사항이 성공적으로 저장되었습니다.",
+				"infoTitle": "안내",
+				"infoDescription": "이 알림은 5초 후에 자동으로 사라집니다."
+			}
+		},
+		"tabs": {
+			"title": "Tabs",
+			"description": "탭을 클릭해 콘텐츠를 전환하는 헤드리스 탭 컴포넌트. Item 하위 컴포넌트로 구성합니다.",
+			"props": {
+				"initialTab": "초기 선택 탭의 value",
+				"onChange": "탭 선택 시 호출되는 콜백. 선택된 탭의 value를 인자로 받음",
+				"rootProps": "모든 네이티브 div 요소 속성. role=\"tablist\"로 렌더링",
+				"itemValue": "탭 식별에 사용되는 고유 값",
+				"itemProps": "모든 네이티브 button 요소 속성. role=\"tab\", aria-selected, data-selected 자동 적용"
+			},
+			"demo": {
+				"overview": "개요",
+				"overviewContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다.",
+				"usage": "사용법",
+				"usageContent": "pnpm add @flame/ui로 설치 후 필요한 컴포넌트를 가져와 사용하세요.",
+				"api": "API",
+				"apiContent": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
+			}
+		},
+		"tooltip": {
+			"title": "Tooltip",
+			"description": "Floating UI 기반의 헤드리스 툴팁 컴포넌트. 호버·포커스 시 컨텍스트 콘텐츠를 표시하며, 배치, 오프셋, 닫기 처리, CSS 전환을 기본 지원합니다.",
+			"props": {
+				"enabled": "툴팁 활성화 여부. false일 경우 툴팁이 열리지 않음",
+				"placement": "툴팁 배치 위치 (top, bottom, left, right 및 변형)",
+				"offset": "트리거와 툴팁 사이의 픽셀 간격",
+				"flip": "공간 부족 시 반대편으로 자동 전환 여부 및 옵션",
+				"shift": "뷰포트를 벗어나지 않도록 축을 따라 이동 옵션",
+				"delay": "호버 열기/닫기 딜레이 (밀리초 또는 { open, close } 객체)",
+				"children": "Tooltip.Trigger와 Tooltip.Content 하위 컴포넌트",
+				"transition": "열기/닫기 CSS 전환 활성화",
+				"dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+				"onOpen": "툴팁이 열릴 때 호출 (비제어 모드)",
+				"onClose": "툴팁이 닫힐 때 호출 (비제어 모드)",
+				"open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+				"onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+				"options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
+				"triggerChildren": "툴팁의 기준이 되는 트리거 요소",
+				"contentChildren": "표시할 툴팁 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수"
+			},
+			"demo": {
+				"hoverMe": "마우스를 올려보세요",
+				"disabled": "비활성화됨",
+				"tooltipText": "툴팁입니다"
+			}
+		}
+	}
 }

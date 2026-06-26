@@ -44,21 +44,46 @@ const toasterProps = [
     defaultValue: '"bottom-left"',
     description: t.props.placement,
   },
-  { name: 'animation', type: 'ToastAnimation | false', description: t.props.animation },
-  { name: '...props', type: 'ComponentPropsWithRef<"section">', description: t.props.toasterProps },
+  {
+    name: 'animation',
+    type: 'ToastAnimation | false',
+    description: t.props.animation,
+  },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithRef<"section">',
+    description: t.props.toasterProps,
+  },
 ];
 const toastProps = [
-  { name: '...props', type: 'ComponentPropsWithRef<"div">', description: t.props.toastProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithRef<"div">',
+    description: t.props.toastProps,
+  },
 ];
 const titleProps = [
-  { name: '...props', type: 'ComponentPropsWithRef<"div">', description: t.props.titleProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithRef<"div">',
+    description: t.props.titleProps,
+  },
 ];
 const descriptionProps = [
-  { name: '...props', type: 'ComponentPropsWithRef<"div">', description: t.props.descriptionProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithRef<"div">',
+    description: t.props.descriptionProps,
+  },
 ];
 const toastFnProps = [
   { name: 'content', type: 'ReactNode', description: t.props.fnContent },
-  { name: 'options.timeout', type: 'number', defaultValue: '3000', description: t.props.fnTimeout },
+  {
+    name: 'options.timeout',
+    type: 'number',
+    defaultValue: '3000',
+    description: t.props.fnTimeout,
+  },
 ];
 ---
 

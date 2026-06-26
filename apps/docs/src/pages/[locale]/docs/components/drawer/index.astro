@@ -52,7 +52,11 @@ const drawerProps = [
     defaultValue: 'true',
     description: t.props.keepMounted,
   },
-  { name: 'animation', type: 'DrawerAnimation | false', description: t.props.animation },
+  {
+    name: 'animation',
+    type: 'DrawerAnimation | false',
+    description: t.props.animation,
+  },
   { name: 'onOpen', type: '() => void', description: t.props.onOpen },
   { name: 'onClose', type: '() => void', description: t.props.onClose },
   { name: 'children', type: 'ReactNode', description: t.props.children },

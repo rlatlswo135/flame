@@ -28,13 +28,30 @@ function TabsExample() {
 const codeHtml = await highlight(demoCode);
 
 const rootProps = [
-  { name: 'initialTab', type: 'string', defaultValue: '""', description: t.props.initialTab },
-  { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.rootProps },
+  {
+    name: 'initialTab',
+    type: 'string',
+    defaultValue: '""',
+    description: t.props.initialTab,
+  },
+  {
+    name: 'onChange',
+    type: '(value: string) => void',
+    description: t.props.onChange,
+  },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"div">',
+    description: t.props.rootProps,
+  },
 ];
 const itemProps = [
   { name: 'value', type: 'string', description: t.props.itemValue },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"button">', description: t.props.itemProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"button">',
+    description: t.props.itemProps,
+  },
 ];
 ---
 
