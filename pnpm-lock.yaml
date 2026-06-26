@@ -68,9 +68,6 @@ importers:
       '@astrojs/react':
         specifier: ^4.0.0
         version: 4.4.2(@types/node@20.19.37)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.7.0)(lightningcss@1.32.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(yaml@2.8.2)
-      '@flame/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@fontsource-variable/geist':
         specifier: ^5.0.0
         version: 5.2.9
@@ -80,6 +77,9 @@ importers:
       astro:
         specifier: ^5.0.0
         version: 5.18.2(@types/node@20.19.37)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.59.0)(typescript@5.9.3)(yaml@2.8.2)
+      flame-ui:
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -130,9 +130,6 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^5.0.1
         version: 5.0.1(storybook@10.2.17(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
-      '@flame/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@storybook/addon-a11y':
         specifier: ^10.2.15
         version: 10.2.17(storybook@10.2.17(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
@@ -163,6 +160,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^4.0.18
         version: 4.0.18(@vitest/browser@4.0.18(vite@7.3.1(@types/node@24.12.0)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.8.2))(vitest@4.0.18))(vitest@4.0.18)
+      flame-ui:
+        specifier: workspace:*
+        version: link:../../packages/ui
       globals:
         specifier: ^16.5.0
         version: 16.5.0

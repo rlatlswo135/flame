@@ -1,4 +1,4 @@
-import { Tooltip } from "@flame/ui";
+import { Tooltip } from "flame-ui";
 
 export const WithPlacementExample = () => {
 	return (

@@ -16,7 +16,7 @@
   "main": "index.js",
 "scripts": {
     "commit": "cz",
-    "@ui": "pnpm --filter @flame/ui",
+    "@ui": "pnpm --filter flame-ui",
     "@configs": "pnpm --filter @flame/configs",
     "@docs": "pnpm --filter @flame/docs",
     "@storybook": "pnpm --filter @flame/storybook",

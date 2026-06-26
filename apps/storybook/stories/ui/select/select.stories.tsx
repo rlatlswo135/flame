@@ -1,4 +1,4 @@
-import { Select } from "@flame/ui";
+import { Select } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ControlledSelect, FullCustomExample } from "./select.examples";
 

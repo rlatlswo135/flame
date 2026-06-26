@@ -1,4 +1,4 @@
-import { Funnel } from "@flame/ui";
+import { Funnel } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 const STEP_KEYS = ["enterInfo", "confirm", "complete"] as const;

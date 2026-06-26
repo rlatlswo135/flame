@@ -60,7 +60,7 @@
 				"whatIsFlame": "What is Flame?",
 				"whatIsFlameContent": "Flame is a headless React 19 design system focused on composability and accessibility. It provides unstyled, fully functional components that you can style to match your design.",
 				"gettingStarted": "Getting Started",
-				"gettingStartedContent": "Install via pnpm add @flame/ui and import the components you need. Each component is fully tree-shakeable and ships with zero default styles.",
+				"gettingStartedContent": "Install via pnpm add flame-ui and import the components you need. Each component is fully tree-shakeable and ships with zero default styles.",
 				"components": "Components",
 				"componentsContent": "Flame includes Accordion, Dialog, Funnel, Popover, Select, Toast, and more. All components follow a compound component pattern with dot notation."
 			}
@@ -218,7 +218,7 @@
 				"overview": "Overview",
 				"overviewContent": "Flame is a headless React 19 design system focused on composability and accessibility.",
 				"usage": "Usage",
-				"usageContent": "Install via pnpm add @flame/ui and import the components you need.",
+				"usageContent": "Install via pnpm add flame-ui and import the components you need.",
 				"api": "API",
 				"apiContent": "All components follow a compound component pattern with dot notation."
 			}

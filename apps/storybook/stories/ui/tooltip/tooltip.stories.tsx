@@ -1,4 +1,4 @@
-import { Tooltip } from "@flame/ui";
+import { Tooltip } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FullCustomExample, WithPlacementExample } from "./tooltip.examples";
 

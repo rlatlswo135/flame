@@ -1,4 +1,4 @@
-import { Accordion } from "@flame/ui";
+import { Accordion } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 const ITEM_KEYS = ["whatIsFlame", "gettingStarted", "components"] as const;

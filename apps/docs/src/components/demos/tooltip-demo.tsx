@@ -1,4 +1,4 @@
-import { Tooltip } from "@flame/ui";
+import { Tooltip } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 function TooltipDemo({ t }: { t: Record<string, string> }) {

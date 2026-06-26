@@ -1,4 +1,4 @@
-import { Select } from "@flame/ui";
+import { Select } from "flame-ui";
 import { useState } from "react";
 import { ComponentDemo } from "../component-demo";
 

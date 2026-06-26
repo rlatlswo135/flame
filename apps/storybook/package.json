@@ -17,7 +17,7 @@
 		"@floating-ui/react": "^0.27.19"
 	},
 	"devDependencies": {
-		"@flame/ui": "workspace:*",
+		"flame-ui": "workspace:*",
 		"globals": "^16.5.0",
 		"@types/node": "^24.10.1",
 		"@types/react": "catalog:",

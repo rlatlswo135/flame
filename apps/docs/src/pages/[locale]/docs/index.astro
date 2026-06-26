@@ -13,7 +13,7 @@ const t = messages.docs;
 
 const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'standards'] as const;
 
-const usageCode = `import { Accordion } from '@flame/ui';
+const usageCode = `import { Accordion } from 'flame-ui';
 
 function Example() {
   return (
@@ -56,7 +56,7 @@ const codeBlockClass =
     <section class="space-y-3">
       <h2 class="text-xl font-semibold">{t.installTitle}</h2>
       <p class="text-flame-text-secondary">{t.installDescription}</p>
-      <InstallTabs client:load packages="@flame/ui" />
+      <InstallTabs client:load packages="flame-ui" />
     </section>
 
     <section class="space-y-3">

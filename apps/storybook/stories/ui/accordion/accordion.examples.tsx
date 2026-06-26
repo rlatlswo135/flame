@@ -1,4 +1,4 @@
-import { Accordion } from "@flame/ui";
+import { Accordion } from "flame-ui";
 
 export const InitialOpenExample = () => (
 	<Accordion>

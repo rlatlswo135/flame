@@ -1,4 +1,4 @@
-import { Popover } from "@flame/ui";
+import { Popover } from "flame-ui";
 
 const LOCALES = [
 	{ code: "ko", label: "한국어" },

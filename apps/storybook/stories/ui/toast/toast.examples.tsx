@@ -1,4 +1,4 @@
-import { Toast, toast } from "@flame/ui";
+import { Toast, toast } from "flame-ui";
 
 export const DefaultExample = () => (
 	<button type="button" onClick={() => toast(<div>Hello, toast!</div>)}>

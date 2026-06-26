@@ -1,4 +1,4 @@
-import { Toast, toast } from "@flame/ui";
+import { Toast, toast } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 const toastStyle =

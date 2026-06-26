@@ -1,4 +1,4 @@
-import { Toaster } from "@flame/ui";
+import { Toaster } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
 	ClickToDismissExample,

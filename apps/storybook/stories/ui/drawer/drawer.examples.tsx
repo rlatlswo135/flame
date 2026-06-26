@@ -1,4 +1,4 @@
-import { Drawer } from "@flame/ui";
+import { Drawer } from "flame-ui";
 import type { CSSProperties } from "react";
 
 type Placement = "top" | "right" | "bottom" | "left";

@@ -1,4 +1,4 @@
-import { Select } from "@flame/ui";
+import { Select } from "flame-ui";
 import { type ComponentProps, useState } from "react";
 
 type ControlledSelectProps = Omit<

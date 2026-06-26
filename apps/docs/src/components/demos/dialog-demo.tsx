@@ -1,4 +1,4 @@
-import { Dialog } from "@flame/ui";
+import { Dialog } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 function DialogDemo({ t }: { t: Record<string, string> }) {

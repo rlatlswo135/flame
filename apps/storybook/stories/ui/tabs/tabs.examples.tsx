@@ -1,4 +1,4 @@
-import { Tabs } from "@flame/ui";
+import { Tabs } from "flame-ui";
 import { useState } from "react";
 
 export const WithOnChangeExample = () => {

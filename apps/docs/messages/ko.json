@@ -60,7 +60,7 @@
 				"whatIsFlame": "Flame이란?",
 				"whatIsFlameContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다. 디자인에 맞게 스타일링할 수 있는 비스타일 완전 기능 컴포넌트를 제공합니다.",
 				"gettingStarted": "시작하기",
-				"gettingStartedContent": "pnpm add @flame/ui로 설치하고 필요한 컴포넌트를 가져오세요. 모든 컴포넌트는 완전한 트리 셰이킹을 지원하며 기본 스타일 없이 제공됩니다.",
+				"gettingStartedContent": "pnpm add flame-ui로 설치하고 필요한 컴포넌트를 가져오세요. 모든 컴포넌트는 완전한 트리 셰이킹을 지원하며 기본 스타일 없이 제공됩니다.",
 				"components": "컴포넌트",
 				"componentsContent": "Flame에는 Accordion, Dialog, Funnel, Popover, Select, Toast 등이 포함됩니다. 모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
 			}
@@ -218,7 +218,7 @@
 				"overview": "개요",
 				"overviewContent": "Flame은 조합성과 접근성에 중점을 둔 헤드리스 React 19 디자인 시스템입니다.",
 				"usage": "사용법",
-				"usageContent": "pnpm add @flame/ui로 설치 후 필요한 컴포넌트를 가져와 사용하세요.",
+				"usageContent": "pnpm add flame-ui로 설치 후 필요한 컴포넌트를 가져와 사용하세요.",
 				"api": "API",
 				"apiContent": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다."
 			}

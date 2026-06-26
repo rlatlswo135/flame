@@ -1,4 +1,4 @@
-import { Popover } from "@flame/ui";
+import { Popover } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FullCustomExample } from "./popover.examples";
 

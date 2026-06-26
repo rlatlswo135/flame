@@ -1,4 +1,4 @@
-import { Popover } from "@flame/ui";
+import { Popover } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 function PopoverDemo({ t }: { t: Record<string, string> }) {

@@ -1,4 +1,4 @@
-import { Popover } from "@flame/ui";
+import { Popover } from "flame-ui";
 
 export const FullCustomExample = () => {
 	return (

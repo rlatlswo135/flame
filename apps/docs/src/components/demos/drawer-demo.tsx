@@ -1,4 +1,4 @@
-import { Drawer } from "@flame/ui";
+import { Drawer } from "flame-ui";
 import { ComponentDemo } from "../component-demo";
 
 function DrawerDemo({ t }: { t: Record<string, string> }) {
