@@ -11,7 +11,7 @@ const { locale } = Astro.params;
 const messages = (await import(`../../../../messages/${locale}.json`)).default;
 const t = messages.docs;
 
-const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'a11y', 'standards'] as const;
+const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'standards'] as const;
 
 const usageCode = `import { Accordion } from '@flame/ui';
 

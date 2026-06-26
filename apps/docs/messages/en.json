@@ -40,7 +40,6 @@
 			"headless": "Headless — fully functional with zero default styles",
 			"compound": "Compound components — intuitive composition via dot notation",
 			"treeshake": "Tree-shakeable — only bundle what you use",
-			"a11y": "Accessible — ARIA roles and attributes applied automatically",
 			"standards": "Web standards — native <dialog> top layer and Floating UI positioning"
 		}
 	},
