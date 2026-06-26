@@ -5,8 +5,13 @@ const COMPOUND_PARTS = [
 	"Content",
 	"Closer",
 	"Item",
-	"Header",
-	"Footer",
+	"Step",
+	"Next",
+	"Prev",
+	"Options",
+	"Option",
+	"Title",
+	"Description",
 ];
 const compoundPattern = new RegExp(
 	`<(\\/?)(${COMPOUND_PARTS.join("|")})(\\s|>|\\/)`,
