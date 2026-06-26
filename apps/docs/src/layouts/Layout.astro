@@ -20,7 +20,7 @@ const { title = 'Flame Design System', locale } = Astro.props;
     <title>{title}</title>
     <meta name="description" content="A headless React component library for building accessible UIs" />
     <ViewTransitions />
-    <script is:inline>
+    <script is:inline data-astro-rerun>
       function applyTheme() {
         const theme = document.cookie
           .split('; ')
@@ -29,8 +29,7 @@ const { title = 'Flame Design System', locale } = Astro.props;
         document.documentElement.classList.toggle('dark', theme === 'dark');
       }
 
-      applyTheme(); // 최초 진입 (SSG 정적 HTML)
-      document.addEventListener('astro:after-swap', applyTheme); // ViewTransitions 네비게이션
+      applyTheme(); 
     </script>
   </head>
   <body class="antialiased min-h-screen bg-flame-bg text-flame-text">
