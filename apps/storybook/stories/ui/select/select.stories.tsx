@@ -1,10 +1,6 @@
 import { Select } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-	DefaultExample,
-	FullCustomExample,
-	WithTransitionExample,
-} from "./select.examples";
+import { ControlledSelect, FullCustomExample } from "./select.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -21,8 +17,9 @@ const meta = {
 	},
 	argTypes: {
 		value: {
-			control: "text",
-			description: "Currently selected value.",
+			control: false,
+			description:
+				"Currently selected value (controlled). The interactive demo manages this with `useState`.",
 			table: {
 				type: { summary: "string" },
 			},
@@ -63,10 +60,15 @@ const meta = {
 			},
 		},
 	},
+	// value/onChange는 ControlledSelect가 useState로 관리한다. meta args는 타입 충족용이며
+	// render에서 버려진다(컨트롤은 argTypes에서 control:false 처리).
 	args: {
 		value: "",
 		onChange: () => {},
 	},
+	render: ({ value, onChange, children, ...props }) => (
+		<ControlledSelect {...props} />
+	),
 } satisfies Meta<typeof Select>;
 
 export const Default: Story = {
@@ -89,7 +91,6 @@ const [value, setValue] = useState("");
 			},
 		},
 	},
-	render: () => <DefaultExample />,
 };
 
 export const WithTransition: Story = {
@@ -116,7 +117,9 @@ const [value, setValue] = useState("");
 			},
 		},
 	},
-	render: () => <WithTransitionExample />,
+	args: {
+		transition: true,
+	},
 };
 
 export const FullCustom: Story = {

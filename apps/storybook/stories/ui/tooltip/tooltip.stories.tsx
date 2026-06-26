@@ -1,12 +1,6 @@
 import { Tooltip } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-	DefaultExample,
-	DisabledExample,
-	FullCustomExample,
-	WithDelayExample,
-	WithPlacementExample,
-} from "./tooltip.examples";
+import { FullCustomExample, WithPlacementExample } from "./tooltip.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -115,7 +109,6 @@ export const Default: Story = {
 			},
 		},
 	},
-	render: () => <DefaultExample />,
 };
 
 export const WithPlacement: Story = {
@@ -161,7 +154,9 @@ export const WithDelay: Story = {
 			},
 		},
 	},
-	render: () => <WithDelayExample />,
+	args: {
+		delay: { open: 500, close: 200 },
+	},
 };
 
 export const Disabled: Story = {
@@ -184,7 +179,9 @@ export const Disabled: Story = {
 			},
 		},
 	},
-	render: () => <DisabledExample />,
+	args: {
+		enabled: false,
+	},
 };
 
 export const FullCustom: Story = {
