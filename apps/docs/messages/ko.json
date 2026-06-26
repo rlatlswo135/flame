@@ -52,7 +52,7 @@
         "itemChildren": "Trigger와 Content 하위 컴포넌트",
         "itemInitialOpen": "아이템의 초기 확장 상태",
         "triggerChildren": "클릭 가능한 요소 또는 toggle 핸들러를 받는 렌더 함수. aria-controls 자동 적용",
-        "contentProps": "모든 네이티브 section 요소 속성. 자동 생성된 id와 함께 <section />으로 렌더링"
+        "contentProps": "네이티브 div 요소 속성을 받아 자동 생성된 id와 함께 <section />으로 렌더링"
       },
       "demo": {
         "whatIsFlame": "Flame이란?",
@@ -68,10 +68,13 @@
       "description": "네이티브 <dialog /> 요소 기반의 헤드리스 모달 다이얼로그 컴포넌트. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
       "props": {
         "children": "Dialog 하위 컴포넌트 (Trigger, Content, Closer)",
+        "id": "콘텐츠(dialog) 요소의 커스텀 id. 생략 시 자동 생성. Trigger의 aria-controls가 참조",
         "closeOutside": "콘텐츠 영역 외부 클릭 시 다이얼로그 닫기",
         "keepMounted": "다이얼로그가 닫힌 상태에서도 DOM에 콘텐츠 유지",
-        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수. aria-controls 자동 적용",
-        "contentProps": "모든 네이티브 dialog 요소 속성. 자동 생성된 id 적용",
+        "onOpen": "다이얼로그가 열릴 때 호출",
+        "onClose": "다이얼로그가 닫힐 때 호출",
+        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수. aria-haspopup 자동 적용",
+        "contentProps": "네이티브 dialog 요소 속성 (onClose 제외). 자동 생성된 id 적용",
         "closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
       },
       "demo": {
@@ -84,21 +87,23 @@
     },
     "drawer": {
       "title": "Drawer",
-      "description": "화면 가장자리에서 슬라이드되어 나타나는 헤드리스 드로어 컴포넌트. 포커스 트랩, ESC 키 처리, 중첩 드로어를 위한 자동 z-index 스태킹을 포함합니다. Trigger, Content, Closer 하위 컴포넌트로 구성합니다.",
+      "description": "화면 가장자리에서 슬라이드되어 나타나는 헤드리스 드로어 컴포넌트. 네이티브 <dialog>의 top layer를 사용해 포커스 트랩, ESC 키 처리, 중첩 드로어 스태킹을 제공합니다. Trigger, Content, Closer 하위 컴포넌트로 구성합니다.",
       "props": {
         "placement": "드로어가 슬라이드되어 나올 화면 가장자리",
-        "contentId": "콘텐츠 요소의 커스텀 id. 생략 시 자동 생성. Trigger의 aria-controls가 참조",
+        "id": "콘텐츠 요소의 커스텀 id. 생략 시 자동 생성",
+        "closeOutside": "콘텐츠 영역 외부(백드롭) 클릭 시 드로어 닫기",
+        "keepMounted": "드로어가 닫힌 상태에서도 DOM에 콘텐츠 유지",
+        "animation": "슬라이드 애니메이션 설정 (Web Animations API). false로 비활성화 가능하며 prefers-reduced-motion을 따름",
         "onOpen": "드로어가 열릴 때 호출",
         "onClose": "드로어가 닫힐 때 호출",
         "children": "Drawer 하위 컴포넌트 (Trigger, Content, Closer)",
-        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수. aria-expanded 및 aria-controls 자동 적용",
-        "contentRef": "콘텐츠 래퍼 요소의 ref",
-        "contentProps": "모든 네이티브 div 요소 속성. role=\"dialog\" 및 aria-modal=\"true\"와 함께 포탈로 렌더링",
+        "triggerChildren": "클릭 가능한 요소 또는 open 핸들러를 받는 렌더 함수",
+        "contentProps": "네이티브 dialog 요소 속성 (onClose/onClick 제외). showModal로 top layer에 렌더링되어 포커스 트랩 적용",
         "closerChildren": "클릭 가능한 요소 또는 close 핸들러를 받는 렌더 함수"
       },
       "demo": {
         "title": "Drawer 패널",
-        "description": "이 드로어는 포커스 트랩, ESC 키 처리, 중첩 드로어를 위한 z-index 스태킹을 포함합니다.",
+        "description": "이 드로어는 네이티브 <dialog> top layer 기반으로 포커스 트랩, ESC 키 처리, 중첩 스태킹을 제공합니다.",
         "close": "닫기"
       }
     },
@@ -132,6 +137,9 @@
         "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
         "onOpen": "팝오버가 열릴 때 호출 (비제어 모드)",
         "onClose": "팝오버가 닫힐 때 호출 (비제어 모드)",
+        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
         "triggerChildren": "팝오버를 토글하는 클릭 가능한 요소",
         "contentChildren": "표시할 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수",
         "portal": "포탈에서 콘텐츠 렌더링 (Popover.Content에 전달)",
@@ -150,6 +158,12 @@
         "value": "현재 선택된 값",
         "onChange": "옵션 선택 시 콜백",
         "transition": "열기/닫기 CSS 전환 활성화",
+        "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+        "onOpen": "옵션 목록이 열릴 때 호출 (비제어 모드)",
+        "onClose": "옵션 목록이 닫힐 때 호출 (비제어 모드)",
+        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
         "children": "Select 하위 컴포넌트 (Trigger, Options)",
         "triggerChildren": "옵션 목록을 토글하는 클릭 가능한 요소",
         "optionsChildren": "Option 요소들 또는 floating 컨텍스트를 받는 렌더 함수",
@@ -220,6 +234,11 @@
         "children": "Tooltip.Trigger와 Tooltip.Content 하위 컴포넌트",
         "transition": "열기/닫기 CSS 전환 활성화",
         "dismiss": "닫기 동작 설정 (외부 클릭, Esc 키)",
+        "onOpen": "툴팁이 열릴 때 호출 (비제어 모드)",
+        "onClose": "툴팁이 닫힐 때 호출 (비제어 모드)",
+        "open": "제어 모드: 열림 상태를 외부에서 제어 (onOpenChange와 함께 사용)",
+        "onOpenChange": "제어 모드: 열림 상태 변경 요청 시 호출",
+        "options": "Floating UI useFloating에 전달되는 옵션 (placement, middleware, strategy 등)",
         "triggerChildren": "툴팁의 기준이 되는 트리거 요소",
         "contentChildren": "표시할 툴팁 콘텐츠 또는 floating 컨텍스트를 받는 렌더 함수"
       },
