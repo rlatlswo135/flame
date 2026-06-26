@@ -33,9 +33,24 @@ function TooltipExample() {
 const codeHtml = await highlight(demoCode);
 
 const tooltipProps = [
-  { name: 'enabled', type: 'boolean', defaultValue: 'true', description: t.props.enabled },
-  { name: 'placement', type: 'Placement', defaultValue: '"top"', description: t.props.placement },
-  { name: 'offset', type: 'OffsetOptions', defaultValue: '8', description: t.props.offset },
+  {
+    name: 'enabled',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: t.props.enabled,
+  },
+  {
+    name: 'placement',
+    type: 'Placement',
+    defaultValue: '"top"',
+    description: t.props.placement,
+  },
+  {
+    name: 'offset',
+    type: 'OffsetOptions',
+    defaultValue: '8',
+    description: t.props.offset,
+  },
   { name: 'flip', type: 'FlipOptions', description: t.props.flip },
   { name: 'shift', type: 'ShiftOptions', description: t.props.shift },
   { name: 'delay', type: 'UseHoverProps["delay"]', description: t.props.delay },
@@ -46,10 +61,27 @@ const tooltipProps = [
     description: t.props.transition,
   },
   { name: 'dismiss', type: 'UseDismissProps', description: t.props.dismiss },
+  { name: 'onOpen', type: '() => void', description: t.props.onOpen },
+  { name: 'onClose', type: '() => void', description: t.props.onClose },
+  { name: 'open', type: 'boolean', description: t.props.open },
+  {
+    name: 'onOpenChange',
+    type: '(open: boolean) => void',
+    description: t.props.onOpenChange,
+  },
+  {
+    name: 'options',
+    type: 'Omit<UseFloatingOptions, "open" | "onOpenChange">',
+    description: t.props.options,
+  },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
 const triggerProps = [
-  { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement',
+    description: t.props.triggerChildren,
+  },
 ];
 const contentProps = [
   {

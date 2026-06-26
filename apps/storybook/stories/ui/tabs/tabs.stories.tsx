@@ -1,6 +1,6 @@
 import { Tabs } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { DefaultExample, WithOnChangeExample } from "./tabs.examples";
+import { WithOnChangeExample } from "./tabs.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -56,7 +56,6 @@ export const Default: Story = {
 			},
 		},
 	},
-	render: () => <DefaultExample />,
 };
 
 export const WithOnChange: Story = {

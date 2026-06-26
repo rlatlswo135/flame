@@ -10,6 +10,6 @@ pnpm dev  # starts dev server on http://localhost:3000
 
 ## Tech Stack
 
-- Next.js 16
+- Astro 5
 - Tailwind CSS 4
-- `@flame/ui` + `@flame/table` as dependencies
+- `@flame/ui` as a dependency

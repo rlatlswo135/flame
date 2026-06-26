@@ -68,6 +68,8 @@ export type AccordionTriggerProps = ElementFnChildren<{ toggle: () => void }>;
 const Trigger = ({ children }: AccordionTriggerProps) => {
 	const { toggle, isExpanded, contentId } = useCtx(AccordionItemContext);
 
+	// NOTE: 렌더 함수 분기는 toggle만 전달 — isExpanded/aria-expanded/aria-controls는 넘기지 않는다.
+	// 커스텀 렌더 시 펼침 상태·aria 배선은 소비자가 직접 처리해야 한다.
 	if (typeof children === "function") return children({ toggle });
 
 	return cloneSingleElement(children, {

@@ -1,16 +1,16 @@
 # flame
 
-React 19 design system monorepo.
+React 19 headless design system monorepo.
 
 ## Structure
 
 ```
 packages/
-  ui/          Core UI components (Dialog, Funnel, Select, MultiSelect)
-  table/       Table component (built on @tanstack/react-table)
+  ui/          Headless UI components — Accordion, Dialog, Drawer, Funnel,
+               Popover, Select, Tabs, Toast, Tooltip
 apps/
   storybook/   Interactive component playground
-  docs/        Documentation site (Next.js)
+  docs/        Documentation site (Astro + i18n)
 configs/       Shared build & test configs (tsup, vitest)
 ```
 
@@ -28,11 +28,11 @@ pnpm build
 | Command | Description |
 |---------|-------------|
 | `pnpm dev` | Run all packages in watch mode |
-| `pnpm build` | Build ui → table → docs |
+| `pnpm build` | Build ui → docs |
+| `pnpm test` | Run tests across packages |
 | `pnpm lint` | Lint with biome |
 | `pnpm commit` | Commitizen conventional commit |
 | `pnpm @ui <cmd>` | Run command in @flame/ui |
-| `pnpm @table <cmd>` | Run command in @flame/table |
 | `pnpm @storybook <cmd>` | Run command in @flame/storybook |
 | `pnpm @docs <cmd>` | Run command in @flame/docs |
 
@@ -41,6 +41,7 @@ pnpm build
 - React 19, TypeScript 5
 - pnpm workspace with catalog
 - tsup (build), biome (lint), vitest (test)
+- Astro (docs), Storybook (playground)
 - commitizen + husky (commit conventions)
 
 ## License

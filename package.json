@@ -17,13 +17,12 @@
 "scripts": {
     "commit": "cz",
     "@ui": "pnpm --filter @flame/ui",
-    "@table": "pnpm --filter @flame/table",
     "@configs": "pnpm --filter @flame/configs",
     "@docs": "pnpm --filter @flame/docs",
     "@storybook": "pnpm --filter @flame/storybook",
     "dev": "pnpm --parallel -r run dev",
-    "build": "pnpm @ui build && pnpm @table build && pnpm @docs build",
-    "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @table clear && pnpm @docs clear && pnpm @storybook clear && pnpm store prune",
+    "build": "pnpm @ui build && pnpm @docs build",
+    "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @docs clear && pnpm @storybook clear && pnpm store prune",
     "prepare": "husky",
     "lint": "biome check --write --verbose --files-ignore-unknown=true",
     "test":"pnpm --parallel -r run test"

@@ -42,9 +42,24 @@ const popoverProps = [
   { name: 'dismiss', type: 'UseDismissProps', description: t.props.dismiss },
   { name: 'onOpen', type: '() => void', description: t.props.onOpen },
   { name: 'onClose', type: '() => void', description: t.props.onClose },
+  { name: 'open', type: 'boolean', description: t.props.open },
+  {
+    name: 'onOpenChange',
+    type: '(open: boolean) => void',
+    description: t.props.onOpenChange,
+  },
+  {
+    name: 'options',
+    type: 'Omit<UseFloatingOptions, "open" | "onOpenChange">',
+    description: t.props.options,
+  },
 ];
 const triggerProps = [
-  { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement',
+    description: t.props.triggerChildren,
+  },
 ];
 const contentProps = [
   {

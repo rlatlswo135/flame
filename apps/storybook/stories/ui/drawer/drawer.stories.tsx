@@ -23,7 +23,7 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					"A headless drawer that slides in from any viewport edge. Rendered into a portal with a dim overlay, focus trap, ESC key handling, and automatic z-index stacking for nested drawers.",
+					"A headless drawer that slides in from any viewport edge. Built on the native `<dialog>` element via `showModal()`: content renders in the top layer (not a portal), focus is trapped while open, ESC closes it, and nested drawers stack automatically through the top layer (no z-index management). Style the native `::backdrop` for an overlay. Slide animations use the Web Animations API and respect `prefers-reduced-motion`.",
 			},
 		},
 	},
@@ -174,7 +174,7 @@ export const Nested: Story = {
 		docs: {
 			description: {
 				story:
-					"Nested drawers stack z-index automatically. ESC closes only the topmost drawer, and focus is trapped within the active drawer.",
+					"Nested drawers stack automatically via the native top layer (no z-index management). ESC closes only the topmost drawer, and focus is trapped within the active drawer.",
 			},
 			source: {
 				code: `

@@ -13,17 +13,26 @@ pnpm dev  # starts storybook on http://localhost:6006
 ```
 stories/
 └── ui/
+    ├── accordion/
     ├── dialog/
-    │   ├── dialog.stories.tsx
-    │   └── dialog.examples.tsx
-    └── funnel/
-        ├── funnel.stories.tsx
-        └── funnel.examples.tsx
+    ├── drawer/
+    ├── funnel/
+    ├── popover/
+    ├── select/
+    ├── tabs/
+    ├── toast/
+    └── tooltip/
 ```
+
+Each component directory contains a `*.stories.tsx` (Storybook stories) and a
+`*.examples.tsx` (reusable example components referenced by the stories).
 
 ## Addons
 
 - `@storybook/addon-docs` — auto-generated documentation
 - `@storybook/addon-a11y` — accessibility checks
-- `@storybook/addon-vitest` — in-browser testing
-- `@vitest/browser-playwright` — browser-mode test runner
+- `@storybook/addon-vitest` — in-browser testing (Vitest)
+- `@chromatic-com/storybook` — visual regression / Chromatic publishing
+
+Tests run in browser mode via Vitest + Playwright (`@vitest/browser-playwright`),
+configured in `vite.config.ts`.

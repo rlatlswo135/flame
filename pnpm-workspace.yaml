@@ -16,8 +16,6 @@ catalog:
   "@types/react-dom": ^19.2.0
   "@biomejs/biome": ^2.4.4
   tsup: ^8.5.0
-  peer-react: ^19.0.0
-  peer-react-dom: ^19.0.0
   vitest: ^4.0.0
   "@testing-library/dom": ^10.4.0
   "@testing-library/react": ^16.3.0

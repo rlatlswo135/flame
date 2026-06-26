@@ -35,13 +35,21 @@ const codeHtml = await highlight(demoCode);
 
 const dialogProps = [
   { name: 'children', type: 'ReactNode', description: t.props.children },
+  { name: 'id', type: 'string', description: t.props.id },
   {
     name: 'closeOutside',
     type: 'boolean',
     defaultValue: 'false',
     description: t.props.closeOutside,
   },
-  { name: 'keepMounted', type: 'boolean', defaultValue: 'false', description: t.props.keepMounted },
+  {
+    name: 'keepMounted',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: t.props.keepMounted,
+  },
+  { name: 'onOpen', type: '() => void', description: t.props.onOpen },
+  { name: 'onClose', type: '() => void', description: t.props.onClose },
 ];
 const triggerProps = [
   {
@@ -53,7 +61,7 @@ const triggerProps = [
 const contentProps = [
   {
     name: '...props',
-    type: 'ComponentPropsWithoutRef<"dialog">',
+    type: 'Omit<ComponentPropsWithoutRef<"dialog">, "onClose">',
     description: t.props.contentProps,
   },
 ];

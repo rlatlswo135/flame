@@ -1,10 +1,10 @@
 {
-  "extends": "../../configs/tsconfig/tsconfig.base.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.astro"]
+	"extends": "../../configs/tsconfig/tsconfig.base.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.astro"]
 }

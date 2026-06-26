@@ -33,8 +33,17 @@ function AccordionExample() {
 const codeHtml = await highlight(demoCode);
 
 const accordionProps = [
-  { name: 'single', type: 'boolean', defaultValue: 'false', description: t.props.single },
-  { name: 'children', type: 'ReactNode', description: 'Accordion.Item elements' },
+  {
+    name: 'single',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: t.props.single,
+  },
+  {
+    name: 'children',
+    type: 'ReactNode',
+    description: 'Accordion.Item elements',
+  },
 ];
 const itemProps = [
   {
@@ -53,7 +62,11 @@ const triggerProps = [
   },
 ];
 const contentProps = [
-  { name: '...props', type: 'ComponentPropsWithRef<"section">', description: t.props.contentProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithRef<"div">',
+    description: t.props.contentProps,
+  },
 ];
 ---
 

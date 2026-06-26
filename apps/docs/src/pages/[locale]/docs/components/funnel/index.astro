@@ -43,7 +43,11 @@ const codeHtml = await highlight(demoCode);
 
 const funnelProps = [{ name: 'children', type: 'ReactNode', description: t.props.children }];
 const stepProps = [
-  { name: 'children', type: '((props: { jump }) => ReactNode)', description: t.props.stepChildren },
+  {
+    name: 'children',
+    type: '((props: { jump }) => ReactNode)',
+    description: t.props.stepChildren,
+  },
 ];
 const nextProps = [
   {

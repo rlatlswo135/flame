@@ -48,6 +48,8 @@ const Item = ({ value, ...props }: TabsItemProps) => {
 		onChange(value);
 	};
 
+	// NOTE(a11y): tablist 키보드 내비게이션(방향키/Home/End roving tabindex) 미구현.
+	// tabpanel/aria-controls 연계도 없어 패널 연결은 소비자 몫(컴포넌트는 탭 버튼만 제공).
 	return (
 		<button
 			role="tab"

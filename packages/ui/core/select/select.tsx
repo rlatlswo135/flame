@@ -89,6 +89,8 @@ const Option = ({ value, children, ...props }: SelectOptionProps) => {
 		floating.context.onOpenChange(false);
 	};
 
+	// NOTE(a11y): listbox 키보드 내비게이션 미구현. option이 tabIndex=0로 탭 순회만 되고
+	// 방향키 roving·타입어헤드(useListNavigation/useTypeahead)가 없어 완전한 listbox 패턴은 아니다.
 	return (
 		<div
 			tabIndex={0}

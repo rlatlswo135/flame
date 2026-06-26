@@ -146,10 +146,10 @@ const Content = ({ children, style, ...props }: DrawerContentProps) => {
 	};
 
 	const placementStyle = {
-		top: { width: "100%", "margin-top": 0 },
-		bottom: { width: "100%", "margin-bottom": 0 },
-		left: { height: "100%", "margin-left": 0 },
-		right: { height: "100%", "margin-right": 0 },
+		top: { width: "100%", marginTop: 0 },
+		bottom: { width: "100%", marginBottom: 0 },
+		left: { height: "100%", marginLeft: 0 },
+		right: { height: "100%", marginRight: 0 },
 	};
 
 	return (

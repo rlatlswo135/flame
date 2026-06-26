@@ -1,5 +1,6 @@
 import { Popover } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { FullCustomExample } from "./popover.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -167,24 +168,7 @@ export const FullCustom: Story = {
 			},
 		},
 	},
-	render: () => (
-		<Popover>
-			<Popover.Trigger>
-				<button type="button">open popover</button>
-			</Popover.Trigger>
-			<Popover.Content>
-				{({ floating, interactions }) => (
-					<div
-						ref={floating.refs.setFloating}
-						style={floating.floatingStyles}
-						{...interactions.getFloatingProps()}
-					>
-						<p>Full custom content</p>
-					</div>
-				)}
-			</Popover.Content>
-		</Popover>
-	),
+	render: () => <FullCustomExample />,
 };
 
 export default meta;

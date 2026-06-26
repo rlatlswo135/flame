@@ -1,6 +1,6 @@
 import { Accordion } from "@flame/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { InitialOpenExample, SingleExample } from "./accordion.examples";
+import { InitialOpenExample } from "./accordion.examples";
 
 type Story = StoryObj<typeof meta>;
 
@@ -61,7 +61,6 @@ export const Single: Story = {
 			},
 		},
 	},
-	render: () => <SingleExample />,
 };
 
 export const InitialOpen: Story = {

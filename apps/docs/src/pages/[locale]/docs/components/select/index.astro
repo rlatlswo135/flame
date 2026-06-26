@@ -36,17 +36,39 @@ const codeHtml = await highlight(demoCode);
 
 const selectProps = [
   { name: 'value', type: 'string', description: t.props.value },
-  { name: 'onChange', type: '(value: string) => void', description: t.props.onChange },
+  {
+    name: 'onChange',
+    type: '(value: string) => void',
+    description: t.props.onChange,
+  },
   {
     name: 'transition',
     type: 'boolean | UseTransitionStylesProps',
     defaultValue: 'false',
     description: t.props.transition,
   },
+  { name: 'dismiss', type: 'UseDismissProps', description: t.props.dismiss },
+  { name: 'onOpen', type: '() => void', description: t.props.onOpen },
+  { name: 'onClose', type: '() => void', description: t.props.onClose },
+  { name: 'open', type: 'boolean', description: t.props.open },
+  {
+    name: 'onOpenChange',
+    type: '(open: boolean) => void',
+    description: t.props.onOpenChange,
+  },
+  {
+    name: 'options',
+    type: 'Omit<UseFloatingOptions, "open" | "onOpenChange">',
+    description: t.props.options,
+  },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
 const triggerProps = [
-  { name: 'children', type: 'ReactElement', description: t.props.triggerChildren },
+  {
+    name: 'children',
+    type: 'ReactElement',
+    description: t.props.triggerChildren,
+  },
 ];
 const optionsProps = [
   {
@@ -60,11 +82,19 @@ const optionsProps = [
     defaultValue: 'false',
     description: t.props.portal,
   },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionsProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"div">',
+    description: t.props.optionsProps,
+  },
 ];
 const optionProps = [
   { name: 'value', type: 'string', description: t.props.optionValue },
-  { name: '...props', type: 'ComponentPropsWithoutRef<"div">', description: t.props.optionProps },
+  {
+    name: '...props',
+    type: 'ComponentPropsWithoutRef<"div">',
+    description: t.props.optionProps,
+  },
 ];
 ---
 
