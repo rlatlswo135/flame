@@ -69,7 +69,11 @@ const tooltipProps = [
     type: '(open: boolean) => void',
     description: t.props.onOpenChange,
   },
-  { name: 'options', type: 'UseFloatingOptions', description: t.props.options },
+  {
+    name: 'options',
+    type: 'Omit<UseFloatingOptions, "open" | "onOpenChange">',
+    description: t.props.options,
+  },
   { name: 'children', type: 'ReactNode', description: t.props.children },
 ];
 const triggerProps = [

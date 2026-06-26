@@ -28,17 +28,20 @@
 		"title": "시작하기",
 		"subtitle": "Flame 디자인 시스템을 프로젝트에 도입하는 방법을 알아보세요.",
 		"installTitle": "설치",
-		"installDescription": "pnpm으로 패키지를 설치합니다.",
-		"installCommand": "pnpm add @anthropic/flame-ui",
+		"installDescription": "원하는 패키지 매니저로 Flame을 설치하세요.",
+		"peerTitle": "Peer 의존성",
+		"peerDescription": "Flame은 React 19를 기준으로 하며, 위치 계산에 Floating UI를 사용합니다(Popover, Select, Tooltip). 패키지와 함께 설치하세요:",
 		"usageTitle": "기본 사용법",
-		"usageDescription": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다. 스타일이 포함되지 않은 헤드리스 컴포넌트이므로 자유롭게 스타일링할 수 있습니다.",
+		"usageDescription": "모든 컴포넌트는 도트 표기법의 복합 컴포넌트 패턴을 따릅니다. 기본 스타일이 없는 헤드리스이므로, 직접 요소를 감싸고 자유롭게 스타일링합니다.",
+		"stylingTitle": "스타일링",
+		"stylingDescription": "Flame은 스타일을 전혀 포함하지 않습니다. 모든 컴포넌트는 전달한 className과 네이티브 속성을 실제 요소로 그대로 전달하고, 상태를 data 속성(예: data-selected)으로 노출하므로 Tailwind·순수 CSS 등 원하는 방식으로 스타일링할 수 있습니다.",
 		"featuresTitle": "주요 특징",
 		"features": {
 			"headless": "헤드리스 — 기본 스타일 없이 완전한 기능 제공",
 			"compound": "복합 컴포넌트 — 도트 표기법으로 직관적 조합",
 			"treeshake": "트리 셰이킹 — 사용하는 컴포넌트만 번들에 포함",
-			"react19": "React 19 — 최신 React 기능 활용",
-			"typescript": "TypeScript — 완전한 타입 지원"
+			"a11y": "접근성 — ARIA 역할·속성 자동 적용",
+			"standards": "웹 표준 — 네이티브 <dialog> top layer와 Floating UI 위치 계산"
 		}
 	},
 	"components": {
@@ -68,7 +71,7 @@
 			"description": "네이티브 <dialog /> 요소 기반의 헤드리스 모달 다이얼로그 컴포넌트. 외부 클릭 닫기 및 keep-mounted 모드를 지원합니다.",
 			"props": {
 				"children": "Dialog 하위 컴포넌트 (Trigger, Content, Closer)",
-				"id": "콘텐츠(dialog) 요소의 커스텀 id. 생략 시 자동 생성. Trigger의 aria-controls가 참조",
+				"id": "콘텐츠(dialog) 요소의 커스텀 id. 생략 시 자동 생성.",
 				"closeOutside": "콘텐츠 영역 외부 클릭 시 다이얼로그 닫기",
 				"keepMounted": "다이얼로그가 닫힌 상태에서도 DOM에 콘텐츠 유지",
 				"onOpen": "다이얼로그가 열릴 때 호출",
@@ -93,7 +96,7 @@
 				"id": "콘텐츠 요소의 커스텀 id. 생략 시 자동 생성",
 				"closeOutside": "콘텐츠 영역 외부(백드롭) 클릭 시 드로어 닫기",
 				"keepMounted": "드로어가 닫힌 상태에서도 DOM에 콘텐츠 유지",
-				"animation": "슬라이드 애니메이션 설정 (Web Animations API). false로 비활성화 가능하며 prefers-reduced-motion을 따름",
+				"animation": "슬라이드 애니메이션 설정 (Web Animations API). 기본값은 placement에 따른 슬라이드이며, false로 비활성화할 수 있습니다. prefers-reduced-motion을 따릅니다.",
 				"onOpen": "드로어가 열릴 때 호출",
 				"onClose": "드로어가 닫힐 때 호출",
 				"children": "Drawer 하위 컴포넌트 (Trigger, Content, Closer)",
@@ -130,7 +133,7 @@
 		},
 		"popover": {
 			"title": "Popover",
-			"description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 닫기 처리, CSS 전환을 기본 지원합니다.",
+			"description": "Floating UI 기반의 헤드리스 팝오버 컴포넌트. 포탈 렌더링, 포커스 트래핑, 닫기 처리, CSS 전환을 기본 지원합니다.",
 			"props": {
 				"children": "Popover 하위 컴포넌트 (Trigger, Content)",
 				"transition": "열기/닫기 CSS 전환 활성화",
@@ -182,12 +185,12 @@
 		},
 		"toast": {
 			"title": "Toast",
-			"description": "명령형 토스트 알림 시스템. Toaster 컨테이너를 한 번 배치한 후, 어디서든 toast()를 호출하여 자동 해제 및 큐 관리가 포함된 알림을 표시합니다.",
+			"description": "명령형 토스트 알림 시스템. Toaster 컨테이너를 한 번 배치한 후, 어디서든 toast()를 호출하여 자동 해제되는 알림을 표시합니다.",
 			"props": {
 				"placement": "화면에서 토스트 컨테이너의 위치",
 				"animation": "토스트 열기/닫기 애니메이션 설정. false로 비활성화 가능",
 				"toasterProps": "모든 네이티브 section 요소 속성",
-				"toastProps": "모든 네이티브 div 요소 속성. role=\"status\" 및 aria-live=\"polite\"가 자동 적용",
+				"toastProps": "모든 네이티브 div 요소 속성. role=\"status\"와 aria-live=\"polite\"가 적용되며, aria-labelledby/aria-describedby로 Toast.Title·Toast.Description를 연결하므로 둘을 함께 포함하세요.",
 				"titleProps": "모든 네이티브 div 요소 속성. aria-labelledby를 통해 부모 Toast에 연결",
 				"descriptionProps": "모든 네이티브 div 요소 속성. aria-describedby를 통해 부모 Toast에 연결",
 				"fnContent": "표시할 토스트 콘텐츠 (ReactNode)",

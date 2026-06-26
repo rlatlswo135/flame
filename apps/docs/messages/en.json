@@ -28,17 +28,20 @@
 		"title": "Getting Started",
 		"subtitle": "Learn how to integrate the Flame design system into your project.",
 		"installTitle": "Installation",
-		"installDescription": "Install the package with pnpm.",
-		"installCommand": "pnpm add @anthropic/flame-ui",
+		"installDescription": "Install Flame with your package manager of choice.",
+		"peerTitle": "Peer Dependencies",
+		"peerDescription": "Flame targets React 19 and uses Floating UI for positioning (Popover, Select, Tooltip). Install these alongside the package:",
 		"usageTitle": "Basic Usage",
-		"usageDescription": "All components follow a compound component pattern with dot notation. They are headless — no default styles included — so you can style them however you like.",
+		"usageDescription": "Components follow a compound pattern with dot notation. They are headless — no default styles — so you wrap your own elements and style them freely.",
+		"stylingTitle": "Styling",
+		"stylingDescription": "Flame ships zero styles. Every component forwards your className and native props to the underlying element and exposes state through data-attributes (e.g. data-selected), so you can style with Tailwind, plain CSS, or any approach you prefer.",
 		"featuresTitle": "Key Features",
 		"features": {
 			"headless": "Headless — fully functional with zero default styles",
 			"compound": "Compound components — intuitive composition via dot notation",
 			"treeshake": "Tree-shakeable — only bundle what you use",
-			"react19": "React 19 — leverages the latest React features",
-			"typescript": "TypeScript — complete type support"
+			"a11y": "Accessible — ARIA roles and attributes applied automatically",
+			"standards": "Web standards — native <dialog> top layer and Floating UI positioning"
 		}
 	},
 	"components": {
@@ -68,7 +71,7 @@
 			"description": "A headless modal dialog component built on the native <dialog /> element. Supports outside-click dismissal and keep-mounted mode.",
 			"props": {
 				"children": "Dialog sub-components (Trigger, Content, Closer)",
-				"id": "Custom id for the content (dialog) element. Auto-generated if omitted. Referenced by Trigger's aria-controls",
+				"id": "Custom id for the content (dialog) element. Auto-generated if omitted.",
 				"closeOutside": "Close the dialog when clicking outside the content area",
 				"keepMounted": "Keep content mounted in the DOM when dialog is closed",
 				"onOpen": "Called when the dialog opens",
@@ -93,7 +96,7 @@
 				"id": "Custom id for the content element. Auto-generated if omitted",
 				"closeOutside": "Close the drawer when clicking outside the content area (backdrop)",
 				"keepMounted": "Keep content mounted in the DOM when the drawer is closed",
-				"animation": "Slide animation config (Web Animations API). Pass false to disable; respects prefers-reduced-motion",
+				"animation": "Slide animation config (Web Animations API). Defaults to a placement-based slide; pass false to disable. Respects prefers-reduced-motion.",
 				"onOpen": "Called when the drawer opens",
 				"onClose": "Called when the drawer closes",
 				"children": "Drawer sub-components (Trigger, Content, Closer)",
@@ -182,12 +185,12 @@
 		},
 		"toast": {
 			"title": "Toast",
-			"description": "An imperative toast notification system. Place a Toaster container once, then call toast() anywhere to show notifications with auto-dismiss and queue management.",
+			"description": "An imperative toast notification system. Place a Toaster container once, then call toast() anywhere to show notifications with auto-dismiss.",
 			"props": {
 				"placement": "Position of the toast container on screen",
 				"animation": "Animation for toast open/close. Pass false to disable",
 				"toasterProps": "All native section element attributes",
-				"toastProps": "All native div element attributes. Receives role=\"status\" and aria-live=\"polite\" automatically",
+				"toastProps": "All native div element attributes. Receives role=\"status\" and aria-live=\"polite\". Auto-links Toast.Title and Toast.Description via aria-labelledby/aria-describedby, so include both.",
 				"titleProps": "All native div element attributes. Linked to parent Toast via aria-labelledby",
 				"descriptionProps": "All native div element attributes. Linked to parent Toast via aria-describedby",
 				"fnContent": "Toast content to display (ReactNode)",

@@ -27,18 +27,15 @@ function AccordionDemo({ t }: { t: Record<string, string> }) {
 				{ITEM_KEYS.map((key, i) => (
 					<Accordion.Item key={key}>
 						<Accordion.Trigger>
-							{({ toggle }) => (
-								<button
-									type="button"
-									onClick={toggle}
-									className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-flame-text bg-flame-bg hover:bg-flame-bg-secondary transition-colors border border-flame-border ${
-										i === 0 ? "rounded-t-lg" : ""
-									} ${i === ITEM_KEYS.length - 1 ? "rounded-b-lg" : "border-b-0"}`}
-								>
-									{t[key]}
-									<ChevronIcon />
-								</button>
-							)}
+							<button
+								type="button"
+								className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-flame-text bg-flame-bg hover:bg-flame-bg-secondary transition-colors border border-flame-border ${
+									i === 0 ? "rounded-t-lg" : ""
+								} ${i === ITEM_KEYS.length - 1 ? "rounded-b-lg" : "border-b-0"}`}
+							>
+								{t[key]}
+								<ChevronIcon />
+							</button>
 						</Accordion.Trigger>
 						<Accordion.Content
 							className={`px-4 py-3 text-sm text-flame-text-secondary bg-flame-bg-secondary border-x border-flame-border ${

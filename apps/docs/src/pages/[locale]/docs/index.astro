@@ -1,5 +1,7 @@
 ---
+import { InstallTabs } from '../../../components/install-tabs';
 import DocsLayout from '../../../layouts/DocsLayout.astro';
+import { highlight } from '../../../lib/highlight';
 
 export function getStaticPaths() {
   return [{ params: { locale: 'ko' } }, { params: { locale: 'en' } }];
@@ -9,7 +11,39 @@ const { locale } = Astro.params;
 const messages = (await import(`../../../../messages/${locale}.json`)).default;
 const t = messages.docs;
 
-const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'react19', 'typescript'] as const;
+const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'a11y', 'standards'] as const;
+
+const usageCode = `import { Accordion } from '@flame/ui';
+
+function Example() {
+  return (
+    <Accordion single>
+      <Accordion.Item>
+        <Accordion.Trigger>
+          <button>What is Flame?</button>
+        </Accordion.Trigger>
+        <Accordion.Content>
+          <p>A headless React component library.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion>
+  );
+}`;
+
+const stylingCode = `// Pass className / props straight through,
+// and style state via data-attributes.
+<Tabs.Item
+  value="overview"
+  className="px-4 py-2 data-[selected=true]:text-flame-accent"
+>
+  Overview
+</Tabs.Item>`;
+
+const usageHtml = await highlight(usageCode);
+const stylingHtml = await highlight(stylingCode);
+
+const codeBlockClass =
+  'rounded-lg border border-flame-border overflow-hidden [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre]:text-sm [&_pre]:leading-relaxed [&_pre]:m-0 [&_code]:font-mono';
 ---
 
 <DocsLayout locale={locale} title={`${t.title} — Flame`}>
@@ -22,20 +56,25 @@ const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'react19', 'typescrip
     <section class="space-y-3">
       <h2 class="text-xl font-semibold">{t.installTitle}</h2>
       <p class="text-flame-text-secondary">{t.installDescription}</p>
-      <pre class="px-4 py-3 rounded-lg bg-flame-bg-secondary border border-flame-border text-sm font-mono">{t.installCommand}</pre>
+      <InstallTabs client:load packages="@flame/ui" />
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-semibold">{t.peerTitle}</h2>
+      <p class="text-flame-text-secondary">{t.peerDescription}</p>
+      <InstallTabs client:load packages="@floating-ui/react react react-dom" />
     </section>
 
     <section class="space-y-3">
       <h2 class="text-xl font-semibold">{t.usageTitle}</h2>
       <p class="text-flame-text-secondary">{t.usageDescription}</p>
-      <pre class="px-4 py-3 rounded-lg bg-flame-bg-secondary border border-flame-border text-sm font-mono overflow-x-auto">{`import { Accordion } from '@flame/ui';
+      <div class={codeBlockClass} set:html={usageHtml} />
+    </section>
 
-<Accordion>
-  <Accordion.Item>
-    <Accordion.Trigger>Click me</Accordion.Trigger>
-    <Accordion.Content>Hello!</Accordion.Content>
-  </Accordion.Item>
-</Accordion>`}</pre>
+    <section class="space-y-3">
+      <h2 class="text-xl font-semibold">{t.stylingTitle}</h2>
+      <p class="text-flame-text-secondary">{t.stylingDescription}</p>
+      <div class={codeBlockClass} set:html={stylingHtml} />
     </section>
 
     <section class="space-y-3">
@@ -43,7 +82,7 @@ const FEATURE_KEYS = ['headless', 'compound', 'treeshake', 'react19', 'typescrip
       <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {FEATURE_KEYS.map((key) => (
           <li class="flex items-start gap-2 p-3 rounded-lg border border-flame-border bg-flame-bg-secondary">
-            <span class="text-flame-accent font-bold">*</span>
+            <span class="text-flame-accent font-bold mt-0.5" aria-hidden="true">✓</span>
             <span class="text-sm">{t.features[key]}</span>
           </li>
         ))}

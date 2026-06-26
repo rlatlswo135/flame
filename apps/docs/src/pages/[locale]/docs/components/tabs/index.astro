@@ -14,14 +14,28 @@ const t = messages.components.tabs;
 const tc = messages.components;
 
 const demoCode = `import { Tabs } from '@flame/ui';
+import { useState } from 'react';
 
+// Tabs.Item renders the tab buttons only.
+// Panels are your responsibility — render them via onChange state.
 function TabsExample() {
+  const [tab, setTab] = useState('overview');
+
+  const content = {
+    overview: 'Overview content',
+    usage: 'Usage content',
+    api: 'API content',
+  };
+
   return (
-    <Tabs initialTab="overview">
-      <Tabs.Item value="overview">Overview</Tabs.Item>
-      <Tabs.Item value="usage">Usage</Tabs.Item>
-      <Tabs.Item value="api">API</Tabs.Item>
-    </Tabs>
+    <>
+      <Tabs initialTab="overview" onChange={setTab}>
+        <Tabs.Item value="overview">Overview</Tabs.Item>
+        <Tabs.Item value="usage">Usage</Tabs.Item>
+        <Tabs.Item value="api">API</Tabs.Item>
+      </Tabs>
+      <p>{content[tab]}</p>
+    </>
   );
 }`;
 
