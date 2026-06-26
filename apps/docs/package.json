@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.0.0",
-    "@flame/table": "workspace:*",
     "@flame/ui": "workspace:*",
     "@fontsource-variable/geist": "^5.0.0",
     "@fontsource-variable/geist-mono": "^5.0.0",

@@ -28,11 +28,10 @@ pnpm build
 | Command | Description |
 |---------|-------------|
 | `pnpm dev` | Run all packages in watch mode |
-| `pnpm build` | Build ui → table → docs |
+| `pnpm build` | Build ui → docs |
 | `pnpm lint` | Lint with biome |
 | `pnpm commit` | Commitizen conventional commit |
 | `pnpm @ui <cmd>` | Run command in @flame/ui |
-| `pnpm @table <cmd>` | Run command in @flame/table |
 | `pnpm @storybook <cmd>` | Run command in @flame/storybook |
 | `pnpm @docs <cmd>` | Run command in @flame/docs |
 
