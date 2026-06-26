@@ -2,7 +2,7 @@ import type { Options } from 'tsup';
 
 export const packageBundleConfig = (): Options => ({
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   clean: true,
   format: 'esm',
   dts: true,

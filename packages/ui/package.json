@@ -1,5 +1,5 @@
 {
-	"name": "@flame/ui",
+	"name": "flame-ui",
 	"version": "1.0.0",
 	"description": "flame-design-system",
 	"homepage": "https://github.com/rlatlswo135/flame#readme",
@@ -10,9 +10,15 @@
 		"type": "git",
 		"url": "git+https://github.com/rlatlswo135/flame.git"
 	},
-	"license": "ISC",
-	"author": "",
+	"license": "MIT",
+	"author": "rlatlswo135 (https://github.com/rlatlswo135/flame)",
 	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
@@ -22,12 +28,13 @@
 		"build": "tsup",
 		"test": "vitest",
 		"dev": "tsup --watch",
-		"clear": "rm -rf node_modules"
+		"clear": "rm -rf node_modules",
+		"prepublishOnly": "pnpm build && vitest run"
 	},
 	"peerDependencies": {
 		"@floating-ui/react": "^0.27.19",
-		"react": "catalog:peer-react",
-		"react-dom": "catalog:peer-react-dom"
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
