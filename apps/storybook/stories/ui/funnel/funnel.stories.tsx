@@ -1,5 +1,5 @@
-import { Funnel } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Funnel } from "flame-ui";
 import { useState } from "react";
 import { FormExample } from "./funnel.examples";
 

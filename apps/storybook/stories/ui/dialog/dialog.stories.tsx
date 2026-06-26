@@ -1,5 +1,5 @@
-import { Dialog } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Dialog } from "flame-ui";
 import { KeepMountedExample } from "./dialog.examples";
 
 type Story = StoryObj<typeof meta>;

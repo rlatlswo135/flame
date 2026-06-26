@@ -1,5 +1,5 @@
-import { Tooltip } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Tooltip } from "flame-ui";
 import { FullCustomExample, WithPlacementExample } from "./tooltip.examples";
 
 type Story = StoryObj<typeof meta>;

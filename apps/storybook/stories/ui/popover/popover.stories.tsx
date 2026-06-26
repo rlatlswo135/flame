@@ -1,5 +1,5 @@
-import { Popover } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Popover } from "flame-ui";
 import { FullCustomExample } from "./popover.examples";
 
 type Story = StoryObj<typeof meta>;

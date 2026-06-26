@@ -1,5 +1,5 @@
-import { Accordion } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Accordion } from "flame-ui";
 import { InitialOpenExample } from "./accordion.examples";
 
 type Story = StoryObj<typeof meta>;

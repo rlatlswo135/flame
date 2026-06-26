@@ -1,5 +1,5 @@
-import { Tabs } from "flame-ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Tabs } from "flame-ui";
 import { WithOnChangeExample } from "./tabs.examples";
 
 type Story = StoryObj<typeof meta>;
