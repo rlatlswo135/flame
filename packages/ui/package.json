@@ -1,8 +1,8 @@
 {
 	"name": "flame-ui",
 	"version": "1.0.0",
-	"description": "flame-design-system",
-	"homepage": "https://github.com/rlatlswo135/flame#readme",
+	"description": "Headless React 19 component library",
+	"homepage": "https://flame-docs.pages.dev",
 	"bugs": {
 		"url": "https://github.com/rlatlswo135/flame/issues"
 	},
