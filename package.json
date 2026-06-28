@@ -1,6 +1,6 @@
 {
   "name": "flame",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "flame-design-system",
   "homepage": "https://github.com/rlatlswo135/flame#readme",
   "bugs": {
@@ -14,7 +14,7 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "commit": "cz",
     "@ui": "pnpm --filter flame-ui",
     "@configs": "pnpm --filter @flame/configs",
@@ -25,7 +25,7 @@
     "clear": "rm -rf node_modules && pnpm @ui clear && pnpm @docs clear && pnpm @storybook clear && pnpm store prune",
     "prepare": "husky",
     "lint": "biome check --write --verbose --files-ignore-unknown=true",
-    "test":"pnpm --parallel -r run test"
+    "test": "pnpm --parallel -r run test"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
