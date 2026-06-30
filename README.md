@@ -1,6 +1,6 @@
-# flame
+# Flame: Headless Design Libraries
 
-React 19 headless design system monorepo.
+[📖 Documentation](https://flame-docs.pages.dev)
 
 ## Structure
 
